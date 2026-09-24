@@ -16,6 +16,8 @@ import * as F from './state/projectFile'
 import * as L from './state/library'
 import { useVideo } from './state/store'
 import { setDirty, setWindowTitle } from './platform'
+import { AccountButton, AccountDialog, ProButton, ProDialog } from '@easystudio/license'
+import { proBenefits } from './state/pro'
 
 function TopBar() {
   const { t, i18n } = useTranslation()
@@ -67,6 +69,8 @@ function TopBar() {
           options={E.FORMATS.map((f) => ({ value: f.id, label: f.id, tip: t(`top.format_${f.id.replace(':', '_')}`) }))}
         />
       </div>
+      <ProButton />
+      <AccountButton />
       <div className="lang-switch">
         <Languages size={15} />
         <Segmented<string>
@@ -214,6 +218,8 @@ export function App() {
       <QuestionDialog />
       <ExportDialog />
       <HelpDialog />
+      <ProDialog app="EasyStudio Video" benefits={proBenefits()} />
+      <AccountDialog app="EasyStudio Video" />
       <RecoveryBanner />
       <Tour />
       {busy && (

@@ -3,6 +3,7 @@ import { access, mkdir, readFile, writeFile } from 'node:fs/promises'
 import { accessSync, constants, existsSync, mkdirSync } from 'node:fs'
 import { basename, dirname, join, normalize, sep } from 'node:path'
 import { pathToFileURL } from 'node:url'
+import { registerLicense } from '@easystudio/license/main'
 import { closeMedia, registerMedia } from './media'
 import { registerExporter } from './exporter'
 import { clearAutosave, projectFromArgv, registerSession, setPendingProject } from './session'
@@ -23,6 +24,8 @@ function dataDir(): string {
   }
 }
 const DATA = dataDir()
+// Microsoft Store ID (Partner Center → Product identity), for the "Get Pro" link outside the Store.
+const STORE_ID = '9NP6GSLVKK2D'
 const RENDERER = join(__dirname, '../renderer')
 app.setPath('userData', DATA)
 app.setPath('sessionData', DATA)
@@ -212,6 +215,9 @@ Menu.setApplicationMenu(null)
  */
 async function selftest(): Promise<void> {
   const argv = process.argv
+  // Whoever started the test may stop reading its output early: that must not become an error box.
+  process.stdout.on('error', () => undefined)
+  process.stderr.on('error', () => undefined)
   const w = new BrowserWindow({ show: false, width: 1400, height: 900, webPreferences: { ...webPreferences(), backgroundThrottling: false } })
   if (argv.includes('--selftest-shot') || argv.includes('--selftest-visible')) {
     w.setPosition(-30000, -30000)
@@ -271,6 +277,7 @@ app.whenReady().then(async () => {
   if (!firstInstance) return
   registerAppProtocol()
   await registerSession(DATA, !testMode || process.argv.includes('--selftest-session'))
+  registerLicense({ dataDir: DATA, storeId: STORE_ID, window: () => win })
   if (testMode) return selftest()
   const file = projectFromArgv(process.argv)
   if (file) setPendingProject(file, null)

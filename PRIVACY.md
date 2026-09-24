@@ -13,7 +13,10 @@ EasyStudio Photo and EasyStudio Video are desktop apps. **They do not collect, s
 
 - **Local AI models (EasyStudio Photo).** The first time you use an AI tool (for example *Remove background*), the app asks you, then downloads the model file from `huggingface.co`. Only the model is downloaded; none of your pictures are sent. After that the tool works offline.
 - **Optional AI assistant (EasyStudio Photo).** It is off by default. If you turn it on and choose a cloud provider (Anthropic Claude, OpenAI or Google Gemini) with your own API key, your text request is sent to that provider when you press *Ask*. So is a small copy of the picture, unless you switch that off in *AI settings*. That data is handled under the provider's own privacy policy. Your API key is encrypted with Windows and stored only on your computer. With *Ollama* everything stays on your computer.
+- **Pro purchase and license check.** Pro is bought through the Microsoft Store. The apps ask Windows' Microsoft Store component whether Pro was bought with your Microsoft account. The author does not receive your account, payment or contact details from this. Microsoft's privacy statement applies to the Store.
 - **Links** such as "Get a key" open in your web browser.
+
+There are no EasyStudio accounts: your Microsoft account in the Microsoft Store is the only account involved.
 
 ## Contact
 

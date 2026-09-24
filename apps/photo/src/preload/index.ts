@@ -49,6 +49,11 @@ const api = {
     test: () => ipcRenderer.invoke('ai:test'),
     fill: (req: unknown) => ipcRenderer.invoke('ai:fill', req),
     ollamaModels: () => ipcRenderer.invoke('ai:ollama:models')
+  },
+  // Free / Pro (Microsoft Store add-on).
+  license: {
+    status: (refresh?: boolean) => ipcRenderer.invoke('license:status', refresh),
+    buy: () => ipcRenderer.invoke('license:buy')
   }
 }
 

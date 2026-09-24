@@ -4,6 +4,7 @@ import { buildScene, getRenderer, maxImageSize, syncSources } from '../gpuHost'
 import { bakeScale, selectShape } from './actions'
 import { addBitmap, composeBitmap, derivePatched, getBitmap } from './bitmaps'
 import * as ops from './docOps'
+import { aiAllowed, aiUsed } from './pro'
 import { commit, fitView, getDoc, toast, useEditor } from './store'
 import type { Layer, PhotoDoc, RasterLayer, SelOp } from './types'
 
@@ -61,7 +62,7 @@ function renderComposite(doc: PhotoDoc, maxSide: number, exact = false): Promise
 /** Remove the background of the active picture layer (as a layer mask you can touch up). */
 export async function removeBackground(): Promise<void> {
   const layer = activeRaster()
-  if (!layer) return
+  if (!layer || !aiAllowed(t('ai.removeBg'))) return
   const urls = await prepareModels(['matte'])
   if (!urls) return
   try {
@@ -74,6 +75,7 @@ export async function removeBackground(): Promise<void> {
     commit(t('history.removeBg'), (d) => ops.setMask(d, layer.id, { bitmapId: mask.id, enabled: true }))
     useEditor.setState({ editMask: false })
     toast(t('ai.bgDone'), 'success', 6000)
+    aiUsed()
   } catch (e) {
     fail(e)
   } finally {
@@ -86,7 +88,7 @@ export async function removeBackground(): Promise<void> {
 /** Select the main subject of the picture (person, animal, product…). */
 export async function selectSubject(op: SelOp = 'replace'): Promise<void> {
   const doc = getDoc()
-  if (!doc) return
+  if (!doc || !aiAllowed(t('ai.selectSubject'))) return
   const urls = await prepareModels(['matte'])
   if (!urls) return
   try {
@@ -100,6 +102,7 @@ export async function selectSubject(op: SelOp = 'replace'): Promise<void> {
     ctx.drawImage(alphaCanvas(alpha, w, h), 0, 0, doc.width, doc.height)
     selectShape({ kind: 'mask', canvas: c }, op)
     useEditor.setState({ tool: 'select' })
+    aiUsed()
   } catch (e) {
     fail(e)
   } finally {
@@ -114,6 +117,8 @@ let keySeq = 0
 export async function selectObjectAt(p: Vec2, op: SelOp): Promise<void> {
   const doc = getDoc()
   if (!doc || p.x < 0 || p.y < 0 || p.x >= doc.width || p.y >= doc.height) return
+  // One try per analysed picture; the clicks after that are free.
+  if (!encodedKey.get(doc) && !aiAllowed(t('ai.selectObject'))) return
   const urls = await prepareModels(['samEncoder', 'samDecoder'])
   if (!urls) return
   try {
@@ -125,6 +130,7 @@ export async function selectObjectAt(p: Vec2, op: SelOp): Promise<void> {
       const bmp = await renderComposite(doc, 1024, true)
       await ai.samEncode(urls.samEncoder, bmp, doc.width, doc.height, key)
       encodedKey.set(doc, key)
+      aiUsed()
     }
     setProgress(null)
     const { alpha, w, h } = await ai.samDecode(urls.samDecoder, key, [{ x: p.x, y: p.y, label: 1 }])
@@ -195,6 +201,7 @@ export async function eraseObject(pts: Vec2[], size: number): Promise<void> {
   if (!doc || !layer) return
   const sel = useEditor.getState().selection
   if (!pts.length && !sel) return
+  if (!aiAllowed(t('ai.eraseObject'))) return
   const urls = await prepareModels(['lama'])
   if (!urls) return
   try {
@@ -249,6 +256,7 @@ export async function eraseObject(pts: Vec2[], size: number): Promise<void> {
     }
     const next = derivePatched(bm, rect, out, tilesInRect({ x: cx, y: cy, w: cw, h: ch }, W, H))
     commit(t('history.removeObject'), (d) => ops.updateLayer(d, layer.id, { bitmapId: next.id }))
+    aiUsed()
   } catch (e) {
     fail(e)
   } finally {
@@ -279,6 +287,7 @@ export async function upscale(scale: 2 | 4): Promise<void> {
     toast(t('ai.tooBigToUpscale'), 'error', 5000)
     return
   }
+  if (!aiAllowed(t(`ai.upscale${scale}`))) return
   const urls = await prepareModels(['upscale'])
   if (!urls) return
   try {
@@ -321,6 +330,7 @@ export async function upscale(scale: 2 | 4): Promise<void> {
     useEditor.setState({ selection: null })
     fitView()
     toast(t('ai.upscaleDone', { w: doc.width * scale, h: doc.height * scale }), 'success', 5000)
+    aiUsed()
   } catch (e) {
     fail(e)
   } finally {

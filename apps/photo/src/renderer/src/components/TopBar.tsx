@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { Download, Eraser, ImagePlus, Info, Lightbulb, Maximize2, MessageSquareText, MousePointerClick, Redo2, Scissors, Settings2, Sparkles, Undo2, UserRound, WandSparkles } from 'lucide-react'
 import { Button, Menu, Segmented, type MenuItem } from '@easystudio/ui'
 import { canRedo, canUndo } from '@easystudio/core'
+import { AccountButton, ProButton } from '@easystudio/license'
 import * as A from '../state/actions'
 import * as paint from '../state/paint'
 import * as AI from '../state/ai'
@@ -40,6 +41,8 @@ export function TopBar() {
         )}
       </div>
       <div className="topbar-right">
+        <ProButton />
+        <AccountButton />
         {hasDoc && (
           <>
             <AiMenu />

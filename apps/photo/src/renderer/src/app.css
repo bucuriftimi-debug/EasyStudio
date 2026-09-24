@@ -1724,3 +1724,21 @@ body.dropping::after {
   align-items: center;
   gap: 8px;
 }
+
+/* Free / Pro marks */
+.tool {
+  position: relative;
+}
+.tool .tool-pro {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+}
+.template-thumb {
+  position: relative;
+}
+.template-thumb .template-pro {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+}

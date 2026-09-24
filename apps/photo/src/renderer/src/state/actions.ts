@@ -8,7 +8,8 @@ import * as paint from './paint'
 import { readProject, writeProject } from './project'
 import { readPsd } from './psd'
 import { rememberFile } from './files'
-import { buildTemplate, type Template } from './templates'
+import { buildTemplate, TEMPLATES, type Template } from './templates'
+import { requirePro, templateLocked } from './pro'
 import * as selection from './selection'
 import {
   ask,
@@ -48,6 +49,7 @@ export async function newDocument(w: number, h: number, background: string | nul
 
 /** Start from a ready-made design (start screen). */
 export async function openTemplate(tpl: Template): Promise<void> {
+  if (templateLocked(TEMPLATES.indexOf(tpl)) && !requirePro(t('proFeature.template'))) return
   if (!(await confirmDiscard())) return
   openDocument(await buildTemplate(tpl), t('history.template'))
   toast(t('tpl.hint'), 'info', 6000)
@@ -63,6 +65,7 @@ async function imageFromBytes(data: Uint8Array | Blob, type?: string) {
 /** Open a file picked by the user or dropped on the window. */
 export async function openBytes(name: string, data: Uint8Array | Blob, path: string | null = null): Promise<void> {
   const ext = fileExt(name)
+  if (ext === 'psd' && !requirePro(t('proFeature.psd'))) return
   if (!(await confirmDiscard())) return
   try {
     setBusy(t('msg.opening'))

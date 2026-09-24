@@ -5,6 +5,7 @@ import { ExportCancelled, exportVideo, type ExportProgress, type ExportSettings 
 import { exportFile } from '../platform'
 import { compose, getProject, projectName } from './editor'
 import * as P from './project'
+import { lockedReason, needsWatermark, requirePro } from './pro'
 
 /** The export window and the running export. */
 export interface ExportState {
@@ -49,6 +50,8 @@ export async function runExport(settings: ExportSettings, path?: string | null):
     set({ status: 'error', error: i18next.t('exp.desktopOnly') })
     return false
   }
+  const locked = lockedReason(settings)
+  if (locked && !requirePro(locked)) return false
   const p = getProject()
   const target = path ?? (await io.pick(`${projectName(p)}.${settings.format}`, settings.format))
   if (!target) return false
@@ -72,7 +75,8 @@ export async function runExport(settings: ExportSettings, path?: string | null):
           set({ progress: pr })
         }
       },
-      abort.signal
+      abort.signal,
+      needsWatermark(settings)
     )
     await io.close(fid, true)
     set({ status: 'done' })

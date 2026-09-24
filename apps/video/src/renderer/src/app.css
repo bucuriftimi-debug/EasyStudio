@@ -1026,3 +1026,12 @@ body.tl-dragging * {
   align-items: center;
   gap: 8px;
 }
+
+.exp-mark {
+  margin: 0;
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  background: rgba(245, 181, 68, 0.1);
+  color: #ffd27a;
+  font-size: 12px;
+}

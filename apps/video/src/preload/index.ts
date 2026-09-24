@@ -41,6 +41,11 @@ const api = {
     read: (id: string, start: number, end: number): Promise<Uint8Array> => ipcRenderer.invoke('media:read', id, start, end),
     /** Path of a file dropped on the window (Electron no longer puts it on the File object). */
     pathOf: (file: File) => webUtils.getPathForFile(file)
+  },
+  // Free / Pro (Microsoft Store add-on).
+  license: {
+    status: (refresh?: boolean) => ipcRenderer.invoke('license:status', refresh),
+    buy: () => ipcRenderer.invoke('license:buy')
   }
 }
 

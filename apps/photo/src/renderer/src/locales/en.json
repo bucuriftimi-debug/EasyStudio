@@ -153,7 +153,7 @@
   },
   "mode": {
     "simple": "Simple",
-    "pro": "Pro",
+    "pro": "Advanced",
     "simpleTip": "Only the essentials",
     "proTip": "All tools: blend modes, extra sliders, clone stamp"
   },
@@ -343,7 +343,7 @@
     "fade": "Fade",
     "editing": "Editing: {{name}}",
     "noLayer": "Select a layer to adjust it.",
-    "proHint": "Switch to Pro for exposure, clarity, grain and more."
+    "proHint": "Switch to Advanced for exposure, clarity, grain and more."
   },
   "look": {
     "none": "Original",
@@ -639,8 +639,8 @@
     "panelText": "Sliders for light and colour, one-click filters, layers and the history of every change. Double-click a slider to reset it.",
     "aiTitle": "AI tools",
     "aiText": "Remove the background, erase objects, enlarge pictures — free and on your computer. Press Ctrl+K to tell the AI what you want.",
-    "modeTitle": "Simple or Pro",
-    "modeText": "Simple shows only the essentials. Pro adds blend modes, masks, the clone stamp and extra sliders.",
+    "modeTitle": "Simple or Advanced",
+    "modeText": "Simple shows only the essentials. Advanced adds blend modes, masks, the clone stamp and extra sliders.",
     "exportTitle": "Save your picture",
     "exportText": "Export makes a JPG / PNG / WebP to share. Ctrl+S saves the project with all layers, so you can change it later.",
     "skip": "Skip tips",
@@ -653,5 +653,20 @@
     "newerVersion": "This project was made with a newer version of the app. Please update EasyStudio Photo.",
     "damaged": "The project file is damaged (some picture data is missing).",
     "psdNoData": "This PSD file has no picture data this app can read."
+  },
+  "proBenefits": {
+    "ai": "Unlimited AI: remove backgrounds, erase objects, enlarge 2× / 4×",
+    "export": "Export at full resolution (up to 16384 px) and as WebP",
+    "templates": "All templates",
+    "psd": "Open Photoshop (PSD) files",
+    "clone": "Clone stamp",
+    "future": "Every new Pro feature in future updates"
+  },
+  "proFeature": {
+    "export": "Export larger than {{px}} px",
+    "webp": "WebP export",
+    "template": "All templates",
+    "psd": "Opening Photoshop files",
+    "ai": "AI tools"
   }
 }

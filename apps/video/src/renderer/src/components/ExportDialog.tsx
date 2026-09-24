@@ -8,6 +8,8 @@ import * as X from '../state/exportJob'
 import * as P from '../state/project'
 import { exportFile } from '../platform'
 import { formatBytes, formatTime } from '../util/time'
+import { ProBadge, useLicense } from '@easystudio/license'
+import { formatLocked, fpsLocked, needsWatermark, qualityLocked, requirePro, sizeLocked } from '../state/pro'
 
 const FPS = [24, 25, 30, 50, 60]
 const SIZE_LABEL: Record<string, string> = { '720': '720p', '1080': '1080p · Full HD', '1440': '1440p · 2K', '2160': '4K' }
@@ -15,14 +17,24 @@ const SIZE_LABEL: Record<string, string> = { '720': '720p', '1080': '1080p · Fu
 export function ExportDialog() {
   const { t } = useTranslation()
   const st = X.useExport()
+  useLicense((s) => s.status.pro)
   const project = E.useProject()
   const sizes = X.sizesFor(project)
   const [size, setSize] = useState('1080')
-  const [fps, setFps] = useState(FPS.includes(project.fps) ? project.fps : 30)
+  const [fps, setFps] = useState(FPS.includes(project.fps) && !fpsLocked(project.fps) ? project.fps : 30)
   const [quality, setQuality] = useState<ExportQuality>('medium')
   const [format, setFormat] = useState<ExportFormat>('mp4')
   const [support, setSupport] = useState<{ video: boolean; audio: string | null } | null>(null)
   const sz = sizes.find((s) => s.id === size) ?? sizes[1]
+  const guard =
+    <T,>(locked: (v: T) => boolean, feature: string, set: (v: T) => void) =>
+    (v: T) =>
+      (!locked(v) || requirePro(feature)) && set(v)
+  const pickSize = guard((id: string) => sizeLocked(Number(id)), t('proFeature.size'), setSize)
+  const pickFps = guard((v: string) => fpsLocked(Number(v)), t('proFeature.fps'), (v: string) => setFps(Number(v)))
+  const pickQuality = guard<ExportQuality>(qualityLocked, t('proFeature.quality'), setQuality)
+  const pickFormat = guard<ExportFormat>(formatLocked, t('proFeature.webm'), setFormat)
+  const badge = (locked: boolean, label: string) => (locked ? <>{label} <ProBadge /></> : label)
   const settings = useMemo(() => ({ format, width: sz.w, height: sz.h, fps, quality }), [format, sz.w, sz.h, fps, quality])
   const duration = P.projectDuration(project)
   const withSound = hasSound(E.compose(project))
@@ -105,28 +117,28 @@ export function ExportDialog() {
           )}
           <label className="es-field">
             <span>{t('exp.size')}</span>
-            <Segmented<string> value={size} onChange={setSize} options={sizes.map((s) => ({ value: s.id, label: SIZE_LABEL[s.id], tip: `${s.w} × ${s.h}` }))} />
+            <Segmented<string> value={size} onChange={pickSize} options={sizes.map((s) => ({ value: s.id, label: badge(sizeLocked(Number(s.id)), SIZE_LABEL[s.id]), tip: `${s.w} × ${s.h}` }))} />
           </label>
           <label className="es-field">
             <span>{t('exp.fps')}</span>
-            <Segmented<string> value={String(fps)} onChange={(v) => setFps(Number(v))} options={FPS.map((f) => ({ value: String(f), label: String(f) }))} />
+            <Segmented<string> value={String(fps)} onChange={pickFps} options={FPS.map((f) => ({ value: String(f), label: badge(fpsLocked(f), String(f)) }))} />
           </label>
           <label className="es-field">
             <span>{t('exp.quality')}</span>
             <Segmented<ExportQuality>
               value={quality}
-              onChange={setQuality}
-              options={(['small', 'medium', 'high'] as const).map((q) => ({ value: q, label: t(`exp.q_${q}`), tip: t(`exp.q_${q}Tip`) }))}
+              onChange={pickQuality}
+              options={(['small', 'medium', 'high'] as const).map((q) => ({ value: q, label: badge(qualityLocked(q), t(`exp.q_${q}`)), tip: t(`exp.q_${q}Tip`) }))}
             />
           </label>
           <label className="es-field">
             <span>{t('exp.format')}</span>
             <Segmented<ExportFormat>
               value={format}
-              onChange={setFormat}
+              onChange={pickFormat}
               options={[
                 { value: 'mp4', label: 'MP4', tip: t('exp.mp4Tip') },
-                { value: 'webm', label: 'WebM', tip: t('exp.webmTip') }
+                { value: 'webm', label: badge(formatLocked('webm'), 'WebM'), tip: t('exp.webmTip') }
               ]}
             />
           </label>
@@ -136,6 +148,7 @@ export function ExportDialog() {
             </span>
             <strong>≈ {formatBytes(estimateBytes(settings, duration, withSound))}</strong>
           </div>
+          {needsWatermark(settings) && <p className="exp-mark">{t('exp.watermarkNote')}</p>}
           {support?.video === false && <p className="exp-warn">{t('exp.noEncoder')}</p>}
           {support && withSound && !support.audio && <p className="exp-warn">{t('exp.noAudioEncoder')}</p>}
           <p className="insp-hint">{format === 'mp4' ? t('exp.mp4Tip') : t('exp.webmTip')}</p>

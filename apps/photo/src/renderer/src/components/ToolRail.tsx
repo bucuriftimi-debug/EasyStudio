@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { Brush, Crop, Eraser, Hand, MousePointer2, PaintBucket, Pipette, RefreshCw, Shapes, SquareDashed, Stamp, Type, ArrowLeftRight, WandSparkles } from 'lucide-react'
 import type { ReactNode } from 'react'
 import { ColorPicker, Popover } from '@easystudio/ui'
+import { ProBadge } from '@easystudio/license'
 import * as A from '../state/actions'
 import { resetColors, setColor, setTool, swapColors, useEditor } from '../state/store'
 import type { Tool } from '../state/types'
@@ -51,6 +52,7 @@ export function ToolRail() {
             >
               {tl.icon}
               <span>{t(`tool.${tl.id}`)}</span>
+              {tl.id === 'clone' && <ProBadge className="tool-pro" />}
             </button>
           )
         )}

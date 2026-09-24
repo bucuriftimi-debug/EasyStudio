@@ -5,6 +5,8 @@ import { Button, Modal, Segmented, Slider } from '@easystudio/ui'
 import { EXPORT_SIZES, formatBytes, IMAGE_FORMATS, scaleToLongEdge, type ImageFormat } from '@easystudio/core'
 import * as A from '../../state/actions'
 import { getDoc } from '../../state/store'
+import { ProBadge, useLicense } from '@easystudio/license'
+import { exportLocked, FREE_EXPORT_EDGE, requirePro } from '../../state/pro'
 
 const PREF_KEY = 'easystudio.photo.export'
 
@@ -20,10 +22,11 @@ function loadPrefs(): { format: ImageFormat; quality: number; size: string } {
 export function ExportDialog({ onClose }: { onClose: () => void }) {
   const { t } = useTranslation()
   const doc = getDoc()!
+  const pro = useLicense((s) => s.status.pro)
   const prefs = useMemo(loadPrefs, [])
   // A cut-out (e.g. after "Remove background") should keep its transparency: suggest PNG.
   const cutout = doc.layers.some((l) => l.mask?.enabled)
-  const [format, setFormat] = useState<ImageFormat>(cutout && prefs.format === 'jpeg' ? 'png' : prefs.format)
+  const [format, setFormatRaw] = useState<ImageFormat>(cutout && prefs.format === 'jpeg' ? 'png' : prefs.format === 'webp' && !pro ? 'jpeg' : prefs.format)
   const [quality, setQuality] = useState(prefs.quality)
   const [sizeId, setSizeId] = useState(prefs.size)
   const [estimate, setEstimate] = useState<{ key: string; blob: Blob } | null>(null)
@@ -32,7 +35,17 @@ export function ExportDialog({ onClose }: { onClose: () => void }) {
 
   const long = Math.max(doc.width, doc.height)
   const sizes = EXPORT_SIZES.filter((s) => s.longEdge === 0 || s.longEdge < long)
-  const size = sizes.find((s) => s.id === sizeId) ?? sizes[0]
+  // Free: pictures up to FREE_EXPORT_EDGE px on the long side; bigger sizes are Pro.
+  const edgeOf = (s: (typeof sizes)[number]) => (s.longEdge === 0 ? long : s.longEdge)
+  const locked = (s: (typeof sizes)[number]) => exportLocked(edgeOf(s))
+  const firstFree = sizes.find((s) => !locked(s)) ?? sizes[sizes.length - 1]
+  const picked = sizes.find((s) => s.id === sizeId) ?? sizes[0]
+  const size = locked(picked) ? firstFree : picked
+  const setFormat = (f: ImageFormat) => (f !== 'webp' || requirePro(t('proFeature.webp'))) && setFormatRaw(f)
+  const pickSize = (id: string) => {
+    const s = sizes.find((x) => x.id === id)!
+    if (!locked(s) || requirePro(t('proFeature.export', { px: FREE_EXPORT_EDGE }))) setSizeId(id)
+  }
   const dims = scaleToLongEdge(doc.width, doc.height, size.longEdge)
   const fmt = IMAGE_FORMATS.find((f) => f.id === format)!
   const settings = { format, quality, width: dims.w, height: dims.h }
@@ -82,7 +95,7 @@ export function ExportDialog({ onClose }: { onClose: () => void }) {
       <div className="export-form">
         <div className="es-field">
           <span>{t('export.format')}</span>
-          <Segmented<ImageFormat> accent value={format} onChange={setFormat} options={IMAGE_FORMATS.map((f) => ({ value: f.id, label: f.label }))} />
+          <Segmented<ImageFormat> accent value={format} onChange={setFormat} options={IMAGE_FORMATS.map((f) => ({ value: f.id, label: f.id === 'webp' ? <>{f.label} <ProBadge /></> : f.label }))} />
           <small className="field-hint">{t(`export.${format === 'jpeg' ? 'jpg' : format}Hint`)}</small>
         </div>
 
@@ -90,10 +103,11 @@ export function ExportDialog({ onClose }: { onClose: () => void }) {
 
         <label className="es-field">
           <span>{t('export.size')}</span>
-          <select className="es-select" value={size.id} onChange={(e) => setSizeId(e.target.value)}>
+          <select className="es-select" value={size.id} onChange={(e) => pickSize(e.target.value)}>
             {sizes.map((s) => (
               <option key={s.id} value={s.id}>
                 {t(s.label)}
+                {locked(s) ? `${s.longEdge === 0 ? ` (${long} px)` : ''} · PRO` : ''}
               </option>
             ))}
           </select>

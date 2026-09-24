@@ -252,3 +252,16 @@ Teste (după `node_modules\electron\dist\electron.exe apps\video --selftest --se
   - keyframes, green screen;
   - „taie pauzele” cu AI;
   - FFmpeg LGPL pentru formate rare.
+
+## Gratuit / Pro (v1.1)
+
+- Pro e un add-on al aplicației în Microsoft Store (Product ID `pro`, Durable). Pachetul comun e `packages/license`:
+  - `src/main.ts` (procesul principal) întreabă Store-ul prin `build/StoreHelper.exe`. Programul ăsta e făcut de `tools/build-store-helper.cjs` din `tools/store-helper/StoreHelper.cs`, cu compilatorul C# din .NET Framework, care e deja în Windows;
+  - `src/index.tsx` (pagina) are `requirePro`, încercările gratuite pe zi, butonul „Ia Pro” și fereastra Pro.
+- În afara Store-ului (installer, dezvoltare) aplicațiile sunt Free, iar „Ia Pro” deschide pagina din Store.
+- În teste: `--license pro` sau `--license free`, doar împreună cu `--selftest` sau în dezvoltare. Testele vechi care folosesc funcții Pro au nevoie de `--license pro`: `selftest-f5.js` (PSD) și `selftest-video-v3.js` (4K).
+
+| Ce | Comandă |
+|---|---|
+| Reguli foto | `...electron.exe appsphoto --selftest --license free --selftest-script toolsselftest-pro-photo.js` (și cu `pro`) |
+| Reguli video + semnul pe export | `...electron.exe appsideo --selftest --selftest-visible --license free --selftest-script toolsselftest-pro-video.js` (și cu `pro`) |

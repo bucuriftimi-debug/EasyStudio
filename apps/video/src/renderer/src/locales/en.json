@@ -225,7 +225,8 @@
     "showFolder": "Show in folder",
     "noEncoder": "This computer cannot make this kind of video at this size. Try MP4 at a smaller resolution.",
     "noAudioEncoder": "This computer cannot encode sound for this file type — the video will be silent. Try MP4.",
-    "desktopOnly": "Exporting works in the desktop app."
+    "desktopOnly": "Exporting works in the desktop app.",
+    "watermarkNote": "Free version: 1080p videos get a small “Made with EasyStudio” mark in the corner (720p has none). Pro removes it."
   },
   "rec": {
     "title": "Your last video was not saved",
@@ -266,5 +267,19 @@
     "back": "Back",
     "next": "Next",
     "done": "Got it!"
+  },
+  "proBenefits": {
+    "size": "Export in 1440p (2K) and 4K",
+    "watermark": "No “Made with EasyStudio” mark on 1080p videos",
+    "fps": "Smooth 50 and 60 fps",
+    "quality": "High quality",
+    "webm": "WebM export",
+    "future": "Every new Pro feature in future updates"
+  },
+  "proFeature": {
+    "size": "Export in 1440p and 4K",
+    "fps": "Export at 50 / 60 fps",
+    "quality": "High quality export",
+    "webm": "WebM export"
   }
 }

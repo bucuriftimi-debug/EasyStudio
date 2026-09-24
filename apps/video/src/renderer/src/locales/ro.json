@@ -225,7 +225,8 @@
     "showFolder": "Arată în folder",
     "noEncoder": "Acest calculator nu poate face acest tip de video la această mărime. Încearcă MP4 la o rezoluție mai mică.",
     "noAudioEncoder": "Acest calculator nu poate coda sunetul pentru acest tip de fișier — filmul va fi fără sunet. Încearcă MP4.",
-    "desktopOnly": "Exportul merge în aplicația desktop."
+    "desktopOnly": "Exportul merge în aplicația desktop.",
+    "watermarkNote": "Versiunea gratuită: videoclipurile 1080p primesc un semn mic „Made with EasyStudio” în colț (la 720p nu). Pro îl scoate."
   },
   "rec": {
     "title": "Ultimul tău film nu a fost salvat",
@@ -266,5 +267,19 @@
     "back": "Înapoi",
     "next": "Înainte",
     "done": "Am înțeles!"
+  },
+  "proBenefits": {
+    "size": "Export în 1440p (2K) și 4K",
+    "watermark": "Fără semnul „Made with EasyStudio” pe videoclipurile 1080p",
+    "fps": "Mișcare fluidă la 50 și 60 fps",
+    "quality": "Calitate mare",
+    "webm": "Export WebM",
+    "future": "Toate funcțiile Pro noi din actualizări"
+  },
+  "proFeature": {
+    "size": "Exportul în 1440p și 4K",
+    "fps": "Exportul la 50 / 60 fps",
+    "quality": "Exportul la calitate mare",
+    "webm": "Exportul WebM"
   }
 }

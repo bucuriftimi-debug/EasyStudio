@@ -1,3 +1,4 @@
+import type { LicenseApi } from '@easystudio/license'
 /**
  * Everything that touches the computer goes through here, so the UI also runs in a plain
  * browser (for quick testing) with sensible fallbacks.
@@ -23,6 +24,7 @@ export interface FileFilter {
 }
 
 interface ElectronBridge {
+  license: LicenseApi
   isElectron: true
   setTitle(title: string): void
   setDirty(dirty: boolean): void
@@ -160,6 +162,8 @@ export async function openProjectFile(path?: string | null): Promise<{ path: str
 
 /** Writing an export to disk piece by piece (desktop app only). */
 export const exportFile = () => bridge?.exportFile ?? null
+/** Free / Pro through the Microsoft Store (desktop app only). */
+export const licenseApi = (): LicenseApi | undefined => bridge?.license
 
 /** Recent projects, crash recovery, files from Windows (desktop app only). */
 export const session = () => (bridge ? { recent: bridge.recent, pendingOpen: bridge.pendingOpen, onPendingOpen: bridge.onPendingOpen, autosave: bridge.autosave } : null)

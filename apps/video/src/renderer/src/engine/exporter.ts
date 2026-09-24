@@ -1,5 +1,6 @@
 import { AudioBufferSink, AudioBufferSource, CanvasSource, Mp4OutputFormat, Output, StreamTarget, WebMOutputFormat, canEncodeAudio, canEncodeVideo, type StreamTargetChunk } from 'mediabunny'
-import { Renderer } from '@easystudio/gpu'
+import { docToLayerUVMatrix } from '@easystudio/core'
+import { NEUTRAL_EFFECTS, Renderer, type RenderLayer } from '@easystudio/gpu'
 import { mediaHandles } from '../media/media'
 import { activeAt, buildScene, ensureBackground, sourceTime, type Composition } from './engine'
 import { VideoReader } from './videoReader'
@@ -19,6 +20,43 @@ export interface ExportSettings {
   height: number
   fps: number
   quality: ExportQuality
+}
+
+/**
+ * The small "Made with EasyStudio" mark of free exports, bottom right. Drawn once as a texture
+ * and added on top of every frame.
+ */
+function watermarkLayer(r: Renderer, W: number, H: number): RenderLayer {
+  const id = 'wm'
+  const size = Math.max(12, Math.round(Math.min(W, H) * 0.032))
+  const text = 'Made with EasyStudio'
+  const font = `600 ${size}px "Inter Variable", "Segoe UI", sans-serif`
+  const probe = new OffscreenCanvas(1, 1).getContext('2d')!
+  probe.font = font
+  const pad = Math.ceil(size * 0.4)
+  const w = Math.ceil(probe.measureText(text).width) + pad * 2
+  const h = Math.ceil(size * 1.5) + pad
+  if (!r.hasSource(id)) {
+    const c = new OffscreenCanvas(w, h)
+    const g = c.getContext('2d')!
+    g.font = font
+    g.textBaseline = 'middle'
+    g.shadowColor = 'rgba(0,0,0,0.6)'
+    g.shadowBlur = size * 0.25
+    g.fillStyle = 'rgba(255,255,255,0.85)'
+    g.fillText(text, pad, h / 2)
+    r.uploadSource(id, c, w, h)
+  }
+  const margin = Math.round(size * 0.9)
+  return {
+    id,
+    sourceId: id,
+    visible: true,
+    opacity: 1,
+    blend: 'normal',
+    docToLayer: docToLayerUVMatrix({ cx: W - margin - w / 2, cy: H - margin - h / 2, sx: 1, sy: 1, rot: 0 }, w, h),
+    effects: NEUTRAL_EFFECTS
+  }
 }
 
 export interface ExportTarget {
@@ -120,7 +158,15 @@ async function mixAudio(comp: Composition, from: number, to: number): Promise<Au
   return ctx.startRendering()
 }
 
-export async function exportVideo(comp0: Composition, s: ExportSettings, target: ExportTarget, onProgress: (p: ExportProgress) => void, signal: AbortSignal): Promise<void> {
+export async function exportVideo(
+  comp0: Composition,
+  s: ExportSettings,
+  target: ExportTarget,
+  onProgress: (p: ExportProgress) => void,
+  signal: AbortSignal,
+  /** Free version, above 720p: "Made with EasyStudio" in the corner. */
+  watermark = false
+): Promise<void> {
   const comp = scaleComposition(comp0, s.width, s.height)
   const enc = await checkEncoders(s)
   if (!enc.video) throw new Error('video-encoder')
@@ -183,6 +229,7 @@ export async function exportVideo(comp0: Composition, s: ExportSettings, target:
         ready.add(`v:${c.id}`)
       }
       const scene = buildScene(comp, t, r, (id) => ready.has(id))
+      if (watermark) scene.layers.push(watermarkLayer(r, s.width, s.height))
       r.present(scene, { zoom: 1, panX: 0, panY: 0, dpr: 1, bg: [0, 0, 0] })
       await video.add(t, 1 / s.fps)
       if (writeError) throw writeError

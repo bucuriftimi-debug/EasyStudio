@@ -9,14 +9,14 @@ The idea: the power of Photoshop and Premiere, with the simplicity of Canva and 
   <img src="docs/images/video-editor.png" alt="EasyStudio Video — timeline with titles, transitions and music" width="49%" />
 </p>
 
-## Download
+## Get the apps
 
-Windows 10 / 11 installers are on the [**Releases**](../../releases) page:
+EasyStudio Photo and EasyStudio Video are coming to the **Microsoft Store**. Both are free to use, and an optional **Pro** upgrade can be bought inside each app.
 
-- `EasyStudio-Photo-Setup-1.0.0.exe`
-- `EasyStudio-Video-Setup-1.0.0.exe`
-
-> The installers are not code-signed yet, so Windows SmartScreen may say *"Windows protected your PC"*. Click **More info → Run anyway**. The SHA-256 checksums of both files are listed on the release page. Microsoft Store versions, which install without that warning, are being prepared ([how](docs/STORE.ro.md)).
+| | Free | Pro |
+|---|---|---|
+| **Photo** | All editing tools, layers, text, filters, 3 templates, 3 AI tries a day, export up to 1920 px (JPG / PNG) | Unlimited AI, full-resolution and WebP export, all templates, PSD import, clone stamp |
+| **Video** | Timeline, titles, music, transitions, filters; 720p export, 1080p with a small "Made with EasyStudio" mark, up to 30 fps | 1440p and 4K, 50 / 60 fps, no mark, high quality, WebM |
 
 The apps collect no personal data. See the [privacy policy](PRIVACY.md).
 
@@ -24,7 +24,7 @@ The apps collect no personal data. See the [privacy policy](PRIVACY.md).
 
 <img src="docs/images/photo-start.png" alt="Start screen with templates and quick sizes" width="100%" />
 
-- **Easy by default.** A *Simple* mode shows only the essentials, while *Pro* adds blend modes, masks and the clone stamp. Tools have names, not only icons, and the tool bar only shows options for the current tool.
+- **Easy by default.** A *Simple* mode shows only the essentials, while *Advanced* adds blend modes, masks and the clone stamp. Tools have names, not only icons, and the tool bar only shows options for the current tool.
 - **GPU editing.**
   - Adjustments and 12 one-click filters, all non-destructive, rendered with WebGL2 shaders.
   - Measured on a 96 MP photo: 7 ms per frame while dragging a slider.
@@ -80,6 +80,7 @@ The apps collect no personal data. See the [privacy policy](PRIVACY.md).
 | Pictures | A custom WebGL2 compositor (`packages/gpu`) shared by both apps: effects, blend modes, masks and painting run as shaders. Images are stored as tiles, so undo only keeps the changed 256×256 tiles. |
 | Local AI | ONNX Runtime Web with the WebGPU execution provider, in a Web Worker. It falls back to the CPU and restarts the worker if memory runs out. |
 | Video | [Mediabunny](https://mediabunny.dev) on top of WebCodecs. Files are read in byte ranges through IPC. Playback is driven by the AudioContext clock, and the preview and the export share the same compositor. |
+| Free / Pro | Pro is a Microsoft Store add-on. A tiny helper (`tools/store-helper`, built with the C# compiler that ships with Windows) asks the Store whether it was bought. There are no accounts or servers of our own. |
 | Tests | Vitest for the pure logic (timeline, history, geometry, translations). The apps also have a `--selftest` mode that drives the real UI in Electron and checks pixels, frame numbers, audio and exported files. |
 
 ```
@@ -87,6 +88,7 @@ packages/core   undo history, layer geometry, presets
 packages/gpu    WebGL2 renderer: effects, filters, blend modes, painting
 packages/ui     theme and shared React components, i18n
 packages/draw   text rendering, text styles, bundled fonts (shared by both apps)
+packages/license  Free / Pro: Microsoft Store add-on check, "Get Pro" dialog
 apps/photo      EasyStudio Photo
 apps/video      EasyStudio Video
 tools/          test and helper scripts
@@ -105,6 +107,7 @@ npm run photo:dev                   # or: npm run video:dev
 npm test                            # unit tests
 npm run photo:dist                  # installer in dist\photo  (video:dist → dist\video)
 npm run photo:store                 # Microsoft Store package (.appx), see docs/STORE.ro.md
+# Development builds are Free; add --license pro to a --selftest run to test Pro.
 ```
 
 Developer notes, performance numbers and the self-test commands are in [`docs/DEVELOPMENT.ro.md`](docs/DEVELOPMENT.ro.md) (Romanian).
@@ -116,7 +119,7 @@ EasyStudio are două aplicații desktop pentru Windows:
 - un **editor foto** ușor, cu straturi, text, filtre, AI local gratuit (scoate fundalul, șterge obiecte, mărește poze) și import PSD;
 - un **editor video** ușor, ca CapCut: tai clipuri, pui titluri, muzică, filtre și tranziții, exporți MP4 până la 4K.
 
-Toată munca pe imagine se face pe placa video. Interfața e în română și engleză.
+Toată munca pe imagine se face pe placa video. Interfața e în română și engleză. Aplicațiile vor fi în Microsoft Store, gratuite, cu o variantă Pro opțională.
 
 ## License
 

@@ -1,4 +1,6 @@
 import { create } from 'zustand'
+import i18next from 'i18next'
+import { requirePro } from '@easystudio/license'
 import {
   allHistoryStates,
   createHistory,
@@ -346,6 +348,7 @@ export function setMode(mode: Mode): void {
 export function setTool(tool: Tool): void {
   const s = get()
   if (s.tool === tool) return
+  if (tool === 'clone' && !requirePro(i18next.t('tool.clone'))) return
   set({ tool, crop: tool === 'crop' ? s.crop : null })
 }
 

@@ -8,7 +8,8 @@ import { initI18n } from '@easystudio/ui'
 import en from './locales/en.json'
 import ro from './locales/ro.json'
 import { App } from './App'
-import { setLang } from './platform'
+import { licenseApi, setLang } from './platform'
+import { initLicense } from '@easystudio/license'
 import { setFontLoadedListener } from '@easystudio/draw'
 import { recompose } from './state/editor'
 import { initSession } from './state/session'
@@ -23,12 +24,13 @@ i18n.on('languageChanged', syncLang)
 // Titles are redrawn once their web font has loaded.
 setFontLoadedListener(() => recompose())
 initSession()
+initLicense(licenseApi())
 
 // Hook for automated checks (development, or the app's own `--selftest` mode).
 if (import.meta.env.DEV || new URLSearchParams(location.search).has('selftest')) {
-  Promise.all([import('mediabunny'), import('./engine/engine'), import('./state/store'), import('./state/library'), import('./platform'), import('./state/editor'), import('./state/project'), import('./state/projectFile'), import('./state/exportJob'), import('./state/session')]).then(
-    ([mediabunny, engineMod, store, library, platform, editor, project, projectFile, exportJob, session]) => {
-      ;(window as unknown as Record<string, unknown>).__ev = { mediabunny, engine: engineMod.engine, store, library, platform, editor, project, projectFile, exportJob, session }
+  Promise.all([import('mediabunny'), import('./engine/engine'), import('./state/store'), import('./state/library'), import('./platform'), import('./state/editor'), import('./state/project'), import('./state/projectFile'), import('./state/exportJob'), import('./state/session'), import('@easystudio/license')]).then(
+    ([mediabunny, engineMod, store, library, platform, editor, project, projectFile, exportJob, session, license]) => {
+      ;(window as unknown as Record<string, unknown>).__ev = { mediabunny, engine: engineMod.engine, store, library, platform, editor, project, projectFile, exportJob, session, license }
     }
   )
 }

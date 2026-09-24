@@ -3,6 +3,7 @@
  * also runs in a plain browser (for quick testing) with sensible fallbacks.
  */
 
+import type { LicenseApi } from '@easystudio/license'
 import type { AiReply, AiRequest, AiSettings } from '../../shared/aiTools'
 
 export interface OpenedFile {
@@ -66,10 +67,14 @@ interface ElectronBridge {
     fill(req: { prompt: string; image: string; mask: string; size: string; area: string }): Promise<string>
     ollamaModels(): Promise<string[]>
   }
+  license: LicenseApi
 }
 
 /** Desktop-only services (recent files, crash recovery, files from Windows); null in a browser. */
 export const desktop = (): Pick<ElectronBridge, 'recent' | 'pendingOpen' | 'onPendingOpen' | 'autosave' | 'setLang'> | null => bridge ?? null
+
+/** Free / Pro through the Microsoft Store (desktop app only). */
+export const licenseApi = (): LicenseApi | undefined => bridge?.license
 
 /** Cloud AI bridge (desktop app only). */
 export const cloudAi = (): ElectronBridge['ai'] | null => bridge?.ai ?? null

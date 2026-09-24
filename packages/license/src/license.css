@@ -1,0 +1,148 @@
+.es-pro-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0 5px;
+  height: 15px;
+  border-radius: 4px;
+  background: linear-gradient(135deg, #f5b544, #ff8a4c);
+  color: #1a1206;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  vertical-align: middle;
+  flex: none;
+}
+
+.es-btn.es-pro-btn {
+  gap: 6px;
+  color: #ffd27a;
+  border: 1px solid rgba(245, 181, 68, 0.45);
+  background: rgba(245, 181, 68, 0.1);
+}
+.es-btn.es-pro-btn:hover {
+  background: rgba(245, 181, 68, 0.2);
+}
+
+.es-pro-active {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 0 8px;
+  color: #ffd27a;
+  font-weight: 600;
+  font-size: 12px;
+}
+
+.es-pro-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.es-pro-title svg {
+  color: #f5b544;
+}
+
+.es-pro p {
+  margin: 0 0 10px;
+}
+.es-pro-needs {
+  font-weight: 600;
+  color: var(--text-1);
+}
+.es-pro-intro {
+  color: var(--text-2);
+}
+.es-pro-list {
+  list-style: none;
+  margin: 12px 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+.es-pro-list li {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+}
+.es-pro-list svg {
+  color: var(--success);
+  flex: none;
+  margin-top: 1px;
+}
+.es-pro-note {
+  color: var(--text-3);
+  font-size: 12px;
+}
+.es-pro-msg {
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+}
+.es-pro-msg.ok {
+  background: rgba(62, 207, 142, 0.14);
+  color: var(--success);
+}
+.es-pro-msg.error {
+  background: rgba(255, 93, 108, 0.14);
+  color: var(--danger);
+}
+.es-btn.es-pro-buy {
+  gap: 6px;
+}
+
+button.es-pro-active {
+  border: 0;
+  background: none;
+  height: 28px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+button.es-pro-active:hover {
+  background: rgba(245, 181, 68, 0.12);
+}
+.es-legal {
+  display: flex;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--text-3);
+}
+.es-legal a {
+  color: var(--text-2);
+}
+.es-legal a:hover {
+  color: var(--text-1);
+}
+.es-account-plan {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 14px;
+  margin-bottom: 12px;
+  border-radius: var(--radius);
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+}
+.es-account-plan strong {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.es-account-plan strong.pro {
+  color: #ffd27a;
+}
+.es-account-actions {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.es-account-actions .es-btn {
+  gap: 6px;
+}
+@keyframes es-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.es-spin {
+  animation: es-spin 0.8s linear infinite;
+}

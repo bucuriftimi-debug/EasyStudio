@@ -4,8 +4,8 @@ The source code in this repository is made public for viewing only. No license i
 copy, modify, merge, publish, distribute, sublicense or sell copies of it, in whole or in part,
 without prior written permission from the copyright holder.
 
-The compiled installers published on the Releases page may be downloaded and used free of
-charge for personal use.
+The apps are distributed through the Microsoft Store under the Store's terms. No other
+distribution of builds made from this source code is permitted.
 
 Third-party components included in or downloaded by this software remain under their own
 licenses: Mediabunny (MPL-2.0), ONNX Runtime Web (MIT), ag-psd (MIT), React (MIT),

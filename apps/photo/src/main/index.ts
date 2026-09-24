@@ -5,6 +5,7 @@ import { basename, dirname, join, normalize, sep } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { Readable } from 'node:stream'
 import { pipeline } from 'node:stream/promises'
+import { registerLicense } from '@easystudio/license/main'
 import { registerAiCloud } from './aiCloud'
 import { clearAutosave, fileFromArgv, registerFiles, setPendingOpen } from './files'
 import { registerLang, tr } from './lang'
@@ -26,6 +27,8 @@ function dataDir(): string {
   }
 }
 const DATA = dataDir()
+// Microsoft Store ID (Partner Center → Product identity), for the "Get Pro" link outside the Store.
+const STORE_ID = '9NZ1XHJQLQMN'
 const MODELS = join(DATA, 'models')
 const RENDERER = join(__dirname, '../renderer')
 app.setPath('userData', DATA)
@@ -271,6 +274,9 @@ async function diag(): Promise<void> {
  */
 async function selftest(): Promise<void> {
   const argv = process.argv
+  // Whoever started the test may stop reading its output early: that must not become an error box.
+  process.stdout.on('error', () => undefined)
+  process.stderr.on('error', () => undefined)
   const scriptArg = argv.indexOf('--selftest-script')
   const imageArg = argv.indexOf('--selftest-image')
   if (imageArg > 0) selftestImage = argv[imageArg + 1]
@@ -347,6 +353,7 @@ app.whenReady().then(async () => {
   // `--selftest-session`: a test that behaves like a fresh start (picks up a crashed session's copy).
   await registerFiles(DATA, !testMode || process.argv.includes('--selftest-session'))
   await registerAiCloud(DATA)
+  registerLicense({ dataDir: DATA, storeId: STORE_ID, window: () => win })
   if (process.argv.includes('--diag')) return diag()
   if (process.argv.includes('--selftest')) return selftest()
   const file = fileFromArgv(process.argv)

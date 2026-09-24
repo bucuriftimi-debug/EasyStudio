@@ -1,0 +1,22 @@
+{
+  "name": "@easystudio/license",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "src/index.tsx",
+  "types": "src/index.tsx",
+  "exports": {
+    ".": "./src/index.tsx",
+    "./main": "./src/main.ts"
+  },
+  "dependencies": {
+    "@easystudio/ui": "*"
+  },
+  "peerDependencies": {
+    "i18next": "*",
+    "lucide-react": "*",
+    "react": ">=19",
+    "react-i18next": "*",
+    "zustand": "*"
+  }
+}

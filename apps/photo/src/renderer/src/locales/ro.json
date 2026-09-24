@@ -153,7 +153,7 @@
   },
   "mode": {
     "simple": "Simplu",
-    "pro": "Pro",
+    "pro": "Avansat",
     "simpleTip": "Doar ce e esențial",
     "proTip": "Toate uneltele: moduri de amestec, glisoare în plus, ștampilă de clonare"
   },
@@ -343,7 +343,7 @@
     "fade": "Estompare",
     "editing": "Editezi: {{name}}",
     "noLayer": "Selectează un strat ca să-l ajustezi.",
-    "proHint": "Treci pe Pro pentru expunere, claritate, granulație și altele."
+    "proHint": "Treci pe Avansat pentru expunere, claritate, granulație și altele."
   },
   "look": {
     "none": "Original",
@@ -639,8 +639,8 @@
     "panelText": "Glisoare pentru lumină și culoare, filtre dintr-un click, straturile și istoricul fiecărei modificări. Dublu-click pe un glisor îl resetează.",
     "aiTitle": "Unelte AI",
     "aiText": "Scoate fundalul, șterge obiecte, mărește poze — gratuit și pe calculatorul tău. Apasă Ctrl+K ca să-i spui AI-ului ce vrei.",
-    "modeTitle": "Simplu sau Pro",
-    "modeText": "Simplu arată doar ce e esențial. Pro adaugă moduri de amestec, măști, ștampila de clonare și glisoare în plus.",
+    "modeTitle": "Simplu sau Avansat",
+    "modeText": "Simplu arată doar ce e esențial. Avansat adaugă moduri de amestec, măști, ștampila de clonare și glisoare în plus.",
     "exportTitle": "Salvează poza",
     "exportText": "Exportă face un JPG / PNG / WebP de trimis. Ctrl+S salvează proiectul cu toate straturile, ca să-l poți modifica mai târziu.",
     "skip": "Sari peste",
@@ -653,5 +653,20 @@
     "newerVersion": "Proiectul a fost făcut cu o versiune mai nouă a aplicației. Actualizează EasyStudio Photo.",
     "damaged": "Fișierul proiectului e deteriorat (lipsesc date din poze).",
     "psdNoData": "Acest fișier PSD nu are date de imagine pe care aplicația să le poată citi."
+  },
+  "proBenefits": {
+    "ai": "AI nelimitat: scoate fundalul, șterge obiecte, mărește 2× / 4×",
+    "export": "Export la rezoluție completă (până la 16384 px) și în WebP",
+    "templates": "Toate șabloanele",
+    "psd": "Deschide fișiere Photoshop (PSD)",
+    "clone": "Ștampila de clonare",
+    "future": "Toate funcțiile Pro noi din actualizări"
+  },
+  "proFeature": {
+    "export": "Export mai mare de {{px}} px",
+    "webp": "Export WebP",
+    "template": "Toate șabloanele",
+    "psd": "Deschiderea fișierelor Photoshop",
+    "ai": "Uneltele AI"
   }
 }

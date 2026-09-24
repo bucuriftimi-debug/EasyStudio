@@ -7,7 +7,8 @@ import './app.css'
 import { initI18n } from '@easystudio/ui'
 import en from './locales/en.json'
 import ro from './locales/ro.json'
-import { desktop } from './platform'
+import { initLicense } from '@easystudio/license'
+import { desktop, licenseApi } from './platform'
 import { initFiles } from './state/files'
 import { App } from './App'
 import { setFontLoadedListener } from './state/gen'
@@ -22,6 +23,7 @@ const syncLang = (l: string) => {
 syncLang(i18n.language)
 i18n.on('languageChanged', syncLang)
 initFiles()
+initLicense(licenseApi())
 // Web fonts load lazily: redraw text layers once their font is ready.
 setFontLoadedListener(bumpFontEpoch)
 
@@ -37,9 +39,10 @@ if (import.meta.env.DEV || new URLSearchParams(location.search).has('selftest'))
     import('./state/ai'),
     import('./state/assistant'),
     import('./state/files'),
-    import('./state/templates')
-  ]).then(([actions, store, gpu, bitmaps, paint, project, ai, assistant, files, templates]) => {
-    ;(window as unknown as Record<string, unknown>).__es = { actions, store, gpu, bitmaps, paint, project, ai, assistant, files, templates }
+    import('./state/templates'),
+    import('@easystudio/license')
+  ]).then(([actions, store, gpu, bitmaps, paint, project, ai, assistant, files, templates, license]) => {
+    ;(window as unknown as Record<string, unknown>).__es = { actions, store, gpu, bitmaps, paint, project, ai, assistant, files, templates, license }
   })
 }
 
