@@ -283,7 +283,10 @@ async function selftest(): Promise<void> {
   // `--selftest-open <file>`: behave as if Windows handed this file to the app (double-click).
   const openArg = argv.indexOf('--selftest-open')
   if (openArg > 0) setPendingOpen(argv[openArg + 1], null)
-  const w = new BrowserWindow({ show: false, width: 1400, height: 900, webPreferences: { ...webPreferences(), backgroundThrottling: false } })
+  // `--selftest-size 1920x1080`: page size for screenshots (default: a 1400 × 900 window).
+  const sizeArg = argv.indexOf('--selftest-size')
+  const [sw, sh] = sizeArg > 0 ? argv[sizeArg + 1].split('x').map(Number) : [1400, 900]
+  const w = new BrowserWindow({ show: false, width: sw, height: sh, useContentSize: sizeArg > 0, webPreferences: { ...webPreferences(), backgroundThrottling: false } })
   // A hidden window draws no frames: for screenshots / timing, show it far off-screen, without focus.
   if (argv.includes('--selftest-shot') || argv.includes('--selftest-visible')) {
     w.setPosition(-30000, -30000)
