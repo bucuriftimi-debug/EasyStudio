@@ -1,0 +1,14 @@
+Copyright (c) 2026 bucuriftimi-debug. All rights reserved.
+
+The source code in this repository is made public for viewing only. No license is granted to
+copy, modify, merge, publish, distribute, sublicense or sell copies of it, in whole or in part,
+without prior written permission from the copyright holder.
+
+The compiled installers published on the Releases page may be downloaded and used free of
+charge for personal use.
+
+Third-party components included in or downloaded by this software remain under their own
+licenses: Mediabunny (MPL-2.0), ONNX Runtime Web (MIT), ag-psd (MIT), React (MIT),
+Electron (MIT), fflate (MIT), zustand (MIT), i18next (MIT), lucide (ISC), the bundled fonts
+(SIL Open Font License 1.1), and the AI models IS-Net (Apache-2.0), MobileSAM (Apache-2.0 /
+MIT), LaMa (Apache-2.0) and Real-ESRGAN (BSD-3-Clause).
