@@ -29,3 +29,15 @@ fileAssociations:
   - ext: esv
     name: EasyStudio Video project
     description: EasyStudio Video project
+# Microsoft Store package (MSIX / AppX). Microsoft signs it when it is published, so there is no
+# SmartScreen warning. The three identity values come from Partner Center → the app → Product
+# identity (see docs/STORE.ro.md). Build with: npm run video:store
+appx:
+  identityName: REPLACE.EasyStudioVideo
+  publisher: CN=REPLACE-WITH-PUBLISHER-ID
+  publisherDisplayName: bucuriftimi-debug
+  displayName: EasyStudio Video
+  applicationId: EasyStudioVideo
+  languages:
+    - en-US
+    - ro-RO

@@ -16,7 +16,9 @@
     "video:dev": "npm run dev -w @easystudio/video",
     "video:web": "npm run web -w @easystudio/video",
     "video:build": "npm run build -w @easystudio/video",
-    "video:dist": "npm run dist -w @easystudio/video"
+    "video:dist": "npm run dist -w @easystudio/video",
+    "photo:store": "npm run store -w @easystudio/photo",
+    "video:store": "npm run store -w @easystudio/video"
   },
   "devDependencies": {
     "@types/node": "^24.0.0",

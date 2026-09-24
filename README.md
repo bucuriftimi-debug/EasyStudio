@@ -16,7 +16,9 @@ Windows 10 / 11 installers are on the [**Releases**](../../releases) page:
 - `EasyStudio-Photo-Setup-1.0.0.exe`
 - `EasyStudio-Video-Setup-1.0.0.exe`
 
-> The installers are not code-signed yet, so Windows SmartScreen may say *"Windows protected your PC"*. Click **More info → Run anyway**. The SHA-256 checksums of both files are listed on the release page.
+> The installers are not code-signed yet, so Windows SmartScreen may say *"Windows protected your PC"*. Click **More info → Run anyway**. The SHA-256 checksums of both files are listed on the release page. Microsoft Store versions, which install without that warning, are being prepared ([how](docs/STORE.ro.md)).
+
+The apps collect no personal data. See the [privacy policy](PRIVACY.md).
 
 ## EasyStudio Photo
 
@@ -102,6 +104,7 @@ node node_modules\electron\install.js
 npm run photo:dev                   # or: npm run video:dev
 npm test                            # unit tests
 npm run photo:dist                  # installer in dist\photo  (video:dist → dist\video)
+npm run photo:store                 # Microsoft Store package (.appx), see docs/STORE.ro.md
 ```
 
 Developer notes, performance numbers and the self-test commands are in [`docs/DEVELOPMENT.ro.md`](docs/DEVELOPMENT.ro.md) (Romanian).

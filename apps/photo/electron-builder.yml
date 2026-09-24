@@ -30,3 +30,15 @@ fileAssociations:
   - ext: esp
     name: EasyStudio Photo project
     description: EasyStudio Photo project
+# Microsoft Store package (MSIX / AppX). Microsoft signs it when it is published, so there is no
+# SmartScreen warning. The three identity values come from Partner Center → the app → Product
+# identity (see docs/STORE.ro.md). Build with: npm run photo:store
+appx:
+  identityName: REPLACE.EasyStudioPhoto
+  publisher: CN=REPLACE-WITH-PUBLISHER-ID
+  publisherDisplayName: bucuriftimi-debug
+  displayName: EasyStudio Photo
+  applicationId: EasyStudioPhoto
+  languages:
+    - en-US
+    - ro-RO

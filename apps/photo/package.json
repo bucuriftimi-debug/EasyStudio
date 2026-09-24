@@ -12,7 +12,8 @@
     "web": "vite --config vite.web.config.ts",
     "build": "electron-vite build",
     "dist": "electron-vite build && electron-builder --win nsis --config electron-builder.yml",
-    "typecheck": "tsc --noEmit -p tsconfig.json"
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "store": "electron-vite build && electron-builder --win appx --config electron-builder.yml"
   },
   "devDependencies": {
     "@anthropic-ai/sdk": "^0.128.0",
