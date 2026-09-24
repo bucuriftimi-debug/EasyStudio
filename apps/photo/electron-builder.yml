@@ -34,9 +34,9 @@ fileAssociations:
 # SmartScreen warning. The three identity values come from Partner Center → the app → Product
 # identity (see docs/STORE.ro.md). Build with: npm run photo:store
 appx:
-  identityName: REPLACE.EasyStudioPhoto
-  publisher: CN=REPLACE-WITH-PUBLISHER-ID
-  publisherDisplayName: bucuriftimi-debug
+  identityName: EasyStudioApps.EasyStudioPhoto
+  publisher: CN=905B368B-D497-4AB8-B0C9-A5FC8483AFBB
+  publisherDisplayName: EasyStudio Apps
   displayName: EasyStudio Photo
   applicationId: EasyStudioPhoto
   languages:
