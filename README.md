@@ -1,4 +1,10 @@
-# EasyStudio
+<p align="center">
+  <img src="docs/images/icon-photo.png" alt="EasyStudio Photo icon" width="96" />
+  &nbsp;&nbsp;
+  <img src="docs/images/icon-video.png" alt="EasyStudio Video icon" width="96" />
+</p>
+
+<h1 align="center">EasyStudio</h1>
 
 **Two easy desktop apps for Windows — a photo editor and a video editor — where every pixel is processed on the graphics card.**
 
@@ -11,18 +17,26 @@ The idea: the power of Photoshop and Premiere, with the simplicity of Canva and 
 
 ## Get the apps
 
-EasyStudio Photo and EasyStudio Video are coming to the **Microsoft Store**. Both are free to use, and an optional **Pro** upgrade can be bought inside each app.
+EasyStudio Photo and EasyStudio Video are coming to the **Microsoft Store** for Windows 10 / 11. Both are free to use, and an optional **Pro** upgrade (a one-time purchase) can be bought inside each app. Pro follows your Microsoft account to all your PCs.
+
+| App | Status |
+|---|---|
+| EasyStudio Photo 1.1 | In Microsoft Store certification |
+| EasyStudio Video 1.1 | Being prepared for the Store |
 
 | | Free | Pro |
 |---|---|---|
 | **Photo** | All editing tools, layers, text, filters, 3 templates, 3 AI tries a day, export up to 1920 px (JPG / PNG) | Unlimited AI, full-resolution and WebP export, all templates, PSD import, clone stamp |
 | **Video** | Timeline, titles, music, transitions, filters; 720p export, 1080p with a small "Made with EasyStudio" mark, up to 30 fps | 1440p and 4K, 50 / 60 fps, no mark, high quality, WebM |
 
-The apps collect no personal data. See the [privacy policy](PRIVACY.md).
+The apps collect no personal data. See the [privacy policy](PRIVACY.md) and the [terms of use](TERMS.md).
 
 ## EasyStudio Photo
 
-<img src="docs/images/photo-start.png" alt="Start screen with templates and quick sizes" width="100%" />
+<p align="center">
+  <img src="docs/images/photo-ai.png" alt="EasyStudio Photo — the AI menu: remove background, select subject, erase objects, enlarge" width="49%" />
+  <img src="docs/images/photo-filters.png" alt="EasyStudio Photo — one-click filters with live previews" width="49%" />
+</p>
 
 - **Easy by default.** A *Simple* mode shows only the essentials, while *Advanced* adds blend modes, masks and the clone stamp. Tools have names, not only icons, and the tool bar only shows options for the current tool.
 - **GPU editing.**
