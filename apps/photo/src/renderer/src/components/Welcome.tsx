@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Clock, FolderOpen, History, ImagePlus, LayoutGrid, LayoutTemplate, Scissors, Sparkles, X } from 'lucide-react'
+import { Clock, FolderOpen, History, ImagePlus, Images, LayoutGrid, LayoutTemplate, Scissors, Sparkles, X } from 'lucide-react'
 import { Button } from '@easystudio/ui'
 import { NEW_DOC_PRESETS } from '@easystudio/core'
 import * as A from '../state/actions'
@@ -63,6 +63,11 @@ export function Welcome() {
             <LayoutGrid size={30} strokeWidth={1.6} />
             <strong>{t('welcome.collage')}</strong>
             <span>{t('welcome.collageDesc')}</span>
+          </button>
+          <button className="welcome-card" onClick={() => useEditor.setState({ dialog: 'batch' })}>
+            <Images size={30} strokeWidth={1.6} />
+            <strong>{t('welcome.batch')}</strong>
+            <span>{t('welcome.batchDesc')}</span>
           </button>
           <button className="welcome-card" onClick={() => void A.openDialog('project')}>
             <FolderOpen size={30} strokeWidth={1.6} />

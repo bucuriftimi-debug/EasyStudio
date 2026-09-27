@@ -1789,3 +1789,30 @@ body.dropping::after {
   align-items: center;
   justify-content: space-between;
 }
+
+/* Batch editing */
+.batch-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.batch-folder {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.batch-running {
+  display: grid;
+  gap: 10px;
+  padding: 10px 0;
+}
+.batch-done {
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  padding: 10px 0;
+  text-align: center;
+}
+.batch-done svg {
+  color: var(--success);
+}

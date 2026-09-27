@@ -136,6 +136,7 @@ function MenuBar({ hasDoc }: { hasDoc: boolean }) {
         { label: t('menu.new'), kbd: 'Ctrl+N', onClick: () => set({ dialog: 'new' }) },
         { label: t('menu.open'), kbd: 'Ctrl+O', onClick: () => void A.openDialog() },
         { label: t('menu.collage'), onClick: () => set({ dialog: 'collage' }) },
+        { label: t('menu.batch'), onClick: () => set({ dialog: 'batch' }) },
         ...(recent.length
           ? [
               { separator: true },

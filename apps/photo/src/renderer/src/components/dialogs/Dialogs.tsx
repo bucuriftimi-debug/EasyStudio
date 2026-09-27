@@ -8,6 +8,7 @@ import { AiSettingsDialog } from './AiSettingsDialog'
 import { GenFillDialog } from './GenFillDialog'
 import { CollageDialog } from './CollageDialog'
 import { RetouchDialog } from './RetouchDialog'
+import { BatchDialog } from './BatchDialog'
 
 export function Dialogs() {
   const dialog = useEditor((s) => s.dialog)
@@ -28,6 +29,8 @@ export function Dialogs() {
       return hasDoc ? <SelModifyDialog onClose={close} /> : null
     case 'aisettings':
       return <AiSettingsDialog onClose={close} />
+    case 'batch':
+      return <BatchDialog onClose={close} />
     case 'retouch':
       return hasDoc ? <RetouchDialog onClose={close} /> : null
     case 'collage':

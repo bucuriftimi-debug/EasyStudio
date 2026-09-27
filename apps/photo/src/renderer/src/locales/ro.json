@@ -59,7 +59,8 @@
     "about": "Despre EasyStudio Photo",
     "shortcuts": "Scurtături de tastatură",
     "tips": "Arată sfaturile",
-    "collage": "Colaj nou…"
+    "collage": "Colaj nou…",
+    "batch": "Editează mai multe poze…"
   },
   "ai": {
     "menu": "AI",
@@ -494,7 +495,9 @@
     "sizes": "Dimensiuni pentru început rapid",
     "gpu": "Placa video: {{name}}",
     "collage": "Colaj de poze",
-    "collageDesc": "Pune mai multe poze într-o singură imagine"
+    "collageDesc": "Pune mai multe poze într-o singură imagine",
+    "batch": "Editează mai multe poze",
+    "batchDesc": "Același filtru și aceeași mărime pentru un folder întreg"
   },
   "preset": {
     "igPost": "Postare Instagram",
@@ -766,7 +769,8 @@
     "psd": "Deschide fișiere Photoshop (PSD)",
     "clone": "Ștampila de clonare",
     "future": "Toate funcțiile Pro noi din actualizări",
-    "collage": "Colaje cu 5, 6 sau 9 poze"
+    "collage": "Colaje cu 5, 6 sau 9 poze",
+    "batch": "Editezi sute de poze deodată"
   },
   "proFeature": {
     "export": "Export mai mare de {{px}} px",
@@ -774,7 +778,8 @@
     "template": "Toate șabloanele",
     "psd": "Deschiderea fișierelor Photoshop",
     "ai": "Uneltele AI",
-    "collage": "Colajele cu mai mult de 4 poze"
+    "collage": "Colajele cu mai mult de 4 poze",
+    "batch": "Editarea a mai mult de {{count}} poze deodată"
   },
   "collage": {
     "title": "Colaj de poze",
@@ -807,5 +812,34 @@
     "strength": "Netezire",
     "apply": "Retușează",
     "teethHint": "Sfat: ca să albești dinții, selectează-i cu AI → Selectează un obiect (click), apoi alege AI → Albește dinții."
+  },
+  "batch": {
+    "title": "Editează mai multe poze deodată",
+    "choose": "Alege pozele…",
+    "none": "Nicio poză aleasă încă",
+    "chosen_one": "{{count}} poză aleasă",
+    "chosen_few": "{{count}} poze alese",
+    "chosen_other": "{{count}} de poze alese",
+    "freeLimit": "Versiunea gratuită editează până la {{count}} poze o dată.",
+    "look": "Filtru",
+    "auto": "Corectează automat lumina și culorile",
+    "size": "Mărime",
+    "suffix": "Adaugă la numele fișierelor",
+    "suffixDefault": "-editat",
+    "folder": "Salvează în folderul…",
+    "noFolder": "Niciun folder ales",
+    "start_one": "Editează {{count}} poză",
+    "start_few": "Editează {{count}} poze",
+    "start_other": "Editează {{count}} de poze",
+    "stop": "Oprește",
+    "close": "Închide",
+    "progress": "{{done}} din {{total}} · {{name}}",
+    "done_one": "{{count}} poză salvată în:",
+    "done_few": "{{count}} poze salvate în:",
+    "done_other": "{{count}} de poze salvate în:",
+    "failed": "Acestea nu au putut fi editate: {{names}}",
+    "cancelled": "Oprit înainte de final.",
+    "notSaved": "fișierul nu a putut fi salvat",
+    "desktopOnly": "Salvarea într-un folder merge doar în aplicația desktop."
   }
 }

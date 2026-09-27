@@ -29,6 +29,6 @@ export const exportLocked = (longEdge: number): boolean => !isPro() && longEdge 
 
 export const templateLocked = (index: number): boolean => !isPro() && index >= FREE_TEMPLATES
 
-export const proBenefits = (): string[] => ['ai', 'export', 'templates', 'collage', 'psd', 'clone', 'future'].map((k) => t(`proBenefits.${k}`))
+export const proBenefits = (): string[] => ['ai', 'export', 'templates', 'collage', 'batch', 'psd', 'clone', 'future'].map((k) => t(`proBenefits.${k}`))
 
 export { isPro, requirePro }

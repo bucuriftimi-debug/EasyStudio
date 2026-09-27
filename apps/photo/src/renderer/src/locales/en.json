@@ -59,7 +59,8 @@
     "about": "About EasyStudio Photo",
     "shortcuts": "Keyboard shortcuts",
     "tips": "Show tips",
-    "collage": "New collage…"
+    "collage": "New collage…",
+    "batch": "Edit many photos…"
   },
   "ai": {
     "menu": "AI",
@@ -494,7 +495,9 @@
     "sizes": "Quick start sizes",
     "gpu": "Graphics: {{name}}",
     "collage": "Photo collage",
-    "collageDesc": "Put several photos in one picture"
+    "collageDesc": "Put several photos in one picture",
+    "batch": "Edit many photos",
+    "batchDesc": "Same filter and size for a whole folder"
   },
   "preset": {
     "igPost": "Instagram post",
@@ -766,7 +769,8 @@
     "psd": "Open Photoshop (PSD) files",
     "clone": "Clone stamp",
     "future": "Every new Pro feature in future updates",
-    "collage": "Collages with 5, 6 or 9 photos"
+    "collage": "Collages with 5, 6 or 9 photos",
+    "batch": "Edit hundreds of photos at once"
   },
   "proFeature": {
     "export": "Export larger than {{px}} px",
@@ -774,7 +778,8 @@
     "template": "All templates",
     "psd": "Opening Photoshop files",
     "ai": "AI tools",
-    "collage": "Collages with more than 4 photos"
+    "collage": "Collages with more than 4 photos",
+    "batch": "Editing more than {{count}} photos at once"
   },
   "collage": {
     "title": "Photo collage",
@@ -804,5 +809,31 @@
     "strength": "Smoothing",
     "apply": "Retouch",
     "teethHint": "Tip: to whiten teeth, select them with AI → Select an object (click), then choose AI → Whiten teeth."
+  },
+  "batch": {
+    "title": "Edit many photos at once",
+    "choose": "Choose photos…",
+    "none": "No photos chosen yet",
+    "chosen_one": "{{count}} photo chosen",
+    "chosen_other": "{{count}} photos chosen",
+    "freeLimit": "The free version edits up to {{count}} photos at a time.",
+    "look": "Filter",
+    "auto": "Auto-fix light and colour",
+    "size": "Size",
+    "suffix": "Add to file names",
+    "suffixDefault": "-edited",
+    "folder": "Save into folder…",
+    "noFolder": "No folder chosen",
+    "start_one": "Edit {{count}} photo",
+    "start_other": "Edit {{count}} photos",
+    "stop": "Stop",
+    "close": "Close",
+    "progress": "{{done}} of {{total}} · {{name}}",
+    "done_one": "{{count}} photo saved in:",
+    "done_other": "{{count}} photos saved in:",
+    "failed": "These could not be edited: {{names}}",
+    "cancelled": "Stopped before the end.",
+    "notSaved": "could not save the file",
+    "desktopOnly": "Saving into a folder needs the desktop app."
   }
 }
