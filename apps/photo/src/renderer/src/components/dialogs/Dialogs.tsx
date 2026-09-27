@@ -6,6 +6,7 @@ import { AboutDialog } from './AboutDialog'
 import { SelModifyDialog } from './SelModifyDialog'
 import { AiSettingsDialog } from './AiSettingsDialog'
 import { GenFillDialog } from './GenFillDialog'
+import { CollageDialog } from './CollageDialog'
 
 export function Dialogs() {
   const dialog = useEditor((s) => s.dialog)
@@ -26,6 +27,8 @@ export function Dialogs() {
       return hasDoc ? <SelModifyDialog onClose={close} /> : null
     case 'aisettings':
       return <AiSettingsDialog onClose={close} />
+    case 'collage':
+      return <CollageDialog onClose={close} />
     case 'genfill':
       return hasDoc ? <GenFillDialog onClose={close} /> : null
     default:

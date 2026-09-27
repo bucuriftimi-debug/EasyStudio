@@ -29,12 +29,13 @@ import {
 } from './store'
 import type { Layer, PhotoDoc, RasterLayer, SelOp, ShapeKind, ShapeStyle, TextStyle } from './types'
 import { buildScene, getRenderer, maxImageSize, syncSources } from '../gpuHost'
-import { baseName, fileExt, openFile, saveFile } from '../platform'
+import { baseName, fileExt, openFile, pickImages, saveFile, type PickedFile } from '../platform'
+import { buildCollage, type CollageOptions } from './collage'
 
 const t = (k: string, o?: Record<string, unknown>) => i18next.t(k, o) as string
 const set = useEditor.setState
 
-async function confirmDiscard(): Promise<boolean> {
+export async function confirmDiscard(): Promise<boolean> {
   return !isDirty() || ask(t('msg.discard'), t('msg.discardYes'), t('dialog.cancel'))
 }
 
@@ -45,6 +46,32 @@ export async function newDocument(w: number, h: number, background: string | nul
   const bm = addBlankBitmap(w, h, background)
   const layer = ops.createLayer(bm.id, w, h, t('layers.background'))
   openDocument(ops.createDoc(name, w, h, layer), t('history.new'))
+}
+
+/**
+ * Photo collage: pick the photos, then lay them out (see state/collage.ts). `files` skips the
+ * file dialog (tests).
+ */
+export async function createCollage(o: CollageOptions, files?: PickedFile[]): Promise<boolean> {
+  const picked = files ?? (await pickImages())
+  if (!picked.length) return false
+  if (!(await confirmDiscard())) return false
+  const n = o.layout.cells.length
+  try {
+    setBusy(t('collage.building'))
+    const photos = []
+    for (const f of picked.slice(0, n)) photos.push({ name: f.name, data: await f.read() })
+    openDocument(await buildCollage(o, photos), t('history.collage'))
+    if (picked.length > n) toast(t('collage.tooMany', { count: picked.length - n }), 'info', 6000)
+    else if (picked.length < n) toast(t('collage.fewer'), 'info', 6000)
+    return true
+  } catch (e) {
+    console.error(e)
+    toast(t('msg.notImage'), 'error', 5000)
+    return false
+  } finally {
+    setBusy(null)
+  }
 }
 
 /** Start from a ready-made design (start screen). */

@@ -87,7 +87,7 @@ export interface PhotoDoc {
 export type Tool = 'move' | 'select' | 'crop' | 'brush' | 'eraser' | 'clone' | 'magic' | 'fill' | 'text' | 'shape' | 'eyedropper' | 'hand'
 export type Mode = 'simple' | 'pro'
 export type Panel = 'props' | 'adjust' | 'filters' | 'layers' | 'history'
-export type DialogId = 'new' | 'resize' | 'canvas' | 'export' | 'about' | 'selmodify' | 'aisettings' | 'genfill' | null
+export type DialogId = 'new' | 'resize' | 'canvas' | 'export' | 'about' | 'selmodify' | 'aisettings' | 'genfill' | 'collage' | 'batch' | null
 
 export type SelectShape = 'rect' | 'ellipse' | 'lasso' | 'wand' | 'object'
 export type FillKind = 'bucket' | 'gradient'

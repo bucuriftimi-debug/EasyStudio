@@ -58,7 +58,8 @@
     "compare": "Before / After",
     "about": "About EasyStudio Photo",
     "shortcuts": "Keyboard shortcuts",
-    "tips": "Show tips"
+    "tips": "Show tips",
+    "collage": "New collage…"
   },
   "ai": {
     "menu": "AI",
@@ -459,7 +460,8 @@
     "removeObject": "Remove object",
     "upscale": "Enlarge {{k}}×",
     "empty": "Your edits will appear here. Click any step to go back to it.",
-    "template": "Template"
+    "template": "Template",
+    "collage": "Collage"
   },
   "status": {
     "size": "{{w}} × {{h}} px",
@@ -481,7 +483,9 @@
     "removeBg": "Remove background",
     "removeBgDesc": "Open a photo and cut out the subject with AI",
     "sizes": "Quick start sizes",
-    "gpu": "Graphics: {{name}}"
+    "gpu": "Graphics: {{name}}",
+    "collage": "Photo collage",
+    "collageDesc": "Put several photos in one picture"
   },
   "preset": {
     "igPost": "Instagram post",
@@ -752,13 +756,37 @@
     "templates": "All templates",
     "psd": "Open Photoshop (PSD) files",
     "clone": "Clone stamp",
-    "future": "Every new Pro feature in future updates"
+    "future": "Every new Pro feature in future updates",
+    "collage": "Collages with 5, 6 or 9 photos"
   },
   "proFeature": {
     "export": "Export larger than {{px}} px",
     "webp": "WebP export",
     "template": "All templates",
     "psd": "Opening Photoshop files",
-    "ai": "AI tools"
+    "ai": "AI tools",
+    "collage": "Collages with more than 4 photos"
+  },
+  "collage": {
+    "title": "Photo collage",
+    "name": "Collage",
+    "photo": "Photo",
+    "photos_one": "{{count}} photo",
+    "photos_other": "{{count}} photos",
+    "choose_one": "Choose {{count}} photo…",
+    "choose_other": "Choose {{count}} photos…",
+    "shape": "Shape",
+    "size_square": "Square",
+    "size_portrait": "Portrait",
+    "size_story": "Story",
+    "size_wide": "Wide",
+    "gap": "Space between photos",
+    "radius": "Rounded corners",
+    "background": "Background colour",
+    "hint": "Every photo becomes its own layer: move it, add a filter or replace it after the collage is made.",
+    "building": "Making the collage…",
+    "tooMany_one": "{{count}} photo did not fit in this layout.",
+    "tooMany_other": "{{count}} photos did not fit in this layout.",
+    "fewer": "Empty spaces are grey: delete them, or add a photo with Layer → Add image as layer."
   }
 }

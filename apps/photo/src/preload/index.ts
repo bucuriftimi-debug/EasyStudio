@@ -26,6 +26,9 @@ const api = {
     clear: () => ipcRenderer.invoke('recent:clear'),
     read: (path: string) => ipcRenderer.invoke('file:read', path)
   },
+  /** Several pictures (paths; read each with recent.read), and a folder to save into. */
+  pickImages: (): Promise<string[]> => ipcRenderer.invoke('file:pick-images'),
+  pickFolder: (): Promise<string | null> => ipcRenderer.invoke('file:pick-folder'),
   /** A file handed over by Windows (double-click on a .esp, "Open with…"). */
   pendingOpen: () => ipcRenderer.invoke('app:pending-open'),
   onPendingOpen: (cb: () => void) => {

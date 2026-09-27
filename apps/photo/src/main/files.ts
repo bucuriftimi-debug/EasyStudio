@@ -1,4 +1,4 @@
-import { ipcMain, type BrowserWindow } from 'electron'
+import { BrowserWindow, dialog, ipcMain } from 'electron'
 import { existsSync, rmSync, statSync } from 'node:fs'
 import { mkdir, readFile, rename, writeFile } from 'node:fs/promises'
 import { basename, extname, isAbsolute, join, normalize } from 'node:path'
@@ -111,6 +111,28 @@ export async function registerFiles(dataDir: string, startSession: boolean): Pro
   })
 
   ipcMain.handle('file:read', (_e, path: string) => readAllowed(String(path)))
+
+  /* ---------------- several pictures at once (collage, batch editing) ---------------- */
+
+  // Pictures picked here may then be read one by one with file:read.
+  ipcMain.handle('file:pick-images', async (e) => {
+    const win = BrowserWindow.fromWebContents(e.sender)
+    const opts: Electron.OpenDialogOptions = {
+      properties: ['openFile', 'multiSelections'],
+      filters: [{ name: tr('images'), extensions: OPENABLE.filter((x) => x !== 'esp' && x !== 'psd') }]
+    }
+    const r = win ? await dialog.showOpenDialog(win, opts) : await dialog.showOpenDialog(opts)
+    if (r.canceled) return []
+    for (const p of r.filePaths) allowed.add(key(p))
+    return r.filePaths
+  })
+
+  ipcMain.handle('file:pick-folder', async (e) => {
+    const win = BrowserWindow.fromWebContents(e.sender)
+    const opts: Electron.OpenDialogOptions = { properties: ['openDirectory', 'createDirectory'] }
+    const r = win ? await dialog.showOpenDialog(win, opts) : await dialog.showOpenDialog(opts)
+    return r.canceled ? null : (r.filePaths[0] ?? null)
+  })
 
   ipcMain.handle('app:pending-open', async () => {
     const p = pending

@@ -58,7 +58,8 @@
     "compare": "Înainte / După",
     "about": "Despre EasyStudio Photo",
     "shortcuts": "Scurtături de tastatură",
-    "tips": "Arată sfaturile"
+    "tips": "Arată sfaturile",
+    "collage": "Colaj nou…"
   },
   "ai": {
     "menu": "AI",
@@ -459,7 +460,8 @@
     "removeObject": "Ștergere obiect",
     "upscale": "Mărire {{k}}×",
     "empty": "Editările tale apar aici. Dă click pe orice pas ca să te întorci la el.",
-    "template": "Șablon"
+    "template": "Șablon",
+    "collage": "Colaj"
   },
   "status": {
     "size": "{{w}} × {{h}} px",
@@ -481,7 +483,9 @@
     "removeBg": "Scoate fundalul",
     "removeBgDesc": "Deschide o poză și decupează subiectul cu AI",
     "sizes": "Dimensiuni pentru început rapid",
-    "gpu": "Placa video: {{name}}"
+    "gpu": "Placa video: {{name}}",
+    "collage": "Colaj de poze",
+    "collageDesc": "Pune mai multe poze într-o singură imagine"
   },
   "preset": {
     "igPost": "Postare Instagram",
@@ -752,13 +756,40 @@
     "templates": "Toate șabloanele",
     "psd": "Deschide fișiere Photoshop (PSD)",
     "clone": "Ștampila de clonare",
-    "future": "Toate funcțiile Pro noi din actualizări"
+    "future": "Toate funcțiile Pro noi din actualizări",
+    "collage": "Colaje cu 5, 6 sau 9 poze"
   },
   "proFeature": {
     "export": "Export mai mare de {{px}} px",
     "webp": "Export WebP",
     "template": "Toate șabloanele",
     "psd": "Deschiderea fișierelor Photoshop",
-    "ai": "Uneltele AI"
+    "ai": "Uneltele AI",
+    "collage": "Colajele cu mai mult de 4 poze"
+  },
+  "collage": {
+    "title": "Colaj de poze",
+    "name": "Colaj",
+    "photo": "Poza",
+    "photos_one": "{{count}} poză",
+    "photos_few": "{{count}} poze",
+    "photos_other": "{{count}} de poze",
+    "choose_one": "Alege {{count}} poză…",
+    "choose_few": "Alege {{count}} poze…",
+    "choose_other": "Alege {{count}} de poze…",
+    "shape": "Formă",
+    "size_square": "Pătrat",
+    "size_portrait": "Portret",
+    "size_story": "Story",
+    "size_wide": "Lat",
+    "gap": "Spațiu între poze",
+    "radius": "Colțuri rotunjite",
+    "background": "Culoarea fundalului",
+    "hint": "Fiecare poză devine un strat separat: după ce se face colajul o poți muta, îi poți pune un filtru sau o poți înlocui.",
+    "building": "Se face colajul…",
+    "tooMany_one": "{{count}} poză nu a încăput în acest aranjament.",
+    "tooMany_few": "{{count}} poze nu au încăput în acest aranjament.",
+    "tooMany_other": "{{count}} de poze nu au încăput în acest aranjament.",
+    "fewer": "Locurile goale sunt gri: șterge-le sau adaugă o poză cu Strat → Adaugă o imagine ca strat."
   }
 }

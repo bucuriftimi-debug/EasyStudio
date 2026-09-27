@@ -1014,7 +1014,7 @@
 }
 .welcome-cards {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 14px;
 }
 .welcome-card.ai svg {
@@ -1744,4 +1744,48 @@ body.dropping::after {
 }
 .template-cats {
   margin: -4px 0 12px;
+}
+
+/* Collage */
+.collage-form {
+  display: grid;
+  gap: 14px;
+}
+.collage-layouts {
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  gap: 6px;
+}
+.collage-layout {
+  position: relative;
+  height: 58px;
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--line-strong);
+  background: var(--bg-2);
+  cursor: pointer;
+}
+.collage-layout:hover {
+  border-color: var(--text-3);
+}
+.collage-layout.on {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+.collage-icon rect {
+  fill: var(--text-3);
+}
+.collage-layout.on .collage-icon rect {
+  fill: var(--accent-hover);
+}
+.collage-pro {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+}
+.collage-bg {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }

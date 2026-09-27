@@ -68,10 +68,39 @@ interface ElectronBridge {
     ollamaModels(): Promise<string[]>
   }
   license: LicenseApi
+  pickImages(): Promise<string[]>
+  pickFolder(): Promise<string | null>
 }
 
 /** Desktop-only services (recent files, crash recovery, files from Windows); null in a browser. */
 export const desktop = (): Pick<ElectronBridge, 'recent' | 'pendingOpen' | 'onPendingOpen' | 'autosave' | 'setLang'> | null => bridge ?? null
+
+/** A picture chosen together with others (collage, batch editing); read when needed. */
+export interface PickedFile {
+  name: string
+  path: string | null
+  read(): Promise<Uint8Array>
+}
+
+/** Let the user pick several pictures at once. */
+export async function pickImages(): Promise<PickedFile[]> {
+  if (bridge) {
+    const paths = await bridge.pickImages()
+    return paths.map((p) => ({ name: p.split(/[\\/]/).pop() ?? p, path: p, read: async () => (await bridge.recent.read(p)).data }))
+  }
+  return new Promise((resolve) => {
+    const input = document.createElement('input')
+    input.type = 'file'
+    input.multiple = true
+    input.accept = 'image/*'
+    input.onchange = () => resolve([...(input.files ?? [])].map((f) => ({ name: f.name, path: null, read: async () => new Uint8Array(await f.arrayBuffer()) })))
+    input.oncancel = () => resolve([])
+    input.click()
+  })
+}
+
+/** A folder to save many files into (desktop app only). */
+export const pickFolder = (): Promise<string | null> => bridge?.pickFolder() ?? Promise.resolve(null)
 
 /** Free / Pro through the Microsoft Store (desktop app only). */
 export const licenseApi = (): LicenseApi | undefined => bridge?.license
