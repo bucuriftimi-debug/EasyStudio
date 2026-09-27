@@ -1,6 +1,6 @@
 # Terms of use — EasyStudio Photo and EasyStudio Video
 
-*Last updated: 24 September 2026*
+*Last updated: 27 September 2026*
 
 These terms apply when you install or use EasyStudio Photo or EasyStudio Video (the "apps"), made by EasyStudio Apps (the "author"). By using the apps you agree to them. If you do not agree, do not use the apps.
 
@@ -12,6 +12,7 @@ You get a personal, non-exclusive, non-transferable license to install and use t
 
 The apps are free to use with the limits described in the app and on its Store page. **Pro** is an optional in-app purchase that removes those limits.
 
+- You can try Pro free for **7 days**, once per app and computer. When the trial ends, the app goes back to the free version; your projects and files stay yours and open normally.
 - Pro is sold and delivered by the **Microsoft Store**. Payment, receipts, taxes and refunds follow the Microsoft Store's terms and refund policy.
 - Pro is linked to your **Microsoft account**. It works on the Windows PCs where you use the same account in the Microsoft Store, within the Store's device limits.
 - Pro includes the Pro features of the current version and new Pro features added in future updates for as long as the author publishes updates. Features may change, but a feature you paid for will not be moved to a new paid product.

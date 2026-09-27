@@ -26,8 +26,10 @@ EasyStudio Photo and EasyStudio Video are coming to the **Microsoft Store** for 
 
 | | Free | Pro |
 |---|---|---|
-| **Photo** | All editing tools, layers, text, filters, 3 templates, 3 AI tries a day, export up to 1920 px (JPG / PNG) | Unlimited AI, full-resolution and WebP export, all templates, PSD import, clone stamp |
-| **Video** | Timeline, titles, music, transitions, filters; 720p export, 1080p with a small "Made with EasyStudio" mark, up to 30 fps | 1440p and 4K, 50 / 60 fps, no mark, high quality, WebM |
+| **Photo** | All editing tools, layers, text, filters, 3 templates, collages of up to 4 photos, 3 AI tries a day, batch editing of 3 photos, export up to 1920 px (JPG / PNG) | Unlimited AI (background, objects, enlarge, portrait retouch), all 26 templates, collages of up to 9 photos, batch editing of any number of photos, full-resolution and WebP export, PSD import, clone stamp |
+| **Video** | Timeline, titles, music, transitions, filters, text animations; subtitles for the first minute; one AI cut-out and one pause cut a day; 720p export, 1080p with a small "Made with EasyStudio" mark, up to 30 fps | Subtitles for the whole video, unlimited AI cut-outs and pause cuts, keyframes, 1440p and 4K, 50 / 60 fps, no mark, high quality, WebM |
+
+Every Pro feature can be tried free for 7 days.
 
 The apps collect no personal data. See the [privacy policy](PRIVACY.md) and the [terms of use](TERMS.md).
 
@@ -61,7 +63,8 @@ The apps collect no personal data. See the [privacy policy](PRIVACY.md) and the 
 - **Files:**
   - Photoshop (PSD) import with layers, masks and blend modes;
   - `.esp` projects, recent files, autosave with crash recovery;
-  - 6 ready-made templates;
+  - 26 ready-made templates (social media, YouTube, business, cards and events);
+  - photo collages and batch editing of whole folders;
   - export to JPG / PNG / WebP with a file-size estimate.
 
 ## EasyStudio Video
@@ -77,7 +80,12 @@ The apps collect no personal data. See the [privacy policy](PRIVACY.md) and the 
   - speed 0.25×–4×, volume, fades;
   - the photo app's colour filters;
   - transitions: dissolve, through black, slide, zoom.
-- **Titles** with the same fonts and styles as the photo editor.
+- **Titles** with the same fonts and styles as the photo editor, with enter / leave animations.
+- **AI, on your computer:**
+  - automatic subtitles (OpenAI Whisper, English, Romanian and more);
+  - remove the background of a video, no green screen needed (IS-Net);
+  - cut out pauses in one click.
+- **Keyframes:** move, zoom, turn and fade anything over time.
 - **Frame shapes:** 16:9, 9:16, 1:1, 4:5.
 - **Hardware-accelerated.** Decoding and encoding go through WebCodecs on the GPU:
   - playback on a GTX 1650: 1080p 60 fps shows every frame, 4K 30 fps drops only a few frames while the decoder starts;

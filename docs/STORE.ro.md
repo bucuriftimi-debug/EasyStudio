@@ -69,8 +69,10 @@ Ca să primești banii: **Account settings → Payout and tax profiles**. Acolo 
 
 | | Gratuit | Pro |
 |---|---|---|
-| Foto | toate uneltele de editare, 3 șabloane, AI de 3 ori pe zi, export până la 1920 px (JPG/PNG) | AI nelimitat, export la rezoluție completă și WebP, toate șabloanele, import PSD, ștampila de clonare |
-| Video | tot editorul, export 720p curat, 1080p cu semnul „Made with EasyStudio”, până la 30 fps | 1440p și 4K, 50/60 fps, fără semn, calitate mare, WebM |
+| Foto | toate uneltele de editare, 3 șabloane, colaje de până la 4 poze, AI de 3 ori pe zi, editare în lot de 3 poze, export până la 1920 px (JPG/PNG) | AI nelimitat (fundal, obiecte, mărire, retușare), toate cele 26 de șabloane, colaje de până la 9 poze, editare în lot nelimitată, export la rezoluție completă și WebP, import PSD, ștampila de clonare |
+| Video | tot editorul, animații de text, subtitrări pentru primul minut, o scoatere de fundal și o tăiere de pauze pe zi, export 720p curat, 1080p cu semnul „Made with EasyStudio”, până la 30 fps | subtitrări pentru tot videoclipul, scoatere de fundal și tăiere de pauze nelimitate, keyframes, 1440p și 4K, 50/60 fps, fără semn, calitate mare, WebM |
+
+Toate funcțiile Pro se pot încerca gratuit 7 zile (o dată pe aplicație și calculator).
 
 Ca să folosești tu Pro fără să-l cumperi, generează-ți un **cod promoțional** gratuit: Partner Center → add-on-ul → **Promo codes**.
 

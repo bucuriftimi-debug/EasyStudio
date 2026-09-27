@@ -69,7 +69,10 @@ res.titleTracks = proj().tracks.map((t) => t.kind).join(',')
 res.titleLayer = !!scene().layers.find((l) => l.id === 'L:' + tid)
 const tc = px(960, 540)
 res.titlePixel = tc
-res.titleIsRed = tc[0] > 180 && tc[1] < 90 && tc[2] < 90
+// The middle of "HELLO" can fall between two letters: count red pixels around it instead.
+let red = 0
+for (let y = 470; y < 610; y += 4) for (let x = 700; x < 1220; x += 4) { const p = px(x, y); if (p[0] > 180 && p[1] < 90 && p[2] < 90) red++ }
+res.titleIsRed = red > 300
 
 // 5) Smaller clip: half size → the corner shows the black background
 E.updateClip(a.id, 'size', { transform: { cx: 960, cy: 540, sx: 0.75, sy: 0.75, rot: 0 } })

@@ -265,3 +265,18 @@ Teste (după `node_modules\electron\dist\electron.exe apps\video --selftest --se
 |---|---|
 | Reguli foto | `...electron.exe appsphoto --selftest --license free --selftest-script toolsselftest-pro-photo.js` (și cu `pro`) |
 | Reguli video + semnul pe export | `...electron.exe appsideo --selftest --selftest-visible --license free --selftest-script toolsselftest-pro-video.js` (și cu `pro`) |
+
+## Versiunea 1.2
+
+| Ce | Test (`...electron.exe apps\<app> --selftest ... --selftest-script <fișier>`) |
+|---|---|
+| Colaj | `tools\selftest-collage.js` (foto, `--license free`) |
+| Retușare portret, albire | `tools\selftest-retouch.js` (foto, `--license pro --selftest-image .cache\testimg\photo.png`) |
+| Editare în lot | `tools\selftest-batch.js` (foto) |
+| Probă Pro, cerere de recenzie | `tools\selftest-engage.js` (foto, `--license free`) |
+| Subtitrări automate | `tools\selftest-subtitles.js` (video, `--selftest-visible`; înlocuiește `MODEL_LANG` și `MODEL`; fișierul de vorbire: `tools\make-speech-test.ps1`) |
+| Tăierea pauzelor | `tools\selftest-pauses.js` (video, `--selftest-visible --license pro`) |
+| Keyframes, animații | `tools\selftest-keyframes.js` (video, `--selftest-visible --license pro`) |
+| Scoaterea fundalului din video | `tools\selftest-bgvideo.js` (video, `--selftest-visible --license pro`) |
+
+Modelele AI ale aplicației video (Whisper, IS-Net) se descarcă prin `app://video/hf/…` în `.data\video\hf` (vezi `apps\video\src\main\models.ts`); măștile video stau în `.data\video\masks`.
