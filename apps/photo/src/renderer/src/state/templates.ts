@@ -3,7 +3,11 @@ import { addBitmap } from './bitmaps'
 import * as ops from './docOps'
 import { DEFAULT_SHAPE, DEFAULT_TEXT, fontString, measureText, renderLayerCanvas } from './gen'
 import { STYLE_PRESETS } from './textStyles'
-import type { Layer, PhotoDoc, ShapeStyle, TextStyle } from './types'
+import { gradient, type Template, type TextItem } from './templateKit'
+import { MORE_TEMPLATES } from './templatesMore'
+import type { Layer, PhotoDoc, TextStyle } from './types'
+
+export type { Template, TemplateCategory } from './templateKit'
 
 /**
  * Ready-made designs for the start screen. They are built from normal layers (a picture for
@@ -12,52 +16,10 @@ import type { Layer, PhotoDoc, ShapeStyle, TextStyle } from './types'
 
 const t = (k: string) => i18next.t(k) as string
 
-type Paint = (ctx: OffscreenCanvasRenderingContext2D, w: number, h: number) => void
-
-interface TextItem {
-  kind: 'text'
-  /** i18n key of the text */
-  text: string
-  size: number
-  preset?: string
-  style?: Partial<TextStyle>
-  cx: number
-  cy: number
-  rot?: number
-}
-
-interface ShapeItem {
-  kind: 'shape'
-  name: string
-  shape: Partial<ShapeStyle>
-  x: number
-  y: number
-  w: number
-  h: number
-  rot?: number
-  opacity?: number
-}
-
-export interface Template {
-  id: string
-  w: number
-  h: number
-  background: Paint
-  items: (TextItem | ShapeItem)[]
-}
-
-const gradient =
-  (angle: 'down' | 'diag', ...stops: string[]): Paint =>
-  (ctx, w, h) => {
-    const g = angle === 'down' ? ctx.createLinearGradient(0, 0, 0, h) : ctx.createLinearGradient(0, 0, w, h)
-    stops.forEach((c, i) => g.addColorStop(i / (stops.length - 1), c))
-    ctx.fillStyle = g
-    ctx.fillRect(0, 0, w, h)
-  }
-
 export const TEMPLATES: Template[] = [
   {
     id: 'quote',
+    category: 'social',
     w: 1080,
     h: 1080,
     background: gradient('diag', '#ffecd2', '#fcb69f'),
@@ -70,6 +32,7 @@ export const TEMPLATES: Template[] = [
   },
   {
     id: 'youtube',
+    category: 'video',
     w: 1280,
     h: 720,
     background: (ctx, w, h) => {
@@ -89,6 +52,7 @@ export const TEMPLATES: Template[] = [
   },
   {
     id: 'story',
+    category: 'social',
     w: 1080,
     h: 1920,
     background: gradient('down', '#43cea2', '#185a9d'),
@@ -101,6 +65,7 @@ export const TEMPLATES: Template[] = [
   },
   {
     id: 'sale',
+    category: 'business',
     w: 1080,
     h: 1080,
     background: (ctx, w, h) => {
@@ -124,6 +89,7 @@ export const TEMPLATES: Template[] = [
   },
   {
     id: 'birthday',
+    category: 'cards',
     w: 1500,
     h: 1050,
     background: gradient('diag', '#fdfbfb', '#fde2f3', '#e0f2fe'),
@@ -145,6 +111,7 @@ export const TEMPLATES: Template[] = [
   },
   {
     id: 'event',
+    category: 'cards',
     w: 1240,
     h: 1754,
     background: (ctx, w, h) => {
@@ -163,7 +130,8 @@ export const TEMPLATES: Template[] = [
       { kind: 'text', text: 'tpl.eventSub', size: 56, preset: 'styleSubtitle', cx: 620, cy: 980 },
       { kind: 'text', text: 'tpl.eventWhen', size: 60, preset: 'styleLabel', style: { bgColor: '#ff2fd0' }, cx: 620, cy: 1300 }
     ]
-  }
+  },
+  ...MORE_TEMPLATES
 ]
 
 function textStyle(item: TextItem, size = item.size): TextStyle {
@@ -180,7 +148,7 @@ function designLayers(tpl: Template): Layer[] {
       let style = textStyle(it)
       let box = measureText(style)
       // Translations can be longer than the English text: shrink to fit the page.
-      const maxW = tpl.w * 0.9
+      const maxW = it.maxW ?? tpl.w * 0.9
       if (box.w > maxW) {
         style = textStyle(it, Math.floor((it.size * maxW) / box.w))
         box = measureText(style)

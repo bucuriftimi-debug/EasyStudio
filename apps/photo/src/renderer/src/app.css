@@ -1742,3 +1742,6 @@ body.dropping::after {
   top: 6px;
   right: 6px;
 }
+.template-cats {
+  margin: -4px 0 12px;
+}

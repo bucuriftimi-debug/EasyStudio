@@ -7,7 +7,7 @@ import * as A from '../state/actions'
 import * as AI from '../state/ai'
 import * as F from '../state/files'
 import { getDoc, useEditor } from '../state/store'
-import { TEMPLATES, templatePreview } from '../state/templates'
+import { TEMPLATES, templatePreview, type TemplateCategory } from '../state/templates'
 import { ProBadge, useLicense } from '@easystudio/license'
 import { templateLocked } from '../state/pro'
 import { LanguageSwitch } from './LanguageSwitch'
@@ -129,6 +129,7 @@ function TemplateGrid() {
   const { t, i18n } = useTranslation()
   useLicense((s) => s.status.pro)
   const [previews, setPreviews] = useState<Record<string, string>>({})
+  const [cat, setCat] = useState<TemplateCategory | 'all'>('all')
   useEffect(() => {
     let alive = true
     const urls: string[] = []
@@ -146,19 +147,30 @@ function TemplateGrid() {
     }
   }, [i18n.language])
   return (
-    <div className="template-grid">
-      {TEMPLATES.map((tpl, i) => (
-        <button key={tpl.id} type="button" className="template" onClick={() => void A.openTemplate(tpl)}>
-          <span className="template-thumb">
-            {previews[tpl.id] && <img src={previews[tpl.id]} alt="" />}
-            {templateLocked(i) && <ProBadge className="template-pro" />}
-          </span>
-          <strong>{t(`tpl.${tpl.id}`)}</strong>
-          <small>
-            {tpl.w} × {tpl.h}
-          </small>
-        </button>
-      ))}
-    </div>
+    <>
+      <div className="chips template-cats">
+        {(['all', 'social', 'video', 'business', 'cards'] as const).map((c) => (
+          <button key={c} type="button" className={`chip${cat === c ? ' on' : ''}`} onClick={() => setCat(c)}>
+            {t(`tpl.cat${c[0].toUpperCase()}${c.slice(1)}`)}
+          </button>
+        ))}
+      </div>
+      <div className="template-grid">
+        {TEMPLATES.map((tpl, i) =>
+          cat !== 'all' && tpl.category !== cat ? null : (
+            <button key={tpl.id} type="button" className="template" onClick={() => void A.openTemplate(tpl)}>
+              <span className="template-thumb">
+                {previews[tpl.id] && <img src={previews[tpl.id]} alt="" />}
+                {templateLocked(i) && <ProBadge className="template-pro" />}
+              </span>
+              <strong>{t(`tpl.${tpl.id}`)}</strong>
+              <small>
+                {tpl.w} × {tpl.h}
+              </small>
+            </button>
+          )
+        )}
+      </div>
+    </>
   )
 }
