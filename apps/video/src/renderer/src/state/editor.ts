@@ -5,7 +5,9 @@ import { toEffectParams } from '@easystudio/gpu'
 import { fontEpoch, measureText, renderText, type TextStyle } from '@easystudio/draw'
 import { engine, fitTransform, type CompClip, type CompTitle, type Composition } from '../engine/engine'
 import type { MediaInfo } from '../media/media'
+import * as M from './motion'
 import * as P from './project'
+import { requirePro } from './pro'
 import { toast, useVideo } from './store'
 
 /**
@@ -166,6 +168,8 @@ export function compose(p: P.Project, titleScale = 1): Composition {
         z,
         transform: shows ? (c.transform ?? defaultTransform(c, p)) : null,
         opacity: c.opacity,
+        keys: c.keys ?? [],
+        anim: c.anim ?? null,
         blend: 'normal',
         effects: toEffectParams(c.adjust, c.look?.id, c.look?.amount ?? 100),
         volume: track.muted || !hasAudio ? 0 : c.volume,
@@ -325,9 +329,69 @@ export function addTitle(style: TextStyle): string {
 
 /** Change fields of one clip, as one undo step (or live inside a gesture). */
 export function updateClipLive(id: string, patch: Partial<P.Clip>): void {
-  live((p) => P.updateClip(p, id, patch))
+  live((p) => P.updateClip(p, id, routeMotion(p, id, patch)))
 }
 
 export function updateClip(id: string, label: string, patch: Partial<P.Clip>): void {
-  commit(label, (p) => P.updateClip(p, id, patch))
+  commit(label, (p) => P.updateClip(p, id, routeMotion(p, id, patch)))
+}
+
+/* ------------------------------ keyframes ------------------------------ */
+
+/** Place and opacity of a clip at timeline time t (keyframes included, animations not). */
+export function clipMotion(c: P.Clip, p: P.Project, t: number): M.Motion {
+  return M.motionAt(c.transform ?? defaultTransform(c, p), c.opacity, c.keys, t - c.start)
+}
+
+/** Seconds into the clip at the playhead, on a frame. */
+function localNow(c: P.Clip, p: P.Project): number {
+  const t = Math.max(0, Math.min(P.clipDur(c), engine.time - c.start))
+  return Math.round(t * p.fps) / p.fps
+}
+
+/**
+ * With keyframes, changing the place or the opacity changes the keyframe at the playhead (and
+ * adds one there if needed), like in every video editor.
+ */
+function routeMotion(p: P.Project, id: string, patch: Partial<P.Clip>): Partial<P.Clip> {
+  if (!('transform' in patch) && !('opacity' in patch)) return patch
+  const f = P.findClip(p, id)
+  if (!f?.clip.keys?.length) return patch
+  const c = f.clip
+  const now = clipMotion(c, p, engine.time)
+  const { transform, opacity, ...rest } = patch
+  const tr = transform === undefined ? now.tr : (transform ?? defaultTransform(c, p))
+  return { ...rest, keys: M.upsertKey(c.keys, localNow(c, p), tr, opacity ?? now.opacity) }
+}
+
+/** Remember the clip's place at the playhead as a keyframe (Pro). */
+export function addKeyframe(id: string): void {
+  if (!requirePro(t('proFeature.keyframes'))) return
+  commit(t('hist.keyframe'), (p) => {
+    const f = P.findClip(p, id)
+    if (!f) return p
+    const now = clipMotion(f.clip, p, engine.time)
+    return P.updateClip(p, id, { keys: M.upsertKey(f.clip.keys, localNow(f.clip, p), now.tr, now.opacity) })
+  })
+}
+
+/** Remove the keyframe at the playhead; without keyframes the clip stays where it was. */
+export function removeKeyframe(id: string): void {
+  commit(t('hist.keyframeRemove'), (p) => {
+    const f = P.findClip(p, id)
+    if (!f) return p
+    const now = clipMotion(f.clip, p, engine.time)
+    const keys = M.removeKeyAt(f.clip.keys, localNow(f.clip, p))
+    return P.updateClip(p, id, keys.length ? { keys } : { keys: [], transform: now.tr, opacity: now.opacity })
+  })
+}
+
+/** Jump the playhead to the previous (-1) or next (+1) keyframe of a clip. */
+export function jumpToKeyframe(id: string, dir: -1 | 1): void {
+  const p = getProject()
+  const f = P.findClip(p, id)
+  if (!f?.clip.keys?.length) return
+  const local = engine.time - f.clip.start
+  const keys = dir > 0 ? f.clip.keys.filter((k) => k.t > local + M.KEY_SNAP) : f.clip.keys.filter((k) => k.t < local - M.KEY_SNAP).reverse()
+  if (keys[0]) engine.seek(f.clip.start + keys[0].t)
 }

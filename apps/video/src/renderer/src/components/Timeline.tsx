@@ -469,6 +469,7 @@ function ClipView({ clip, track, media, pps, height, selected, view, onPointerDo
         {name}
         {clip.speed !== 1 && <b> {clip.speed}×</b>}
       </span>
+      {clip.keys?.map((k) => <i key={k.t} className="tl-kf" style={{ left: (k.t / P.clipDur(clip)) * width }} />)}
       <i className="tl-edge l" />
       <i className="tl-edge r" />
     </div>

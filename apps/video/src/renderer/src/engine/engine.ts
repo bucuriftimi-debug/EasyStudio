@@ -3,6 +3,7 @@ import { NEUTRAL_EFFECTS, Renderer, type BlendMode, type EffectParams, type Rend
 import { mediaHandles, type MediaInfo } from '../media/media'
 import { audioContext, ClipAudio, type AudioPart } from './audio'
 import { VideoReader } from './videoReader'
+import { animate, motionAt, type ClipAnim, type Keyframe } from '../state/motion'
 
 /**
  * The playback engine. It knows nothing about the UI: it gets a `Composition` (what plays
@@ -45,6 +46,9 @@ export interface CompClip {
   /** Box = media display size, placed in frame pixels. Null for sound-only clips. */
   transform: LayerTransform | null
   opacity: number
+  /** Movement over time (timeline seconds from the clip start). */
+  keys: Keyframe[]
+  anim: ClipAnim | null
   blend: BlendMode
   effects: EffectParams
   /** Sound: 0 = muted. */
@@ -80,10 +84,12 @@ const sourceTime = (c: CompClip, t: number) => c.in + (t - c.start) * c.speed
 const clamp01 = (v: number) => Math.max(0, Math.min(1, v))
 const smooth = (v: number) => v * v * (3 - 2 * v)
 
-/** Opacity and placement of a clip at time t, including its transitions. */
-function withTransitions(c: CompClip, t: number, W: number): { opacity: number; tr: LayerTransform } {
-  let opacity = c.opacity
-  let tr = c.transform!
+/** Opacity and placement of a clip at time t: keyframes, animation, then transitions. */
+function withTransitions(c: CompClip, t: number, W: number, H: number): { opacity: number; tr: LayerTransform } {
+  const local = t - c.start
+  const m = animate(motionAt(c.transform!, c.opacity, c.keys, local), c.anim, local, c.dur, W, H)
+  let opacity = m.opacity
+  let tr = m.tr
   if (c.transIn && c.transIn.dur > 0) {
     const p = smooth(clamp01((t - c.start) / c.transIn.dur))
     if (c.transIn.kind === 'dissolve') opacity *= p
@@ -134,7 +140,7 @@ function backgroundLayer(comp: Composition): RenderLayer {
  * carry a rotation, which is added to the clip's own rotation here.
  */
 function clipLayer(comp: Composition, c: CompClip, sourceId: string, texW: number, texH: number, t: number): RenderLayer {
-  const { opacity, tr } = withTransitions(c, t, comp.width)
+  const { opacity, tr } = withTransitions(c, t, comp.width, comp.height)
   const rot = c.media?.kind === 'video' ? c.media.rotation : 0
   return {
     id: `L:${c.id}`,

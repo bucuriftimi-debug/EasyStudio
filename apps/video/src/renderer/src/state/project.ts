@@ -1,6 +1,7 @@
 import type { LayerTransform } from '@easystudio/core'
 import type { AdjustValues } from '@easystudio/gpu'
 import type { TextStyle } from '@easystudio/draw'
+import type { ClipAnim, Keyframe } from './motion'
 
 /**
  * The video project: pure data + pure functions (easy to undo and to test).
@@ -50,6 +51,10 @@ export interface Clip {
   transition: Transition | null
   /** Titles: the text and its look (these clips have no media file: `mediaId` is ''). */
   text?: TextStyle
+  /** Place / size / opacity at chosen moments (see state/motion.ts). Empty = `transform`. */
+  keys?: Keyframe[]
+  /** Ready-made entering / leaving movement. */
+  anim?: ClipAnim | null
 }
 
 export interface Track {
@@ -136,7 +141,7 @@ export function withTrack(p: Project, trackId: string, fn: (t: Track) => Track):
   return { ...p, tracks: p.tracks.map((t) => (t.id === trackId ? normalizeTrack(fn(t)) : t)) }
 }
 
-const CLIP_DEFAULTS = { speed: 1, volume: 1, fadeIn: 0, fadeOut: 0, transform: null, opacity: 1, adjust: {}, look: null, transition: null }
+const CLIP_DEFAULTS = { speed: 1, volume: 1, fadeIn: 0, fadeOut: 0, transform: null, opacity: 1, adjust: {}, look: null, transition: null, anim: null }
 
 export function makeClip(mediaId: string, facts: MediaFacts, start = 0): Clip {
   const len = facts.kind === 'image' ? IMAGE_SECONDS : facts.duration

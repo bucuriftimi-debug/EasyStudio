@@ -35,6 +35,6 @@ export const formatLocked = (f: string): boolean => !isPro() && f === 'webm'
 /** Free exports above 720p carry the watermark. */
 export const needsWatermark = (s: { width: number; height: number }): boolean => !isPro() && shortSide(s) > FREE_CLEAN_SHORT_SIDE
 
-export const proBenefits = (): string[] => ['subtitles', 'pauses', 'size', 'watermark', 'fps', 'quality', 'webm', 'future'].map((k) => t(`proBenefits.${k}`))
+export const proBenefits = (): string[] => ['subtitles', 'pauses', 'keyframes', 'size', 'watermark', 'fps', 'quality', 'webm', 'future'].map((k) => t(`proBenefits.${k}`))
 
 export { isPro, requirePro }

@@ -4,6 +4,7 @@ import { NEUTRAL_EFFECTS, Renderer, type RenderLayer } from '@easystudio/gpu'
 import { mediaHandles } from '../media/media'
 import { activeAt, buildScene, ensureBackground, sourceTime, type Composition } from './engine'
 import { VideoReader } from './videoReader'
+import { scaleKeys } from '../state/motion'
 
 /**
  * Export: the same compositor as the preview draws every frame at the final size on an
@@ -103,7 +104,9 @@ export function scaleComposition(comp: Composition, width: number, height: numbe
     ...comp,
     width,
     height,
-    clips: comp.clips.map((c) => (c.transform ? { ...c, transform: { ...c.transform, cx: c.transform.cx * k + dx, cy: c.transform.cy * k + dy, sx: c.transform.sx * k, sy: c.transform.sy * k } } : c))
+    clips: comp.clips.map((c) =>
+      c.transform ? { ...c, transform: { ...c.transform, cx: c.transform.cx * k + dx, cy: c.transform.cy * k + dy, sx: c.transform.sx * k, sy: c.transform.sy * k }, keys: scaleKeys(c.keys, k, dx, dy) } : c
+    )
   }
 }
 

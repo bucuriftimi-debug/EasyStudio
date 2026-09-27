@@ -91,7 +91,27 @@
     "trHint": "The two clips overlap during the transition, so the video gets a little shorter.",
     "color_sec": "Colour and filters",
     "lookAmount": "Filter strength",
-    "resetColor": "Reset colours"
+    "resetColor": "Reset colours",
+    "keyframes": "Keyframes",
+    "kfAdd": "Add keyframe",
+    "kfRemove": "Remove keyframe",
+    "kfPrev": "Previous keyframe",
+    "kfNext": "Next keyframe",
+    "kfHint": "Move the playhead, add a keyframe, then move or resize the clip at another moment: it glides between them.",
+    "kfCount_one": "{{count}} keyframe. Changes at the playhead edit (or add) a keyframe.",
+    "kfCount_other": "{{count}} keyframes. Changes at the playhead edit (or add) a keyframe.",
+    "animation": "Animation",
+    "anim_in": "Enter",
+    "anim_out": "Leave",
+    "anim_none": "None",
+    "anim_fade": "Fade",
+    "anim_rise": "Rise",
+    "anim_drop": "Drop",
+    "anim_left": "Slide left",
+    "anim_right": "Slide right",
+    "anim_zoom": "Zoom",
+    "anim_pop": "Pop",
+    "anim_dur": "Animation length"
   },
   "tl": {
     "undo": "Undo (Ctrl+Z)",
@@ -141,7 +161,10 @@
     "adjust": "Colour",
     "moveInFrame": "Move in frame",
     "subtitles": "Automatic subtitles",
-    "pauses": "Cut out pauses"
+    "pauses": "Cut out pauses",
+    "keyframe": "Add keyframe",
+    "keyframeRemove": "Remove keyframe",
+    "anim": "Animation"
   },
   "file": {
     "new": "New",
@@ -278,14 +301,16 @@
     "webm": "WebM export",
     "future": "Every new Pro feature in future updates",
     "subtitles": "Automatic subtitles for the whole video",
-    "pauses": "Cut out pauses in every clip, as often as you like"
+    "pauses": "Cut out pauses in every clip, as often as you like",
+    "keyframes": "Keyframes: move, zoom and turn anything over time"
   },
   "proFeature": {
     "size": "Export in 1440p and 4K",
     "fps": "Export at 50 / 60 fps",
     "quality": "High quality export",
     "webm": "WebM export",
-    "subtitles": "Subtitles for the whole video"
+    "subtitles": "Subtitles for the whole video",
+    "keyframes": "Keyframes"
   },
   "subs": {
     "cta": "Automatic subtitles",

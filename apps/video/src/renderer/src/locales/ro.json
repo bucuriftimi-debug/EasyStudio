@@ -91,7 +91,28 @@
     "trHint": "Cele două clipuri se suprapun în timpul tranziției, deci filmul devine puțin mai scurt.",
     "color_sec": "Culoare și filtre",
     "lookAmount": "Intensitatea filtrului",
-    "resetColor": "Resetează culorile"
+    "resetColor": "Resetează culorile",
+    "keyframes": "Keyframes",
+    "kfAdd": "Adaugă keyframe",
+    "kfRemove": "Șterge keyframe",
+    "kfPrev": "Keyframe-ul anterior",
+    "kfNext": "Keyframe-ul următor",
+    "kfHint": "Mută cursorul, adaugă un keyframe, apoi mută sau mărește clipul în alt moment: va aluneca lin între ele.",
+    "kfCount_one": "{{count}} keyframe. Ce schimbi la cursor modifică (sau adaugă) un keyframe.",
+    "kfCount_few": "{{count}} keyframe-uri. Ce schimbi la cursor modifică (sau adaugă) un keyframe.",
+    "kfCount_other": "{{count}} de keyframe-uri. Ce schimbi la cursor modifică (sau adaugă) un keyframe.",
+    "animation": "Animație",
+    "anim_in": "Intrare",
+    "anim_out": "Ieșire",
+    "anim_none": "Fără",
+    "anim_fade": "Apariție",
+    "anim_rise": "Ridicare",
+    "anim_drop": "Coborâre",
+    "anim_left": "Alunecă la stânga",
+    "anim_right": "Alunecă la dreapta",
+    "anim_zoom": "Zoom",
+    "anim_pop": "Pop",
+    "anim_dur": "Durata animației"
   },
   "tl": {
     "undo": "Anulează (Ctrl+Z)",
@@ -141,7 +162,10 @@
     "adjust": "Culoare",
     "moveInFrame": "Mutare în cadru",
     "subtitles": "Subtitrări automate",
-    "pauses": "Tăiere pauze"
+    "pauses": "Tăiere pauze",
+    "keyframe": "Adăugare keyframe",
+    "keyframeRemove": "Ștergere keyframe",
+    "anim": "Animație"
   },
   "file": {
     "new": "Nou",
@@ -278,14 +302,16 @@
     "webm": "Export WebM",
     "future": "Toate funcțiile Pro noi din actualizări",
     "subtitles": "Subtitrări automate pentru tot videoclipul",
-    "pauses": "Tai pauzele din orice clip, de câte ori vrei"
+    "pauses": "Tai pauzele din orice clip, de câte ori vrei",
+    "keyframes": "Keyframes: muți, mărești și rotești orice în timp"
   },
   "proFeature": {
     "size": "Exportul în 1440p și 4K",
     "fps": "Exportul la 50 / 60 fps",
     "quality": "Exportul la calitate mare",
     "webm": "Exportul WebM",
-    "subtitles": "Subtitrări pentru tot videoclipul"
+    "subtitles": "Subtitrări pentru tot videoclipul",
+    "keyframes": "Keyframe-urile"
   },
   "subs": {
     "cta": "Subtitrări automate",

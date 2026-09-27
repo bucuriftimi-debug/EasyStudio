@@ -90,6 +90,8 @@ export function previewComposition(m: MediaInfo): Composition {
         z: 0,
         transform: m.hasVideo ? fitTransform(m.width, m.height, W, H) : null,
         opacity: 1,
+        keys: [],
+        anim: null,
         blend: 'normal',
         effects: NEUTRAL_EFFECTS,
         volume: m.hasAudio ? 1 : 0,

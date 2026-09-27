@@ -1,6 +1,6 @@
 import { useState, type ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ChevronDown, RotateCcw, Scissors } from 'lucide-react'
+import { ChevronDown, RotateCcw, Scissors, ChevronLeft, ChevronRight, Diamond } from 'lucide-react'
 import { Button, ColorButton, Slider } from '@easystudio/ui'
 import { ADJUSTMENTS, LOOKS, type AdjustKey } from '@easystudio/gpu'
 import { STYLE_PRESETS, type TextStyle } from '@easystudio/draw'
@@ -11,6 +11,9 @@ import * as E from '../state/editor'
 import * as P from '../state/project'
 import { formatTime } from '../util/time'
 import { PausesDialog } from './PausesDialog'
+import { ProBadge } from '@easystudio/license'
+import { useVideo } from '../state/store'
+import { ANIM_KINDS, keyAt, type AnimKind, type ClipAnim } from '../state/motion'
 
 function Section({ title, children, open: initial = true }: { title: string; children: ReactNode; open?: boolean }) {
   const [open, setOpen] = useState(initial)
@@ -38,7 +41,15 @@ export function ClipPanel({ clip, track, media, index }: { clip: P.Clip; track: 
   const hasSound = !!media?.hasAudio
   const timed = !isTitle && media?.kind !== 'image'
   const base = E.defaultTransform(clip, project)
-  const tr = clip.transform ?? base
+  const time = useVideo((s) => s.time)
+  // With keyframes the controls show (and change) the place at the playhead.
+  const now = E.clipMotion(clip, project, time)
+  const tr = now.tr
+  const keys = clip.keys ?? []
+  const inClip = time >= clip.start - 1e-6 && time < P.clipEnd(clip)
+  const keyHere = keyAt(keys, Math.round((time - clip.start) * project.fps) / project.fps)
+  const anim: ClipAnim = clip.anim ?? { in: null, out: null, dur: 0.6 }
+  const setAnim = (patch: Partial<ClipAnim>) => E.updateClip(id, t('hist.anim'), { anim: { ...anim, ...patch } })
 
   /** Slider helpers: live while dragging, one undo step at the end. */
   const slider = (label: string, get: () => number, apply: (v: number) => Partial<P.Clip>) => ({
@@ -137,8 +148,58 @@ export function ClipPanel({ clip, track, media, index }: { clip: P.Clip; track: 
           )}
           <Slider label={t('insp.zoom')} min={10} max={400} defaultValue={100} unit="%" {...slider(t('hist.zoom'), () => zoomPct, setZoom)} />
           <Slider label={t('insp.rotate')} min={-180} max={180} defaultValue={0} unit="°" {...slider(t('hist.rotate'), () => Math.round(tr.rot), (v) => ({ transform: { ...tr, rot: v } }))} />
-          <Slider label={t('insp.opacity')} min={0} max={100} defaultValue={100} unit="%" {...slider(t('hist.opacity'), () => Math.round(clip.opacity * 100), (v) => ({ opacity: v / 100 }))} />
+          <Slider label={t('insp.opacity')} min={0} max={100} defaultValue={100} unit="%" {...slider(t('hist.opacity'), () => Math.round(now.opacity * 100), (v) => ({ opacity: v / 100 }))} />
           <p className="insp-hint">{t('insp.dragHint')}</p>
+        </Section>
+      )}
+
+      {visual && (
+        <Section title={t('insp.keyframes')}>
+          <div className="kf-row">
+            <Button size="sm" variant="ghost" icon tip={t('insp.kfPrev')} disabled={!keys.length} onClick={() => E.jumpToKeyframe(id, -1)}>
+              <ChevronLeft size={15} />
+            </Button>
+            <Button size="sm" className={keyHere ? 'kf-on' : ''} disabled={!inClip} onClick={() => (keyHere ? E.removeKeyframe(id) : E.addKeyframe(id))}>
+              <Diamond size={13} /> {keyHere ? t('insp.kfRemove') : t('insp.kfAdd')}
+            </Button>
+            <Button size="sm" variant="ghost" icon tip={t('insp.kfNext')} disabled={!keys.length} onClick={() => E.jumpToKeyframe(id, 1)}>
+              <ChevronRight size={15} />
+            </Button>
+            <ProBadge />
+          </div>
+          <p className="insp-hint">{keys.length ? t('insp.kfCount', { count: keys.length }) : t('insp.kfHint')}</p>
+        </Section>
+      )}
+
+      {visual && track.kind !== 'main' && (
+        <Section title={t('insp.animation')}>
+          {(['in', 'out'] as const).map((side) => (
+            <label key={side} className="es-field">
+              <span>{t(`insp.anim_${side}`)}</span>
+              <select className="es-select" value={anim[side] ?? ''} onChange={(e) => setAnim({ [side]: (e.target.value || null) as AnimKind | null })}>
+                <option value="">{t('insp.anim_none')}</option>
+                {ANIM_KINDS.map((k) => (
+                  <option key={k} value={k}>
+                    {t(`insp.anim_${k}`)}
+                  </option>
+                ))}
+              </select>
+            </label>
+          ))}
+          {(anim.in || anim.out) && (
+            <Slider
+              label={t('insp.anim_dur')}
+              min={0.2}
+              max={2}
+              step={0.1}
+              defaultValue={0.6}
+              unit=" s"
+              value={anim.dur}
+              onStart={E.beginGesture}
+              onChange={(v) => E.updateClipLive(id, { anim: { ...anim, dur: v } })}
+              onCommit={() => E.endGesture(t('hist.anim'))}
+            />
+          )}
         </Section>
       )}
 

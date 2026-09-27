@@ -40,7 +40,7 @@ export function PlayerOverlay({ width, height }: { width: number; height: number
   const zoom = Math.min(width / W, height / H)
   const panX = (width - W * zoom) / 2
   const panY = (height - H * zoom) / 2
-  const tr = c.transform ?? E.defaultTransform(c, project)
+  const tr = E.clipMotion(c, project, time).tr
   const toScreen = (x: number, y: number) => [panX + x * zoom, panY + y * zoom] as const
   const a = (tr.rot * Math.PI) / 180
   const cos = Math.cos(a)

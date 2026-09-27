@@ -1104,3 +1104,28 @@ body.tl-dragging * {
   bottom: 0;
   background: #3ecf8e;
 }
+
+/* Keyframes */
+.kf-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.kf-row .es-btn {
+  gap: 6px;
+}
+.kf-row .kf-on {
+  color: #ffd27a;
+  border-color: rgba(245, 181, 68, 0.5);
+}
+.tl-kf {
+  position: absolute;
+  bottom: 3px;
+  width: 7px;
+  height: 7px;
+  margin-left: -3.5px;
+  transform: rotate(45deg);
+  background: #ffd27a;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  pointer-events: none;
+}
