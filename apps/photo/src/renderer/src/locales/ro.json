@@ -86,7 +86,14 @@
     "tooBigToUpscale": "Poza e deja prea mare pentru asta. Încearcă 2× sau o poză mai mică.",
     "failed": "AI-ul nu a putut termina: {{msg}}",
     "modelsTitle": "Modele AI (toate rulează pe calculatorul tău)",
-    "modelsText": "Fiecare model se descarcă prima dată când îl folosești, apoi totul merge fără internet."
+    "modelsText": "Fiecare model se descarcă prima dată când îl folosești, apoi totul merge fără internet.",
+    "retouch": "Retușarea portretului",
+    "retouchMenu": "Retușează portretul (netezește pielea)…",
+    "whitenMenu": "Albește dinții (selectează-i întâi)",
+    "retouching": "Se retușează portretul…",
+    "retouchDone": "Pielea a fost netezită. Apasă Ctrl+Z ca să anulezi sau Înainte / După ca să compari.",
+    "whitenNeedsSelection": "Selectează întâi dinții: AI → Selectează un obiect (click), apoi dă click pe dinți.",
+    "whitenDone": "Dinții au fost albiți."
   },
   "assist": {
     "askMenu": "Cere AI-ului să editeze…",
@@ -461,7 +468,9 @@
     "upscale": "Mărire {{k}}×",
     "empty": "Editările tale apar aici. Dă click pe orice pas ca să te întorci la el.",
     "template": "Șablon",
-    "collage": "Colaj"
+    "collage": "Colaj",
+    "retouch": "Retușare portret",
+    "whiten": "Albire dinți"
   },
   "status": {
     "size": "{{w}} × {{h}} px",
@@ -791,5 +800,12 @@
     "tooMany_few": "{{count}} poze nu au încăput în acest aranjament.",
     "tooMany_other": "{{count}} de poze nu au încăput în acest aranjament.",
     "fewer": "Locurile goale sunt gri: șterge-le sau adaugă o poză cu Strat → Adaugă o imagine ca strat."
+  },
+  "retouch": {
+    "title": "Retușează portretul",
+    "intro": "AI-ul găsește persoana și netezește doar pielea. Ochii, buzele, părul și marginile rămân clare.",
+    "strength": "Netezire",
+    "apply": "Retușează",
+    "teethHint": "Sfat: ca să albești dinții, selectează-i cu AI → Selectează un obiect (click), apoi alege AI → Albește dinții."
   }
 }

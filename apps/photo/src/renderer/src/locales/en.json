@@ -86,7 +86,14 @@
     "tooBigToUpscale": "This picture is already too big for that. Try 2× or a smaller picture.",
     "failed": "The AI could not finish: {{msg}}",
     "modelsTitle": "AI models (all run on your computer)",
-    "modelsText": "Each model is downloaded the first time you use it, then everything works offline."
+    "modelsText": "Each model is downloaded the first time you use it, then everything works offline.",
+    "retouch": "Retouch portrait",
+    "retouchMenu": "Retouch portrait (smooth skin)…",
+    "whitenMenu": "Whiten teeth (select them first)",
+    "retouching": "Retouching the portrait…",
+    "retouchDone": "Skin smoothed. Press Ctrl+Z to undo, or use Before / After to compare.",
+    "whitenNeedsSelection": "First select the teeth: AI → Select an object (click), then click on the teeth.",
+    "whitenDone": "Teeth whitened."
   },
   "assist": {
     "askMenu": "Ask AI to edit…",
@@ -461,7 +468,9 @@
     "upscale": "Enlarge {{k}}×",
     "empty": "Your edits will appear here. Click any step to go back to it.",
     "template": "Template",
-    "collage": "Collage"
+    "collage": "Collage",
+    "retouch": "Retouch portrait",
+    "whiten": "Whiten teeth"
   },
   "status": {
     "size": "{{w}} × {{h}} px",
@@ -788,5 +797,12 @@
     "tooMany_one": "{{count}} photo did not fit in this layout.",
     "tooMany_other": "{{count}} photos did not fit in this layout.",
     "fewer": "Empty spaces are grey: delete them, or add a photo with Layer → Add image as layer."
+  },
+  "retouch": {
+    "title": "Retouch portrait",
+    "intro": "The AI finds the person and smooths only the skin. Eyes, lips, hair and edges stay sharp.",
+    "strength": "Smoothing",
+    "apply": "Retouch",
+    "teethHint": "Tip: to whiten teeth, select them with AI → Select an object (click), then choose AI → Whiten teeth."
   }
 }

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Download, Eraser, ImagePlus, Info, Lightbulb, Maximize2, MessageSquareText, MousePointerClick, Redo2, Scissors, Settings2, Sparkles, Undo2, UserRound, WandSparkles } from 'lucide-react'
+import { Download, Eraser, Smile, SmilePlus, ImagePlus, Info, Lightbulb, Maximize2, MessageSquareText, MousePointerClick, Redo2, Scissors, Settings2, Sparkles, Undo2, UserRound, WandSparkles } from 'lucide-react'
 import { Button, Menu, Segmented, type MenuItem } from '@easystudio/ui'
 import { canRedo, canUndo } from '@easystudio/core'
 import { AccountButton, ProButton } from '@easystudio/license'
@@ -8,6 +8,7 @@ import * as A from '../state/actions'
 import * as paint from '../state/paint'
 import * as AI from '../state/ai'
 import * as F from '../state/files'
+import { whitenTeeth } from '../state/retouch'
 import { LANGUAGES } from './LanguageSwitch'
 import { activeLayer } from '../state/docOps'
 import { fitView, isDirty, redo, setMode, setSettings, setTool, undo, useDoc, useEditor, zoomStep, zoomTo } from '../state/store'
@@ -98,6 +99,9 @@ function AiMenu() {
     { separator: true },
     { label: t('ai.eraseObject'), icon: <WandSparkles />, kbd: 'R', disabled: !raster, onClick: () => setTool('magic') },
     { label: t('ai.eraseSelection'), icon: <Eraser />, disabled: !raster || !hasSel, onClick: () => void AI.eraseObject([], 0) },
+    { separator: true },
+    { label: t('ai.retouchMenu'), icon: <Smile />, disabled: !raster, onClick: () => set({ dialog: 'retouch' }) },
+    { label: t('ai.whitenMenu'), icon: <SmilePlus />, disabled: !raster || !hasSel, onClick: () => whitenTeeth() },
     { separator: true },
     { label: t('ai.upscale2'), icon: <Maximize2 />, disabled: !raster || !AI.canUpscale(2), onClick: () => void AI.upscale(2) },
     { label: t('ai.upscale4'), icon: <Maximize2 />, disabled: !raster || !AI.canUpscale(4), onClick: () => void AI.upscale(4) },

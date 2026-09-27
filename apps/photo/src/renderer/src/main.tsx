@@ -41,9 +41,10 @@ if (import.meta.env.DEV || new URLSearchParams(location.search).has('selftest'))
     import('./state/files'),
     import('./state/templates'),
     import('@easystudio/license'),
-    import('./state/collage')
-  ]).then(([actions, store, gpu, bitmaps, paint, project, ai, assistant, files, templates, license, collage]) => {
-    ;(window as unknown as Record<string, unknown>).__es = { actions, store, gpu, bitmaps, paint, project, ai, assistant, files, templates, license, collage }
+    import('./state/collage'),
+    import('./state/retouch')
+  ]).then(([actions, store, gpu, bitmaps, paint, project, ai, assistant, files, templates, license, collage, retouch]) => {
+    ;(window as unknown as Record<string, unknown>).__es = { actions, store, gpu, bitmaps, paint, project, ai, assistant, files, templates, license, collage, retouch }
   })
 }
 

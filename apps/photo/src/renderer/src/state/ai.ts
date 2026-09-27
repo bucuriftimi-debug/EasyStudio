@@ -16,7 +16,7 @@ import type { Layer, PhotoDoc, RasterLayer, SelOp } from './types'
 /** 'gpu' (WebGPU on the graphics card) or 'cpu'. */
 export const aiDevice = async () => (await aiReady()).device
 
-function activeRaster(): RasterLayer | null {
+export function activeRaster(): RasterLayer | null {
   const doc = getDoc()
   const l = doc ? ops.activeLayer(doc) : undefined
   if (!l || l.type !== 'raster') {
@@ -26,13 +26,13 @@ function activeRaster(): RasterLayer | null {
   return l
 }
 
-function fail(e: unknown): void {
+export function fail(e: unknown): void {
   console.error(e)
   toast(t('ai.failed', { msg: (e as Error)?.message ?? String(e) }), 'error', 7000)
 }
 
 /** White + alpha canvas from an alpha map (used for masks and selections). */
-function alphaCanvas(alpha: Uint8ClampedArray, w: number, h: number): OffscreenCanvas {
+export function alphaCanvas(alpha: Uint8ClampedArray, w: number, h: number): OffscreenCanvas {
   const img = new ImageData(w, h)
   for (let i = 0; i < w * h; i++) {
     img.data[i * 4] = img.data[i * 4 + 1] = img.data[i * 4 + 2] = 255
