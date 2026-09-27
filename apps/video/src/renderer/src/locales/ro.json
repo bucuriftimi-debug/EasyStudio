@@ -139,7 +139,8 @@
     "transition": "Tranziție",
     "look": "Filtru",
     "adjust": "Culoare",
-    "moveInFrame": "Mutare în cadru"
+    "moveInFrame": "Mutare în cadru",
+    "subtitles": "Subtitrări automate"
   },
   "file": {
     "new": "Nou",
@@ -274,12 +275,52 @@
     "fps": "Mișcare fluidă la 50 și 60 fps",
     "quality": "Calitate mare",
     "webm": "Export WebM",
-    "future": "Toate funcțiile Pro noi din actualizări"
+    "future": "Toate funcțiile Pro noi din actualizări",
+    "subtitles": "Subtitrări automate pentru tot videoclipul"
   },
   "proFeature": {
     "size": "Exportul în 1440p și 4K",
     "fps": "Exportul la 50 / 60 fps",
     "quality": "Exportul la calitate mare",
-    "webm": "Exportul WebM"
+    "webm": "Exportul WebM",
+    "subtitles": "Subtitrări pentru tot videoclipul"
+  },
+  "subs": {
+    "cta": "Subtitrări automate",
+    "ctaSub": "AI-ul scrie ce se spune, exact la momentul potrivit",
+    "title": "Subtitrări automate",
+    "intro": "AI-ul ascultă clipurile video (nu și muzica) și scrie subtitrările pe o pistă nouă. Rulează pe calculatorul tău: nu se trimite nimic pe internet.",
+    "language": "Limba vorbită",
+    "lang_auto": "Detectează automat",
+    "lang_ro": "Română",
+    "lang_en": "Engleză",
+    "lang_es": "Spaniolă",
+    "lang_fr": "Franceză",
+    "lang_de": "Germană",
+    "lang_it": "Italiană",
+    "lang_hu": "Maghiară",
+    "quality": "Calitate",
+    "fast": "Rapid",
+    "fastTip": "Model mai mic (cam 200 MB, descărcat o singură dată)",
+    "accurate": "Precis",
+    "accurateTip": "Mai bun pentru română (cam 600 MB, descărcat o singură dată)",
+    "look": "Aspect",
+    "look_classic": "Clasic",
+    "look_box": "Casetă",
+    "look_yellow": "Galben",
+    "start": "Fă subtitrările",
+    "close": "Închide",
+    "phase_audio": "Se pregătește sunetul…",
+    "phase_download": "Se descarcă modelul de vorbire (doar prima dată)…",
+    "phase_listen": "Ascult…",
+    "downloadHint": "Modelul se păstrează pe calculator, așa că data viitoare pornește imediat.",
+    "workingHint": "Poți lăsa fereastra deschisă; videoclipurile lungi durează mai mult.",
+    "done_one": "{{count}} subtitrare adăugată",
+    "done_few": "{{count}} subtitrări adăugate",
+    "done_other": "{{count}} de subtitrări adăugate",
+    "doneHint": "Sunt titluri obișnuite: dă click pe una în cronologie ca să corectezi un cuvânt, s-o muți sau să-i schimbi aspectul.",
+    "nothingHeard": "Nu s-a găsit vorbire în clipurile video.",
+    "freeNote": "Versiunea gratuită: subtitrări pentru primele {{count}} de secunde. Pro face tot videoclipul.",
+    "freeLimit": "Subtitrările s-au făcut pentru primele {{count}} de secunde. Ia Pro pentru tot videoclipul."
   }
 }

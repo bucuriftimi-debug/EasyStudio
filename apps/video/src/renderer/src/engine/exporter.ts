@@ -118,7 +118,7 @@ export async function checkEncoders(s: ExportSettings): Promise<{ video: boolean
 }
 
 /** Mix the sound of every clip for [from, to) — fades, volume and speed included. */
-async function mixAudio(comp: Composition, from: number, to: number): Promise<AudioBuffer> {
+export async function mixAudio(comp: Composition, from: number, to: number): Promise<AudioBuffer> {
   const s0 = Math.round(from * AUDIO_RATE)
   const s1 = Math.round(to * AUDIO_RATE)
   const ctx = new OfflineAudioContext(2, Math.max(1, s1 - s0), AUDIO_RATE)

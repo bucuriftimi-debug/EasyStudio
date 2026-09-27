@@ -1035,3 +1035,54 @@ body.tl-dragging * {
   color: #ffd27a;
   font-size: 12px;
 }
+
+/* Automatic subtitles */
+.subs-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.subs-cta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 10px 12px;
+  border-radius: var(--radius);
+  border: 1px solid rgba(123, 107, 255, 0.45);
+  background: var(--accent-soft);
+  color: var(--text-1);
+  text-align: left;
+  cursor: pointer;
+}
+.subs-cta:hover {
+  background: rgba(123, 107, 255, 0.24);
+}
+.subs-cta svg {
+  color: var(--accent-hover);
+  flex: none;
+}
+.subs-cta span {
+  display: grid;
+}
+.subs-cta small {
+  color: var(--text-2);
+}
+.subs-look {
+  font-weight: 700;
+  padding: 0 4px;
+  border-radius: 3px;
+}
+.subs-look-classic {
+  color: #fff;
+  -webkit-text-stroke: 0.6px #000;
+}
+.subs-look-box {
+  color: #fff;
+  background: #000;
+}
+.subs-look-yellow {
+  color: #ffd400;
+  -webkit-text-stroke: 0.6px #000;
+}

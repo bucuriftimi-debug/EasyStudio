@@ -5,6 +5,7 @@ import { basename, dirname, join, normalize, sep } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { registerLicense } from '@easystudio/license/main'
 import { closeMedia, registerMedia } from './media'
+import { serveModel, setModelsDir } from './models'
 import { registerExporter } from './exporter'
 import { clearAutosave, projectFromArgv, registerSession, setPendingProject } from './session'
 
@@ -27,6 +28,7 @@ const DATA = dataDir()
 // Microsoft Store ID (Partner Center → Product identity), for the "Get Pro" link outside the Store.
 const STORE_ID = '9NP6GSLVKK2D'
 const RENDERER = join(__dirname, '../renderer')
+setModelsDir(join(DATA, 'hf'))
 app.setPath('userData', DATA)
 app.setPath('sessionData', DATA)
 app.setPath('crashDumps', join(DATA, 'crashes'))
@@ -62,6 +64,8 @@ function serveFile(file: string): Promise<Response> | Response {
 function registerAppProtocol(): void {
   protocol.handle('app', (req) => {
     const path = decodeURIComponent(new URL(req.url).pathname)
+    // AI model files, downloaded from huggingface.co on first use (see models.ts).
+    if (path.startsWith('/hf/')) return serveModel(path.slice(4), req)
     const file = normalize(join(RENDERER, path === '/' ? 'index.html' : path))
     if (!file.startsWith(normalize(RENDERER + sep))) return new Response('Forbidden', { status: 403 })
     return serveFile(file)

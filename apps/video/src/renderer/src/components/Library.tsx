@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import { useState } from 'react'
-import { Film, ImageIcon, ListPlus, Music, Plus, Trash2, TriangleAlert, Type } from 'lucide-react'
+import { Film, ImageIcon, ListPlus, Music, Plus, Trash2, TriangleAlert, Type, Captions } from 'lucide-react'
 import { DEFAULT_TEXT, STYLE_PRESETS, type TextStyle } from '@easystudio/draw'
 import { Button } from '@easystudio/ui'
 import * as L from '../state/library'
@@ -8,6 +8,7 @@ import * as E from '../state/editor'
 import { MEDIA_DRAG_TYPE } from './Timeline'
 import { useVideo } from '../state/store'
 import { formatDuration } from '../util/time'
+import { openSubtitles } from '../state/subtitles'
 
 const KIND_ICON = { video: Film, audio: Music, image: ImageIcon }
 
@@ -106,6 +107,13 @@ function TextTab() {
   }
   return (
     <div className="text-tab">
+      <button type="button" className="subs-cta" onClick={openSubtitles}>
+        <Captions size={18} />
+        <span>
+          <strong>{t('subs.cta')}</strong>
+          <small>{t('subs.ctaSub')}</small>
+        </span>
+      </button>
       <p className="panel-hint">{t('lib.textHint')}</p>
       <div className="title-grid">
         {STYLE_PRESETS.map((s) => {

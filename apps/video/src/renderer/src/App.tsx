@@ -18,6 +18,7 @@ import { useVideo } from './state/store'
 import { setDirty, setWindowTitle } from './platform'
 import { AccountButton, AccountDialog, ProButton, ProDialog } from '@easystudio/license'
 import { proBenefits } from './state/pro'
+import { SubtitlesDialog } from './components/SubtitlesDialog'
 
 function TopBar() {
   const { t, i18n } = useTranslation()
@@ -218,6 +219,7 @@ export function App() {
       <QuestionDialog />
       <ExportDialog />
       <HelpDialog />
+      <SubtitlesDialog />
       <ProDialog app="EasyStudio Video" benefits={proBenefits()} />
       <AccountDialog app="EasyStudio Video" />
       <RecoveryBanner />

@@ -456,7 +456,7 @@ function ClipView({ clip, track, media, pps, height, selected, view, onPointerDo
     }
   })
 
-  const name = title ? title.text.replace(/s+/g, ' ') : (media?.name ?? '?')
+  const name = title ? title.text.replace(/\s+/g, ' ') : (media?.name ?? '?')
   return (
     <div
       className={`tl-clip ${title ? 'title' : audioOnly ? 'audio' : track.kind}${selected ? ' selected' : ''}${media || title ? '' : ' missing'}`}
