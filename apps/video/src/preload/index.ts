@@ -47,7 +47,8 @@ const api = {
   // Free / Pro (Microsoft Store add-on).
   license: {
     status: (refresh?: boolean) => ipcRenderer.invoke('license:status', refresh),
-    buy: () => ipcRenderer.invoke('license:buy')
+    buy: () => ipcRenderer.invoke('license:buy'),
+    review: () => ipcRenderer.invoke('license:review')
   }
 }
 

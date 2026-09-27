@@ -841,5 +841,12 @@
     "cancelled": "Oprit înainte de final.",
     "notSaved": "fișierul nu a putut fi salvat",
     "desktopOnly": "Salvarea într-un folder merge doar în aplicația desktop."
+  },
+  "news": {
+    "templates": "20 de șabloane noi, pe categorii: rețele sociale, YouTube, afaceri, felicitări și evenimente",
+    "collage": "Colaj de poze: 9 aranjamente, spațiere, colțuri rotunjite",
+    "retouch": "Retușare portrete cu AI (piele netedă) și albirea dinților",
+    "batch": "Editezi multe poze deodată: filtru, corectare automată și mărime pentru un folder întreg",
+    "trial": "Încearcă gratuit toate funcțiile Pro timp de 7 zile"
   }
 }

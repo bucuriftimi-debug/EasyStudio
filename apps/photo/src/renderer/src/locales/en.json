@@ -835,5 +835,12 @@
     "cancelled": "Stopped before the end.",
     "notSaved": "could not save the file",
     "desktopOnly": "Saving into a folder needs the desktop app."
+  },
+  "news": {
+    "templates": "20 new templates, sorted by social media, YouTube, business, cards and events",
+    "collage": "Photo collage: 9 layouts, spacing, rounded corners",
+    "retouch": "Portrait retouching with AI (smooth skin) and teeth whitening",
+    "batch": "Edit many photos at once: filter, auto-fix and size for a whole folder",
+    "trial": "Try every Pro feature free for 7 days"
   }
 }

@@ -9,7 +9,7 @@ import en from './locales/en.json'
 import ro from './locales/ro.json'
 import { App } from './App'
 import { licenseApi, setLang } from './platform'
-import { initLicense } from '@easystudio/license'
+import { initEngagement, initLicense } from '@easystudio/license'
 import { setFontLoadedListener } from '@easystudio/draw'
 import { recompose } from './state/editor'
 import { initSession } from './state/session'
@@ -24,7 +24,8 @@ i18n.on('languageChanged', syncLang)
 // Titles are redrawn once their web font has loaded.
 setFontLoadedListener(() => recompose())
 initSession()
-initLicense(licenseApi())
+initLicense(licenseApi(), 'video')
+initEngagement('video')
 
 // Hook for automated checks (development, or the app's own `--selftest` mode).
 if (import.meta.env.DEV || new URLSearchParams(location.search).has('selftest')) {

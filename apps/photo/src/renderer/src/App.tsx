@@ -8,7 +8,9 @@ import { Toasts } from './components/Toasts'
 import { AssistantBar } from './components/AssistantBar'
 import { Tour, useFirstRunTour } from './components/Tour'
 import { useAppEffects } from './hooks'
-import { AccountDialog, ProDialog } from '@easystudio/license'
+import { AccountDialog, ProDialog, ReviewPrompt, WhatsNewDialog } from '@easystudio/license'
+import { useEffect, useState } from 'react'
+import { whatsNew } from './state/pro'
 import { proBenefits } from './state/pro'
 import { useTranslation } from 'react-i18next'
 
@@ -19,6 +21,10 @@ export function App() {
   useAppEffects()
   useFirstRunTour()
   useTranslation()
+  const [version, setVersion] = useState<string | null>(null)
+  useEffect(() => {
+    window.easyStudio?.appInfo().then((i) => setVersion(i.version))
+  }, [])
   return (
     <div className="app">
       <TopBar />
@@ -30,6 +36,8 @@ export function App() {
       <Tour />
       <ProDialog app="EasyStudio Photo" benefits={proBenefits()} />
       <AccountDialog app="EasyStudio Photo" />
+      <WhatsNewDialog app="EasyStudio Photo" version={version} notes={whatsNew()} />
+      <ReviewPrompt app="EasyStudio Photo" />
       {busy && <BusyOverlay text={busy} progress={progress} />}
     </div>
   )

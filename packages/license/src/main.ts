@@ -122,4 +122,16 @@ export function registerLicense(opts: LicenseOptions): void {
     const result = status.pro ? 'bought' : r.status === 'NotPurchased' ? 'cancelled' : 'error'
     return { status, result, error: result === 'error' ? (r.error ?? r.status) : undefined }
   })
+
+  // "Rate this app": the Store's own window inside the app, or the Store page outside it.
+  ipcMain.handle('license:review', async (): Promise<string> => {
+    if (!store) {
+      await shell.openExternal(`ms-windows-store://review/?ProductId=${opts.storeId}`)
+      return 'opened-store'
+    }
+    const win = opts.window()
+    const hwnd = win ? win.getNativeWindowHandle().readBigUInt64LE(0).toString() : '0'
+    const r = await runHelper(['review', hwnd], 30 * 60_000)
+    return r.ok ? (r.status ?? 'done') : `error: ${r.error}`
+  })
 }

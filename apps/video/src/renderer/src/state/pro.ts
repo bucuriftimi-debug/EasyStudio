@@ -37,4 +37,7 @@ export const needsWatermark = (s: { width: number; height: number }): boolean =>
 
 export const proBenefits = (): string[] => ['subtitles', 'bgvideo', 'pauses', 'keyframes', 'size', 'watermark', 'fps', 'quality', 'webm', 'future'].map((k) => t(`proBenefits.${k}`))
 
+/** Highlights of this version for the "What's new" window. */
+export const whatsNew = (): string[] => ['subtitles', 'pauses', 'keyframes', 'bgvideo', 'trial'].map((k) => t(`news.${k}`))
+
 export { isPro, requirePro }

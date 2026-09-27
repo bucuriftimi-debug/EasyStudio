@@ -7,7 +7,7 @@ import './app.css'
 import { initI18n } from '@easystudio/ui'
 import en from './locales/en.json'
 import ro from './locales/ro.json'
-import { initLicense } from '@easystudio/license'
+import { initEngagement, initLicense } from '@easystudio/license'
 import { desktop, licenseApi } from './platform'
 import { initFiles } from './state/files'
 import { App } from './App'
@@ -23,7 +23,8 @@ const syncLang = (l: string) => {
 syncLang(i18n.language)
 i18n.on('languageChanged', syncLang)
 initFiles()
-initLicense(licenseApi())
+initLicense(licenseApi(), 'photo')
+initEngagement('photo')
 // Web fonts load lazily: redraw text layers once their font is ready.
 setFontLoadedListener(bumpFontEpoch)
 

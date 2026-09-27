@@ -16,8 +16,9 @@ import * as F from './state/projectFile'
 import * as L from './state/library'
 import { useVideo } from './state/store'
 import { setDirty, setWindowTitle } from './platform'
-import { AccountButton, AccountDialog, ProButton, ProDialog } from '@easystudio/license'
-import { proBenefits } from './state/pro'
+import { AccountButton, AccountDialog, ProButton, ProDialog, ReviewPrompt, WhatsNewDialog } from '@easystudio/license'
+import { proBenefits, whatsNew } from './state/pro'
+import { appInfo } from './platform'
 import { SubtitlesDialog } from './components/SubtitlesDialog'
 import { BgRemovalDialog } from './components/BgRemovalDialog'
 
@@ -224,6 +225,8 @@ export function App() {
       <BgRemovalDialog />
       <ProDialog app="EasyStudio Video" benefits={proBenefits()} />
       <AccountDialog app="EasyStudio Video" />
+      <WhatsNew />
+      <ReviewPrompt app="EasyStudio Video" />
       <RecoveryBanner />
       <Tour />
       {busy && (
@@ -236,4 +239,13 @@ export function App() {
       )}
     </div>
   )
+}
+
+/** "What's new" after an update (the version comes from the desktop app). */
+function WhatsNew() {
+  const [version, setVersion] = useState<string | null>(null)
+  useEffect(() => {
+    void appInfo().then((i) => setVersion(i.version === 'web' ? null : i.version))
+  }, [])
+  return <WhatsNewDialog app="EasyStudio Video" version={version} notes={whatsNew()} />
 }

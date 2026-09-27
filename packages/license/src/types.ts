@@ -7,6 +7,10 @@ export interface LicenseStatus {
   price: string | null
   /** False until the first answer arrived. */
   checked: boolean
+  /** Pro comes from the free 7-day trial (not bought). */
+  trial?: boolean
+  /** When the trial ends (ms since 1970), if one was started. */
+  trialEnds?: number | null
 }
 
 export interface BuyResult {
@@ -19,4 +23,6 @@ export interface BuyResult {
 export interface LicenseApi {
   status: (refresh?: boolean) => Promise<LicenseStatus>
   buy: () => Promise<BuyResult>
+  /** Ask for a rating in the Microsoft Store. */
+  review: () => Promise<string>
 }

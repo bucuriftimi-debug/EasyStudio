@@ -73,7 +73,24 @@ const STRINGS = {
       noPro: 'Pro was not found on the Microsoft account used in the Store.',
       orders: 'Orders and refunds',
       privacy: 'Privacy policy',
-      terms: 'Terms of use'
+      terms: 'Terms of use',
+      trialTry_one: 'Try free for {{count}} day',
+      trialTry_other: 'Try free for {{count}} days',
+      trialStarted_one: 'Pro is on for {{count}} day. Enjoy!',
+      trialStarted_other: 'Pro is on for {{count}} days. Enjoy!',
+      trialLeft_one: 'Your Pro trial ends tomorrow. Get Pro to keep everything unlocked.',
+      trialLeft_other: 'Your Pro trial: {{count}} days left. Get Pro to keep everything unlocked.',
+      trialChip_one: 'Pro trial · {{count}} day',
+      trialChip_other: 'Pro trial · {{count}} days',
+      planTrial_one: 'Pro (trial, {{count}} day left)',
+      planTrial_other: 'Pro (trial, {{count}} days left)',
+      reviewTitle: 'Enjoying {{app}}?',
+      reviewText: 'A rating in the Microsoft Store helps other people find the app. It takes ten seconds.',
+      reviewYes: 'Rate it',
+      reviewLater: 'Later',
+      reviewNever: 'No, thanks',
+      whatsNew: 'What’s new in {{app}} {{version}}',
+      whatsNewOk: 'Got it'
     }
   },
   ro: {
@@ -110,29 +127,101 @@ const STRINGS = {
       noPro: 'Nu am găsit Pro pe contul Microsoft folosit în Store.',
       orders: 'Comenzi și rambursări',
       privacy: 'Politica de confidențialitate',
-      terms: 'Termeni de utilizare'
+      terms: 'Termeni de utilizare',
+      trialTry_one: 'Încearcă gratuit {{count}} zi',
+      trialTry_few: 'Încearcă gratuit {{count}} zile',
+      trialTry_other: 'Încearcă gratuit {{count}} de zile',
+      trialStarted_one: 'Pro e activ {{count}} zi. Spor!',
+      trialStarted_few: 'Pro e activ {{count}} zile. Spor!',
+      trialStarted_other: 'Pro e activ {{count}} de zile. Spor!',
+      trialLeft_one: 'Proba Pro se termină mâine. Ia Pro ca să rămână totul deblocat.',
+      trialLeft_few: 'Proba Pro: mai ai {{count}} zile. Ia Pro ca să rămână totul deblocat.',
+      trialLeft_other: 'Proba Pro: mai ai {{count}} de zile. Ia Pro ca să rămână totul deblocat.',
+      trialChip_one: 'Probă Pro · {{count}} zi',
+      trialChip_few: 'Probă Pro · {{count}} zile',
+      trialChip_other: 'Probă Pro · {{count}} de zile',
+      planTrial_one: 'Pro (probă, {{count}} zi rămasă)',
+      planTrial_few: 'Pro (probă, {{count}} zile rămase)',
+      planTrial_other: 'Pro (probă, {{count}} de zile rămase)',
+      reviewTitle: 'Îți place {{app}}?',
+      reviewText: 'O notă în Microsoft Store îi ajută pe alții să găsească aplicația. Durează zece secunde.',
+      reviewYes: 'Dă o notă',
+      reviewLater: 'Mai târziu',
+      reviewNever: 'Nu, mulțumesc',
+      whatsNew: 'Ce e nou în {{app}} {{version}}',
+      whatsNewOk: 'Am înțeles'
     }
   }
 }
 
-/** Call once at start-up, after `initI18n`. */
-export function initLicense(licenseApi: LicenseApi | undefined): void {
+/* ------------------------------ 7-day trial ------------------------------ */
+
+export const TRIAL_DAYS = 7
+const DAY = 24 * 3600 * 1000
+let appKey = 'app'
+const trialKey = () => `easystudio.${appKey}.trial`
+
+function trialStart(): number | null {
+  try {
+    const v = Number(localStorage.getItem(trialKey()))
+    return v > 0 ? v : null
+  } catch {
+    return null
+  }
+}
+
+/** The status with the trial applied: Pro while the 7 days last (unless Pro was bought). */
+function withTrial(s: LicenseStatus): LicenseStatus {
+  const start = trialStart()
+  const trialEnds = start ? start + TRIAL_DAYS * DAY : null
+  const trial = !s.pro && !!trialEnds && Date.now() < trialEnds
+  return { ...s, pro: s.pro || trial, trial, trialEnds }
+}
+
+/** Can the free trial still be started (once per app and computer)? */
+export const trialAvailable = (): boolean => !useLicense.getState().status.pro && trialStart() === null
+
+/** Start the 7-day trial of Pro. */
+export function startTrial(): boolean {
+  if (!trialAvailable()) return false
+  try {
+    localStorage.setItem(trialKey(), String(Date.now()))
+  } catch {
+    return false
+  }
+  useLicense.setState((s) => ({ status: withTrial(s.status) }))
+  return true
+}
+
+/** Whole days of trial left (0 when none). */
+export const trialDaysLeft = (s: LicenseStatus): number => (s.trial && s.trialEnds ? Math.max(1, Math.ceil((s.trialEnds - Date.now()) / DAY)) : 0)
+
+/** Call once at start-up, after `initI18n`. `app` names the app ("photo", "video"). */
+export function initLicense(licenseApi: LicenseApi | undefined, app = 'app'): void {
   api = licenseApi
+  appKey = app
   for (const [lng, bundle] of Object.entries(STRINGS)) i18next.addResourceBundle(lng, 'translation', bundle, true, false)
+  useLicense.setState((s) => ({ status: withTrial(s.status) }))
   const refresh = (force: boolean) =>
     api
       ?.status(force)
-      .then((status) => useLicense.setState({ status }))
+      .then((status) => useLicense.setState({ status: withTrial(status) }))
       .catch((e) => console.warn('[license]', e))
   refresh(false)
   // Someone may buy Pro on the Store page while the app is open: look again when it comes back.
+  // The trial also ends while the app is open.
   let last = Date.now()
   window.addEventListener('focus', () => {
-    if (Date.now() - last < 60_000 || useLicense.getState().status.pro) return
+    const st = useLicense.getState().status
+    if (st.trial) useLicense.setState({ status: withTrial({ ...st, pro: false }) })
+    if (Date.now() - last < 60_000 || (st.pro && !st.trial)) return
     last = Date.now()
     refresh(true)
   })
 }
+
+/** Ask for a rating in the Microsoft Store (see engage.tsx). */
+export const requestReview = (): Promise<string> => api?.review() ?? Promise.resolve('no-app')
 
 export const isPro = (): boolean => useLicense.getState().status.pro
 
@@ -196,7 +285,14 @@ export function ProBadge({ className }: { className?: string }) {
 /** Top-bar button: "Get Pro" for Free users, a quiet "Pro" mark for Pro users. */
 export function ProButton() {
   const pro = useLicense((s) => s.status.pro)
+  const status = useLicense((s) => s.status)
   const { t } = useTranslation()
+  if (status.trial)
+    return (
+      <Button className="es-pro-btn" size="sm" onClick={openProDialog}>
+        <Crown size={14} /> {t('license.trialChip', { count: trialDaysLeft(status) })}
+      </Button>
+    )
   if (pro)
     return (
       <button type="button" className="es-pro-active" data-tip={t('license.proActiveTip')} data-tip-pos="bottom" onClick={openAccount}>
@@ -234,7 +330,7 @@ export function ProDialog({ app, benefits }: ProDialogProps) {
     setMsg(null)
     try {
       const r: BuyResult = await api.buy()
-      useLicense.setState({ status: r.status })
+      useLicense.setState({ status: withTrial(r.status) })
       if (r.result === 'bought') setMsg({ kind: 'ok', text: t('license.thanks') })
       else if (r.result === 'error') setMsg({ kind: 'error', text: t('license.failed', { msg: r.error ?? '?' }) })
     } catch (e) {
@@ -244,7 +340,11 @@ export function ProDialog({ app, benefits }: ProDialogProps) {
     }
   }
 
-  const done = status.pro
+  // Bought (a trial still shows the offer).
+  const done = status.pro && !status.trial
+  const tryFree = () => {
+    if (startTrial()) setMsg({ kind: 'ok', text: t('license.trialStarted', { count: TRIAL_DAYS }) })
+  }
   return (
     <Modal
       title={
@@ -264,6 +364,11 @@ export function ProDialog({ app, benefits }: ProDialogProps) {
             <Button variant="ghost" onClick={close} disabled={busy}>
               {t('license.notNow')}
             </Button>
+            {trialAvailable() && (
+              <Button onClick={tryFree} disabled={busy}>
+                {t('license.trialTry', { count: TRIAL_DAYS })}
+              </Button>
+            )}
             <Button variant="primary" className="es-pro-buy" onClick={buy} disabled={busy || !api}>
               <Sparkles size={15} />
               {status.store ? (status.price ? t('license.buyPrice', { price: status.price }) : t('license.buy')) : t('license.openStore')}
@@ -276,7 +381,7 @@ export function ProDialog({ app, benefits }: ProDialogProps) {
         {dialog.feature && !done && (
           <p className="es-pro-needs">{dialog.limit ? t('license.freeUsedUp') : t('license.needs', { feature: dialog.feature })}</p>
         )}
-        {!done && <p className="es-pro-intro">{t('license.intro')}</p>}
+        {!done && <p className="es-pro-intro">{status.trial ? t('license.trialLeft', { count: trialDaysLeft(status) }) : t('license.intro')}</p>}
         <ul className="es-pro-list">
           {benefits.map((b) => (
             <li key={b}>
@@ -338,7 +443,7 @@ export function AccountDialog({ app, version }: { app: string; version?: string 
     setChecking(true)
     try {
       const st = await api.status(true)
-      useLicense.setState({ status: st })
+      useLicense.setState({ status: withTrial(st) })
       setMsg(st.pro ? t('license.foundPro') : t('license.noPro'))
     } finally {
       setChecking(false)
@@ -372,7 +477,7 @@ export function AccountDialog({ app, version }: { app: string; version?: string 
         <div className="es-account-plan">
           <span>{app}</span>
           <strong className={status.pro ? 'pro' : ''}>
-            {status.pro && <Crown size={14} />} {t('license.plan')}: {status.pro ? t('license.planPro') : t('license.planFree')}
+            {status.pro && <Crown size={14} />} {t('license.plan')}: {status.trial ? t('license.planTrial', { count: trialDaysLeft(status) }) : status.pro ? t('license.planPro') : t('license.planFree')}
           </strong>
         </div>
         <p className="es-pro-intro">{status.store || status.pro ? t('license.accountHow') : t('license.accountNotStore')}</p>
@@ -395,3 +500,5 @@ export function AccountDialog({ app, version }: { app: string; version?: string 
     </Modal>
   )
 }
+
+export { initEngagement, maybeAskReview, noteSuccess, ReviewPrompt, shouldAskReview, WhatsNewDialog } from './engage'

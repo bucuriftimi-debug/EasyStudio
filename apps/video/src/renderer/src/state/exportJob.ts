@@ -6,6 +6,7 @@ import { exportFile } from '../platform'
 import { compose, getProject, projectName } from './editor'
 import * as P from './project'
 import { lockedReason, needsWatermark, requirePro } from './pro'
+import { maybeAskReview, noteSuccess } from '@easystudio/license'
 
 /** The export window and the running export. */
 export interface ExportState {
@@ -80,6 +81,8 @@ export async function runExport(settings: ExportSettings, path?: string | null):
     )
     await io.close(fid, true)
     set({ status: 'done' })
+    noteSuccess()
+    maybeAskReview()
     return true
   } catch (e) {
     if (id !== null) await io.close(id, false).catch(() => undefined)

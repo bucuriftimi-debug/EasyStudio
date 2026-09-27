@@ -382,5 +382,12 @@
     "hint": "Rulează pe placa video. Pune o poză sau alt video sub acest clip ca să apară în spatele persoanei.",
     "done": "Fundalul a fost scos",
     "doneHint": "Pune o poză sau un video pe pista de dedesubt (sau mută clipul mai sus) ca persoana să apară în fața lui."
+  },
+  "news": {
+    "subtitles": "Subtitrări automate cu AI, pe calculatorul tău",
+    "pauses": "Tai pauzele dintr-un click",
+    "keyframes": "Keyframes și animații de intrare / ieșire pentru titluri și poze",
+    "bgvideo": "Scoți fundalul unui video cu AI, fără ecran verde",
+    "trial": "Încearcă gratuit toate funcțiile Pro timp de 7 zile"
   }
 }

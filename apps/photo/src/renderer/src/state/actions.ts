@@ -10,6 +10,7 @@ import { readPsd } from './psd'
 import { rememberFile } from './files'
 import { buildTemplate, TEMPLATES, type Template } from './templates'
 import { requirePro, templateLocked } from './pro'
+import { maybeAskReview, noteSuccess } from '@easystudio/license'
 import * as selection from './selection'
 import {
   ask,
@@ -215,7 +216,11 @@ export async function exportImage(s: ExportSettings, preRendered?: Blob): Promis
     const blob = preRendered ?? (await renderExport(doc, s))
     const name = `${doc.name}.${fmt.ext}`
     const path = await saveFile(blob, name, [{ name: fmt.label, extensions: [fmt.ext] }])
-    if (path) toast(t('export.done', { name: baseName(path) + '.' + fmt.ext }), 'success')
+    if (path) {
+      toast(t('export.done', { name: baseName(path) + '.' + fmt.ext }), 'success')
+      noteSuccess()
+      maybeAskReview()
+    }
     return !!path
   } catch (e) {
     console.error(e)

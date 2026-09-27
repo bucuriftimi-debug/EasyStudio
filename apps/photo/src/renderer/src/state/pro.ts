@@ -31,4 +31,7 @@ export const templateLocked = (index: number): boolean => !isPro() && index >= F
 
 export const proBenefits = (): string[] => ['ai', 'export', 'templates', 'collage', 'batch', 'psd', 'clone', 'future'].map((k) => t(`proBenefits.${k}`))
 
+/** Highlights of this version for the "What's new" window. */
+export const whatsNew = (): string[] => ['templates', 'collage', 'retouch', 'batch', 'trial'].map((k) => t(`news.${k}`))
+
 export { isPro, requirePro }

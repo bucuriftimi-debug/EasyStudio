@@ -378,5 +378,12 @@
     "hint": "It runs on your graphics card. Put a picture or another video below this clip to see it behind the person.",
     "done": "Background removed",
     "doneHint": "Put a picture or a video on the track below (or move this clip up) to place the person in front of it."
+  },
+  "news": {
+    "subtitles": "Automatic subtitles with AI, on your computer",
+    "pauses": "Cut out pauses in one click",
+    "keyframes": "Keyframes and enter / leave animations for titles and pictures",
+    "bgvideo": "Remove the background of a video with AI, no green screen needed",
+    "trial": "Try every Pro feature free for 7 days"
   }
 }

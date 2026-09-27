@@ -4,6 +4,7 @@
 //
 //   StoreHelper.exe status <offerToken>
 //   StoreHelper.exe buy <offerToken> <hwnd>
+//   StoreHelper.exe review <hwnd>          (the Store's own "rate this app" window)
 //
 // Built by tools/build-store-helper.cjs with the C# compiler that ships with .NET Framework 4.x,
 // so it needs nothing that is not already part of Windows 10/11.
@@ -28,9 +29,10 @@ static class Program
         Console.OutputEncoding = Encoding.UTF8;
         try
         {
-            if (args.Length < 2) throw new ArgumentException("usage: status <token> | buy <token> <hwnd>");
+            if (args.Length < 2) throw new ArgumentException("usage: status <token> | buy <token> <hwnd> | review <hwnd>");
             string json = args[0] == "buy" ? Buy(args[1], args.Length > 2 ? args[2] : "0").GetAwaiter().GetResult()
-                                           : Status(args[1]).GetAwaiter().GetResult();
+                        : args[0] == "review" ? Review(args[1]).GetAwaiter().GetResult()
+                        : Status(args[1]).GetAwaiter().GetResult();
             Console.WriteLine(json);
             return 0;
         }
@@ -91,6 +93,14 @@ static class Program
         string error = r.ExtendedError != null ? r.ExtendedError.Message : null;
         bool pro = await OwnsAddOn(ctx, token);
         return "{\"ok\":true,\"pro\":" + (pro ? "true" : "false") + ",\"status\":" + Str(r.Status.ToString()) + ",\"error\":" + Str(error) + "}";
+    }
+
+    static async Task<string> Review(string hwnd)
+    {
+        StoreContext ctx = StoreContext.GetDefault();
+        ((IInitializeWithWindow)(object)ctx).Initialize(new IntPtr(long.Parse(hwnd)));
+        StoreRateAndReviewResult r = await Run(ctx.RequestRateAndReviewAppAsync());
+        return "{\"ok\":true,\"status\":" + Str(r.Status.ToString()) + "}";
     }
 
     // The C# 5 compiler cannot see the WinRT awaiter in the split metadata files, so adapt by hand.
