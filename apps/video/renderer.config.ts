@@ -11,7 +11,8 @@ export const rendererConfig: UserConfig = {
     // served from the app instead of a CDN.
     alias: { 'ort-hf': resolve(__dirname, '../../node_modules/@huggingface/transformers/node_modules/onnxruntime-web/dist') }
   },
-  optimizeDeps: { exclude: ['@huggingface/transformers'] },
+  // ONNX Runtime Web finds its WebAssembly file through import.meta.url; Vite copies it into the build.
+  optimizeDeps: { exclude: ['@huggingface/transformers', 'onnxruntime-web'] },
   build: {
     target: 'chrome130',
     emptyOutDir: true,

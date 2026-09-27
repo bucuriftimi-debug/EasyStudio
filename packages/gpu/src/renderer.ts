@@ -23,6 +23,8 @@ export interface RenderLayer {
   sourceId: string
   /** Optional layer mask (grey texture, same UV as the layer). */
   maskId?: string | null
+  /** The mask is a grey picture (white = keep), e.g. a frame of a mask video; otherwise its alpha counts. */
+  maskLuma?: boolean
   visible: boolean
   /** 0..1 */
   opacity: number
@@ -482,6 +484,7 @@ export class Renderer {
         .tex('uLayer', 1, tex.tex)
         .tex('uMask', 2, mask?.tex ?? this.whiteTex)
         .i1('uHasMask', mask ? 1 : 0)
+        .i1('uMaskLuma', l.maskLuma ? 1 : 0)
         .m3('uDocToLayer', l.docToLayer)
         .f1('uInvScale', 1 / scale)
         .f1('uOpacity', l.opacity)

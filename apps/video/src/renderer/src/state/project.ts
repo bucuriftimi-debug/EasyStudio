@@ -55,6 +55,11 @@ export interface Clip {
   keys?: Keyframe[]
   /** Ready-made entering / leaving movement. */
   anim?: ClipAnim | null
+  /**
+   * Background removed: a grey mask video (white = keep) made for source seconds [from, to);
+   * its frame for source time s is at s - from.
+   */
+  bgMask?: { path: string; from: number; to: number } | null
 }
 
 export interface Track {

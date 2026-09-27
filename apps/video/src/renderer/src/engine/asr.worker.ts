@@ -4,9 +4,8 @@
  * on the graphics card (WebGPU) or the CPU. Model files come from app://video/hf/ (downloaded
  * once from huggingface.co by the main process); ONNX Runtime's WebAssembly is bundled.
  */
-import { env, pipeline } from '@huggingface/transformers'
-import ortMjs from 'ort-hf/ort-wasm-simd-threaded.asyncify.mjs?url'
-import ortWasm from 'ort-hf/ort-wasm-simd-threaded.asyncify.wasm?url'
+import { downloadMeter, hasWebGpu } from './hfEnv'
+import { pipeline } from '@huggingface/transformers'
 
 declare const self: DedicatedWorkerGlobalScope
 
@@ -24,22 +23,6 @@ const RATE = 16000
 /** Whisper hears 30 seconds at a time. */
 const WINDOW = 30 * RATE
 
-env.allowLocalModels = false
-// Model files keep their huggingface.co addresses, but are fetched through the app, which
-// downloads them once and keeps them on disk (the page itself may not reach the internet).
-const HF = 'https://huggingface.co/'
-env.fetch = ((input: RequestInfo | URL, init?: RequestInit) => {
-  const url = String(input instanceof Request ? input.url : input)
-  return fetch(url.startsWith(HF) ? `app://video/hf/${url.slice(HF.length)}` : url, init)
-}) as typeof fetch
-env.useBrowserCache = false
-env.useWasmCache = false
-const onnx = env.backends.onnx as { wasm?: { wasmPaths?: unknown; numThreads?: number } }
-if (onnx.wasm) {
-  onnx.wasm.wasmPaths = { mjs: new URL(ortMjs, self.location.href).href, wasm: new URL(ortWasm, self.location.href).href }
-  onnx.wasm.numThreads = 1
-}
-
 type Transcriber = (audio: Float32Array, opts: Record<string, unknown>) => Promise<{ text: string; chunks?: { timestamp: [number, number | null]; text: string }[] }>
 
 let loaded: { key: string; run: Transcriber; device: string } | null = null
@@ -48,19 +31,8 @@ const post = (m: AsrMessage) => self.postMessage(m)
 async function load(model: AsrModel): Promise<{ run: Transcriber; device: string }> {
   if (loaded?.key === model) return loaded
   const id = `onnx-community/whisper-${model}`
-  const files = new Map<string, { loaded: number; total: number }>()
-  const progress_callback = (p: { status: string; file?: string; loaded?: number; total?: number }) => {
-    if (p.status !== 'progress' || !p.file) return
-    files.set(p.file, { loaded: p.loaded ?? 0, total: p.total ?? 0 })
-    let a = 0
-    let b = 0
-    for (const f of files.values()) {
-      a += f.loaded
-      b += f.total
-    }
-    post({ type: 'download', loaded: a, total: b })
-  }
-  const hasGpu = 'gpu' in navigator && !!(await (navigator as unknown as { gpu: { requestAdapter(): Promise<unknown> } }).gpu.requestAdapter().catch(() => null))
+  const progress_callback = downloadMeter((loaded, total) => post({ type: 'download', loaded, total }))
+  const hasGpu = await hasWebGpu()
   // GTX 16xx cards give wrong results in fp16: the encoder stays fp32 on the GPU.
   const attempts: { device: string; dtype: unknown }[] = hasGpu
     ? [

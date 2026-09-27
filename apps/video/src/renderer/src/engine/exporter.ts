@@ -230,6 +230,20 @@ export async function exportVideo(
         r.updateSource(`v:${c.id}`, f, f.displayWidth, f.displayHeight)
         f.close()
         ready.add(`v:${c.id}`)
+        if (c.mask) {
+          let mr = readers.get(`${c.id}#m`)
+          if (!mr) {
+            const mt = mediaHandles(c.mask.mediaId).video
+            if (mt) readers.set(`${c.id}#m`, (mr = new VideoReader(mt)))
+          }
+          const ms = await mr?.sequential(Math.max(0, sourceTime(c, t) - c.mask.from))
+          if (ms) {
+            const mf = ms.toVideoFrame()
+            r.updateSource(`mk:${c.id}`, mf, mf.displayWidth, mf.displayHeight)
+            mf.close()
+            ready.add(`mk:${c.id}`)
+          }
+        }
       }
       const scene = buildScene(comp, t, r, (id) => ready.has(id))
       if (watermark) scene.layers.push(watermarkLayer(r, s.width, s.height))

@@ -165,7 +165,9 @@
     "pauses": "Tăiere pauze",
     "keyframe": "Adăugare keyframe",
     "keyframeRemove": "Ștergere keyframe",
-    "anim": "Animație"
+    "anim": "Animație",
+    "bgRemove": "Scoate fundalul",
+    "bgRestore": "Readu fundalul"
   },
   "file": {
     "new": "Nou",
@@ -303,7 +305,8 @@
     "future": "Toate funcțiile Pro noi din actualizări",
     "subtitles": "Subtitrări automate pentru tot videoclipul",
     "pauses": "Tai pauzele din orice clip, de câte ori vrei",
-    "keyframes": "Keyframes: muți, mărești și rotești orice în timp"
+    "keyframes": "Keyframes: muți, mărești și rotești orice în timp",
+    "bgvideo": "Scoți fundalul din videoclipuri cu oameni (fără ecran verde)"
   },
   "proFeature": {
     "size": "Exportul în 1440p și 4K",
@@ -367,5 +370,17 @@
     "done_one": "{{count}} pauză tăiată ({{sec}} s). Ctrl+Z o aduce înapoi.",
     "done_few": "{{count}} pauze tăiate ({{sec}} s). Ctrl+Z le aduce înapoi.",
     "done_other": "{{count}} de pauze tăiate ({{sec}} s). Ctrl+Z le aduce înapoi."
+  },
+  "bg": {
+    "title": "Scoate fundalul",
+    "button": "Scoate fundalul (AI)",
+    "buttonSub": "Păstrează oamenii, ca un ecran verde, dar fără ecran",
+    "restore": "Fundal scos",
+    "restoreSub": "Click ca să vezi din nou toată imaginea",
+    "working": "Decupez oamenii, cadru cu cadru…",
+    "download": "Se descarcă modelul AI (doar prima dată)…",
+    "hint": "Rulează pe placa video. Pune o poză sau alt video sub acest clip ca să apară în spatele persoanei.",
+    "done": "Fundalul a fost scos",
+    "doneHint": "Pune o poză sau un video pe pista de dedesubt (sau mută clipul mai sus) ca persoana să apară în fața lui."
   }
 }

@@ -6,6 +6,7 @@ import { fontEpoch, measureText, renderText, type TextStyle } from '@easystudio/
 import { engine, fitTransform, type CompClip, type CompTitle, type Composition } from '../engine/engine'
 import type { MediaInfo } from '../media/media'
 import * as M from './motion'
+import { maskMedia, setMaskListener } from '../media/masks'
 import * as P from './project'
 import { requirePro } from './pro'
 import { toast, useVideo } from './store'
@@ -135,6 +136,13 @@ export function defaultTransform(c: P.Clip, p: P.Project): { cx: number; cy: num
   return m ? fitTransform(m.width, m.height, p.width, p.height) : { cx: p.width / 2, cy: p.height / 2, sx: 1, sy: 1, rot: 0 }
 }
 
+/** The loaded mask video of a cut-out clip (null while it loads; the player updates after). */
+function maskOf(m: NonNullable<P.Clip['bgMask']>): CompClip['mask'] {
+  const id = maskMedia(m.path)
+  return id ? { mediaId: id, from: m.from } : null
+}
+setMaskListener(() => recompose())
+
 /**
  * The project as the engine plays it. `titleScale` draws titles sharper (export at a larger
  * size than the project frame).
@@ -170,6 +178,7 @@ export function compose(p: P.Project, titleScale = 1): Composition {
         opacity: c.opacity,
         keys: c.keys ?? [],
         anim: c.anim ?? null,
+        mask: c.bgMask && shows ? maskOf(c.bgMask) : null,
         blend: 'normal',
         effects: toEffectParams(c.adjust, c.look?.id, c.look?.amount ?? 100),
         volume: track.muted || !hasAudio ? 0 : c.volume,

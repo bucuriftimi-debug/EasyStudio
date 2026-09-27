@@ -167,6 +167,7 @@ uniform float uInvScale;
 uniform float uOpacity;
 uniform int uBlend;
 uniform int uHasMask;
+uniform int uMaskLuma;
 out vec4 outColor;
 
 float lum(vec3 c) { return dot(c, vec3(0.3, 0.59, 0.11)); }
@@ -229,7 +230,10 @@ void main() {
   vec2 edge = min(uv, 1.0 - uv) / fw + 0.5;
   float cover = clamp(min(edge.x, edge.y), 0.0, 1.0);
   vec4 s = cover > 0.0 ? texture(uLayer, clamp(uv, 0.0, 1.0)) * (uOpacity * cover) : vec4(0.0);
-  if (uHasMask == 1 && cover > 0.0) s *= texture(uMask, clamp(uv, 0.0, 1.0)).a;
+  if (uHasMask == 1 && cover > 0.0) {
+    vec4 mk = texture(uMask, clamp(uv, 0.0, 1.0));
+    s *= uMaskLuma == 1 ? mk.r : mk.a;
+  }
 
   float ab = b.a, as_ = s.a;
   vec3 Cb = ab > 0.0 ? b.rgb / ab : vec3(0.0);

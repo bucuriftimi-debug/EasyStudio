@@ -1,6 +1,6 @@
 import { dialog, ipcMain, shell, type BrowserWindow } from 'electron'
-import { open, rm, type FileHandle } from 'node:fs/promises'
-import { normalize } from 'node:path'
+import { mkdir, open, rm, type FileHandle } from 'node:fs/promises'
+import { join, normalize } from 'node:path'
 
 /**
  * Export target: the page encodes the video and sends the bytes here in pieces (with their
@@ -11,7 +11,7 @@ const allowed = new Set<string>()
 const files = new Map<number, { fh: FileHandle; path: string }>()
 let next = 1
 
-export function registerExporter(getWin: () => BrowserWindow | null, texts: { mp4: string; webm: string }, testMode: boolean): void {
+export function registerExporter(getWin: () => BrowserWindow | null, texts: { mp4: string; webm: string }, testMode: boolean, dataDir: string): void {
   ipcMain.handle('export:pick', async (_e, opts: { defaultName: string; format: 'mp4' | 'webm' }) => {
     const win = getWin()
     if (!win) return null
@@ -22,6 +22,16 @@ export function registerExporter(getWin: () => BrowserWindow | null, texts: { mp
     if (r.canceled || !r.filePath) return null
     allowed.add(normalize(r.filePath).toLowerCase())
     return r.filePath
+  })
+
+  // A file the app makes for itself (the mask video of a clip whose background was removed).
+  ipcMain.handle('export:internal', async (_e, name: string) => {
+    if (!/^[\w-]+\.mp4$/.test(String(name))) throw new Error('Bad name')
+    const dir = join(dataDir, 'masks')
+    await mkdir(dir, { recursive: true })
+    const path = join(dir, name)
+    allowed.add(normalize(path).toLowerCase())
+    return path
   })
 
   ipcMain.handle('export:open', async (_e, path: string) => {

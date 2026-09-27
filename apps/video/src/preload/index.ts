@@ -15,7 +15,9 @@ const api = {
     open: (path: string): Promise<number> => ipcRenderer.invoke('export:open', path),
     write: (id: number, position: number, data: Uint8Array) => ipcRenderer.invoke('export:write', id, position, data),
     close: (id: number, keep: boolean) => ipcRenderer.invoke('export:close', id, keep),
-    reveal: (path: string) => ipcRenderer.invoke('export:reveal', path)
+    reveal: (path: string) => ipcRenderer.invoke('export:reveal', path),
+    /** A file the app keeps for itself in its data folder (mask videos). */
+    internal: (name: string): Promise<string> => ipcRenderer.invoke('export:internal', name)
   },
   recent: {
     list: () => ipcRenderer.invoke('recent:list'),

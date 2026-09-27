@@ -38,6 +38,7 @@ interface ElectronBridge {
     write(id: number, position: number, data: Uint8Array): Promise<void>
     close(id: number, keep: boolean): Promise<void>
     reveal(path: string): Promise<void>
+    internal(name: string): Promise<string>
   }
   recent: {
     list(): Promise<RecentProject[]>

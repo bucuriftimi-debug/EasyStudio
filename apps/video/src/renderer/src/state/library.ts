@@ -92,6 +92,7 @@ export function previewComposition(m: MediaInfo): Composition {
         opacity: 1,
         keys: [],
         anim: null,
+        mask: null,
         blend: 'normal',
         effects: NEUTRAL_EFFECTS,
         volume: m.hasAudio ? 1 : 0,

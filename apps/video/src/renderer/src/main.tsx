@@ -28,9 +28,9 @@ initLicense(licenseApi())
 
 // Hook for automated checks (development, or the app's own `--selftest` mode).
 if (import.meta.env.DEV || new URLSearchParams(location.search).has('selftest')) {
-  Promise.all([import('mediabunny'), import('./engine/engine'), import('./state/store'), import('./state/library'), import('./platform'), import('./state/editor'), import('./state/project'), import('./state/projectFile'), import('./state/exportJob'), import('./state/session'), import('@easystudio/license'), import('./state/subtitles')]).then(
-    ([mediabunny, engineMod, store, library, platform, editor, project, projectFile, exportJob, session, license, subtitles]) => {
-      ;(window as unknown as Record<string, unknown>).__ev = { mediabunny, engine: engineMod.engine, store, library, platform, editor, project, projectFile, exportJob, session, license, subtitles }
+  Promise.all([import('mediabunny'), import('./engine/engine'), import('./state/store'), import('./state/library'), import('./platform'), import('./state/editor'), import('./state/project'), import('./state/projectFile'), import('./state/exportJob'), import('./state/session'), import('@easystudio/license'), import('./state/subtitles'), import('./state/bgRemoval'), import('./media/media')]).then(
+    ([mediabunny, engineMod, store, library, platform, editor, project, projectFile, exportJob, session, license, subtitles, bgRemoval, media]) => {
+      ;(window as unknown as Record<string, unknown>).__ev = { mediabunny, engine: engineMod.engine, store, library, platform, editor, project, projectFile, exportJob, session, license, subtitles, bgRemoval, media }
     }
   )
 }

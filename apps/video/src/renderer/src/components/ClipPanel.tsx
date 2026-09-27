@@ -1,6 +1,6 @@
 import { useState, type ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ChevronDown, RotateCcw, Scissors, ChevronLeft, ChevronRight, Diamond } from 'lucide-react'
+import { ChevronDown, RotateCcw, Scissors, ChevronLeft, ChevronRight, Diamond, UserRound } from 'lucide-react'
 import { Button, ColorButton, Slider } from '@easystudio/ui'
 import { ADJUSTMENTS, LOOKS, type AdjustKey } from '@easystudio/gpu'
 import { STYLE_PRESETS, type TextStyle } from '@easystudio/draw'
@@ -11,7 +11,8 @@ import * as E from '../state/editor'
 import * as P from '../state/project'
 import { formatTime } from '../util/time'
 import { PausesDialog } from './PausesDialog'
-import { ProBadge } from '@easystudio/license'
+import { canUseFree, ProBadge, spendFreeUse } from '@easystudio/license'
+import { removeVideoBackground, restoreVideoBackground } from '../state/bgRemoval'
 import { useVideo } from '../state/store'
 import { ANIM_KINDS, keyAt, type AnimKind, type ClipAnim } from '../state/motion'
 
@@ -145,6 +146,23 @@ export function ClipPanel({ clip, track, media, index }: { clip: P.Clip; track: 
                 <RotateCcw size={14} />
               </Button>
             </div>
+          )}
+          {!isTitle && media?.kind === 'video' && (
+            <button
+              type="button"
+              className="subs-cta bg-btn"
+              onClick={async () => {
+                if (clip.bgMask) return restoreVideoBackground(id)
+                if (!canUseFree('bgvideo', 1, t('bg.title'))) return
+                if (await removeVideoBackground(id)) spendFreeUse('bgvideo', 1)
+              }}
+            >
+              <UserRound size={16} />
+              <span>
+                <strong>{clip.bgMask ? t('bg.restore') : t('bg.button')}</strong>
+                <small>{clip.bgMask ? t('bg.restoreSub') : t('bg.buttonSub')}</small>
+              </span>
+            </button>
           )}
           <Slider label={t('insp.zoom')} min={10} max={400} defaultValue={100} unit="%" {...slider(t('hist.zoom'), () => zoomPct, setZoom)} />
           <Slider label={t('insp.rotate')} min={-180} max={180} defaultValue={0} unit="°" {...slider(t('hist.rotate'), () => Math.round(tr.rot), (v) => ({ transform: { ...tr, rot: v } }))} />

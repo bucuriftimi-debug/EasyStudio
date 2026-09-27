@@ -162,7 +162,8 @@ registerExporter(
       return tr('webm')
     }
   },
-  process.argv.includes('--selftest')
+  process.argv.includes('--selftest'),
+  DATA
 )
 
 /** Save bytes to a file (a dialog, or straight to `path` when it is given and writable). */

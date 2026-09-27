@@ -48,6 +48,8 @@ export interface CompClip {
   opacity: number
   /** Movement over time (timeline seconds from the clip start). */
   keys: Keyframe[]
+  /** Background removed: the mask video (loaded) and the source second its first frame is. */
+  mask: { mediaId: string; from: number } | null
   anim: ClipAnim | null
   blend: BlendMode
   effects: EffectParams
@@ -185,7 +187,13 @@ export function buildScene(comp: Composition, t: number, r: Renderer, hasVideo: 
       w = c.media.rotation % 180 ? c.media.height : c.media.width
       h = c.media.rotation % 180 ? c.media.width : c.media.height
     }
-    layers.push(clipLayer(comp, c, sourceId, w, h, t))
+    const layer = clipLayer(comp, c, sourceId, w, h, t)
+    // Cut-out: the grey mask frame (white = keep) of this moment.
+    if (c.mask && hasVideo(`mk:${c.id}`)) {
+      layer.maskId = `mk:${c.id}`
+      layer.maskLuma = true
+    }
+    layers.push(layer)
   }
   return { width: comp.width, height: comp.height, layers }
 }
@@ -242,7 +250,7 @@ export class Engine {
     // Readers of clips that no longer exist.
     const ids = new Set(comp.clips.map((c) => c.id))
     for (const [id, r] of this.readers) {
-      if (!ids.has(id)) {
+      if (!ids.has(id.split('#')[0])) {
         r.dispose()
         this.readers.delete(id)
       }
@@ -256,6 +264,7 @@ export class Engine {
         if (c.title) sources.add(`txt:${c.title.key}`)
         else if (c.media?.kind === 'image') sources.add(`img:${c.media.id}`)
         else sources.add(`v:${c.id}`)
+        if (c.mask) sources.add(`mk:${c.id}`)
       }
       this.renderer.retain(sources, layers)
       for (const id of [...this.uploaded]) if (!sources.has(id)) this.uploaded.delete(id)
@@ -404,6 +413,20 @@ export class Engine {
     return r
   }
 
+  /** Reader of a clip's mask video (background removed). */
+  private maskReader(c: CompClip): VideoReader | null {
+    if (!c.mask) return null
+    const key = `${c.id}#m`
+    let r = this.readers.get(key)
+    if (!r) {
+      const track = mediaHandles(c.mask.mediaId).video
+      if (!track) return null
+      r = new VideoReader(track)
+      this.readers.set(key, r)
+    }
+    return r
+  }
+
   private upload(id: string, frame: VideoFrame): void {
     // The visible size, not the coded one: 1080p H.264 is stored as 1920×1088.
     this.renderer?.updateSource(id, frame, frame.displayWidth, frame.displayHeight)
@@ -421,9 +444,19 @@ export class Engine {
         return [c, s] as const
       })
     )
+    const masks = await Promise.all(
+      visible.filter((c) => c.mask).map(async (c) => [c, await this.maskReader(c)?.exact(Math.max(0, sourceTime(c, t) - c.mask!.from))] as const)
+    )
     if (token !== this.pendingExact || !this.renderer) {
-      for (const [, s] of frames) s?.close()
+      for (const [, s] of [...frames, ...masks]) s?.close()
       return
+    }
+    for (const [c, s] of masks) {
+      if (!s) continue
+      const f = s.toVideoFrame()
+      this.upload(`mk:${c.id}`, f)
+      f.close()
+      s.close()
     }
     for (const [c, s] of frames) {
       if (!s) continue
@@ -451,6 +484,12 @@ export class Engine {
           this.upload(`v:${c.id}`, f)
           f.close()
           this.stats.videoFrames++
+        }
+        const ms = c.mask ? this.maskReader(c)?.frameFor(Math.max(0, sourceTime(c, t) - c.mask.from)) : null
+        if (ms) {
+          const f = ms.toVideoFrame()
+          this.upload(`mk:${c.id}`, f)
+          f.close()
         }
       }
     }

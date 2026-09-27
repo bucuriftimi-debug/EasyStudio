@@ -164,7 +164,9 @@
     "pauses": "Cut out pauses",
     "keyframe": "Add keyframe",
     "keyframeRemove": "Remove keyframe",
-    "anim": "Animation"
+    "anim": "Animation",
+    "bgRemove": "Remove background",
+    "bgRestore": "Restore background"
   },
   "file": {
     "new": "New",
@@ -302,7 +304,8 @@
     "future": "Every new Pro feature in future updates",
     "subtitles": "Automatic subtitles for the whole video",
     "pauses": "Cut out pauses in every clip, as often as you like",
-    "keyframes": "Keyframes: move, zoom and turn anything over time"
+    "keyframes": "Keyframes: move, zoom and turn anything over time",
+    "bgvideo": "Remove the background of videos with people (no green screen)"
   },
   "proFeature": {
     "size": "Export in 1440p and 4K",
@@ -363,5 +366,17 @@
     "apply": "Cut them out",
     "done_one": "{{count}} pause cut out ({{sec}} s). Ctrl+Z brings it back.",
     "done_other": "{{count}} pauses cut out ({{sec}} s). Ctrl+Z brings them back."
+  },
+  "bg": {
+    "title": "Remove background",
+    "button": "Remove background (AI)",
+    "buttonSub": "Keeps the people, like a green screen without one",
+    "restore": "Background removed",
+    "restoreSub": "Click to show the whole picture again",
+    "working": "Cutting out the people, frame by frame…",
+    "download": "Downloading the AI model (only the first time)…",
+    "hint": "It runs on your graphics card. Put a picture or another video below this clip to see it behind the person.",
+    "done": "Background removed",
+    "doneHint": "Put a picture or a video on the track below (or move this clip up) to place the person in front of it."
   }
 }
