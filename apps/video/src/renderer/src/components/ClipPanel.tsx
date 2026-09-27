@@ -1,6 +1,6 @@
 import { useState, type ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ChevronDown, RotateCcw } from 'lucide-react'
+import { ChevronDown, RotateCcw, Scissors } from 'lucide-react'
 import { Button, ColorButton, Slider } from '@easystudio/ui'
 import { ADJUSTMENTS, LOOKS, type AdjustKey } from '@easystudio/gpu'
 import { STYLE_PRESETS, type TextStyle } from '@easystudio/draw'
@@ -10,6 +10,7 @@ import type { MediaInfo } from '../media/media'
 import * as E from '../state/editor'
 import * as P from '../state/project'
 import { formatTime } from '../util/time'
+import { PausesDialog } from './PausesDialog'
 
 function Section({ title, children, open: initial = true }: { title: string; children: ReactNode; open?: boolean }) {
   const [open, setOpen] = useState(initial)
@@ -46,6 +47,8 @@ export function ClipPanel({ clip, track, media, index }: { clip: P.Clip; track: 
     onChange: (v: number) => E.updateClipLive(id, apply(v)),
     onCommit: () => E.endGesture(label)
   })
+
+  const [pausesOpen, setPausesOpen] = useState(false)
 
   const zoomPct = Math.round((tr.sx / (isTitle ? 1 : base.sx)) * 100)
   const setZoom = (pct: number): Partial<P.Clip> => {
@@ -156,6 +159,16 @@ export function ClipPanel({ clip, track, media, index }: { clip: P.Clip; track: 
           <Slider label={t('insp.volume')} min={0} max={200} defaultValue={100} unit="%" {...slider(t('hist.volume'), () => Math.round(clip.volume * 100), (v) => ({ volume: v / 100 }))} />
           <Slider label={t('insp.fadeIn')} min={0} max={5} step={0.1} defaultValue={0} unit=" s" {...slider(t('hist.fade'), () => clip.fadeIn, (v) => ({ fadeIn: v }))} />
           <Slider label={t('insp.fadeOut')} min={0} max={5} step={0.1} defaultValue={0} unit=" s" {...slider(t('hist.fade'), () => clip.fadeOut, (v) => ({ fadeOut: v }))} />
+          {timed && (
+            <button type="button" className="subs-cta pauses-btn" onClick={() => setPausesOpen(true)}>
+              <Scissors size={16} />
+              <span>
+                <strong>{t('pauses.button')}</strong>
+                <small>{t('pauses.buttonSub')}</small>
+              </span>
+            </button>
+          )}
+          {pausesOpen && <PausesDialog clip={clip} onClose={() => setPausesOpen(false)} />}
         </Section>
       )}
 

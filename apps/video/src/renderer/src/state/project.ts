@@ -132,7 +132,7 @@ function normalizeTrack(t: Track): Track {
   return { ...t, clips: [...t.clips].sort((a, b) => a.start - b.start) }
 }
 
-function withTrack(p: Project, trackId: string, fn: (t: Track) => Track): Project {
+export function withTrack(p: Project, trackId: string, fn: (t: Track) => Track): Project {
   return { ...p, tracks: p.tracks.map((t) => (t.id === trackId ? normalizeTrack(fn(t)) : t)) }
 }
 

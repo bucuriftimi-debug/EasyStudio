@@ -140,7 +140,8 @@
     "look": "Filter",
     "adjust": "Colour",
     "moveInFrame": "Move in frame",
-    "subtitles": "Automatic subtitles"
+    "subtitles": "Automatic subtitles",
+    "pauses": "Cut out pauses"
   },
   "file": {
     "new": "New",
@@ -276,7 +277,8 @@
     "quality": "High quality",
     "webm": "WebM export",
     "future": "Every new Pro feature in future updates",
-    "subtitles": "Automatic subtitles for the whole video"
+    "subtitles": "Automatic subtitles for the whole video",
+    "pauses": "Cut out pauses in every clip, as often as you like"
   },
   "proFeature": {
     "size": "Export in 1440p and 4K",
@@ -321,5 +323,20 @@
     "nothingHeard": "No speech was found in the video clips.",
     "freeNote": "Free version: subtitles for the first {{count}} seconds. Pro does the whole video.",
     "freeLimit": "Subtitles were made for the first {{count}} seconds. Get Pro for the whole video."
+  },
+  "pauses": {
+    "button": "Cut out pauses",
+    "buttonSub": "Removes the silent moments between words",
+    "title": "Cut out pauses",
+    "intro": "Green is kept, red goes. Short breaths between words stay so the talk still sounds natural.",
+    "sensitivity": "Sensitivity",
+    "minPause": "Shortest pause to remove",
+    "measuring": "Listening to the clip…",
+    "found_one": "{{count}} pause found",
+    "found_other": "{{count}} pauses found",
+    "shorter": "{{sec}} s shorter",
+    "apply": "Cut them out",
+    "done_one": "{{count}} pause cut out ({{sec}} s). Ctrl+Z brings it back.",
+    "done_other": "{{count}} pauses cut out ({{sec}} s). Ctrl+Z brings them back."
   }
 }

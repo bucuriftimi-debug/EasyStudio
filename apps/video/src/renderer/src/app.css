@@ -1086,3 +1086,21 @@ body.tl-dragging * {
   color: #ffd400;
   -webkit-text-stroke: 0.6px #000;
 }
+
+/* Cut out pauses */
+.pauses-btn {
+  margin: 8px 0 0;
+}
+.pause-strip {
+  position: relative;
+  height: 22px;
+  border-radius: 4px;
+  background: repeating-linear-gradient(135deg, rgba(255, 93, 108, 0.25) 0 6px, rgba(255, 93, 108, 0.1) 6px 12px);
+  overflow: hidden;
+}
+.pause-strip i {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  background: #3ecf8e;
+}
