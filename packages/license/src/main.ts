@@ -55,12 +55,13 @@ function runHelper(args: string[], timeout: number): Promise<Helper> {
 }
 
 /**
- * `--license pro|free` forces a state for automatic tests. It only works in development or
- * together with `--selftest`, which runs a test script and then closes the app.
+ * `--license pro|free` forces a state for automatic tests. It only works together with
+ * `--selftest`, which runs a test script and then closes the app (also when started from the
+ * source code, so it cannot unlock Pro for normal use).
  */
 function testOverride(): 'pro' | 'free' | null {
   const i = process.argv.indexOf('--license')
-  if (i < 0 || (app.isPackaged && !process.argv.includes('--selftest'))) return null
+  if (i < 0 || !process.argv.includes('--selftest')) return null
   const v = process.argv[i + 1]
   return v === 'pro' || v === 'free' ? v : null
 }

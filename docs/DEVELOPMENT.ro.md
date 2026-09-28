@@ -11,7 +11,7 @@ Totul (cod, cache-uri, date) stă pe **E:**, în folderul ăsta. Nimic nu se ins
 
 | Ce vrei | Comandă |
 |---|---|
-| Pornești aplicația foto / video | dublu-click pe `Porneste-Photo.bat` / `Porneste-Video.bat` |
+| Pornești aplicația foto / video | dublu-click pe `Porneste-Photo.bat` / `Porneste-Video.bat`. Merge pe orice PC cu Windows 10 / 11, și fără Node.js: prima dată descarcă singur, în folderul proiectului, Node.js portabil (dacă lipsește), bibliotecile și Electron, apoi construiește aplicația (5–15 minute). După aceea pornește imediat. Totul e în `toolsporneste.cmd`. |
 | Instalezi aplicațiile | `dist\photo\EasyStudio-Photo-Setup-1.0.0.exe` și `dist\video\EasyStudio-Video-Setup-1.0.0.exe`: alege un folder pe E: la instalare |
 | Test automat AI (pe o poză) | `node_modules\electron\dist\electron.exe apps\photo --selftest --selftest-script tools\selftest-ai.js --selftest-image <poză.png>` |
 | Test automat asistent AI (cu Ollama pornit) | `node_modules\electron\dist\electron.exe apps\photo --selftest --selftest-script tools\selftest-assist.js --selftest-image <poză.png> --selftest-shot <captură.png>` |
@@ -259,7 +259,7 @@ Teste (după `node_modules\electron\dist\electron.exe apps\video --selftest --se
   - `src/main.ts` (procesul principal) întreabă Store-ul prin `build/StoreHelper.exe`. Programul ăsta e făcut de `tools/build-store-helper.cjs` din `tools/store-helper/StoreHelper.cs`, cu compilatorul C# din .NET Framework, care e deja în Windows;
   - `src/index.tsx` (pagina) are `requirePro`, încercările gratuite pe zi, butonul „Ia Pro” și fereastra Pro.
 - În afara Store-ului (installer, dezvoltare) aplicațiile sunt Free, iar „Ia Pro” deschide pagina din Store.
-- În teste: `--license pro` sau `--license free`, doar împreună cu `--selftest` sau în dezvoltare. Testele vechi care folosesc funcții Pro au nevoie de `--license pro`: `selftest-f5.js` (PSD) și `selftest-video-v3.js` (4K).
+- În teste: `--license pro` sau `--license free`, doar împreună cu `--selftest` (și când pornești din codul sursă). Testele vechi care folosesc funcții Pro au nevoie de `--license pro`: `selftest-f5.js` (PSD) și `selftest-video-v3.js` (4K).
 
 | Ce | Comandă |
 |---|---|
