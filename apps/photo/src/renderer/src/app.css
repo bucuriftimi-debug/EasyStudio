@@ -1753,12 +1753,15 @@ body.dropping::after {
 }
 .collage-layouts {
   display: grid;
-  grid-template-columns: repeat(9, 1fr);
+  /* All nine layouts on one row, without making the dialog wider. */
+  grid-template-columns: repeat(9, minmax(0, 1fr));
   gap: 6px;
 }
 .collage-layout {
   position: relative;
-  height: 58px;
+  min-width: 0;
+  height: 54px;
+  padding: 0;
   display: grid;
   place-items: center;
   border-radius: var(--radius-sm);
@@ -1786,6 +1789,7 @@ body.dropping::after {
 }
 .collage-bg {
   display: flex;
+  flex-direction: row;
   align-items: center;
   justify-content: space-between;
 }

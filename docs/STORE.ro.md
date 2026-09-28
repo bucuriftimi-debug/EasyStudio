@@ -38,12 +38,14 @@ npm run video:store      # → dist\video\EasyStudio Video 1.0.0.appx
 
 Pachetul nu e semnat, intenționat: Store-ul îl semnează la publicare.
 
+**Iconițele din pachet** (dale, bara de activități, Start) sunt în `apps/<app>/build/appx/`, făcute din `build/icon.png` cu `toolsmake-appx-assets.ps1`. Fără ele, electron-builder pune logo-ul Electron, iar Store-ul respinge aplicația (politica 10.1.1.11). Dacă schimbi iconița, rulezi scriptul din nou.
+
 ## Trimiterea în Store (Partner Center → aplicația → *Start submission*)
 
 - **Packages:** încarci fișierul `.appx`.
 - **Store listing:**
-  - descriere (poți folosi textul din README);
-  - capturi de ecran din `docs/images/`, minim una, 1366×768 sau mai mare.
+  - descriere, descriere scurtă, noutăți, funcții și termeni de căutare: din `docs/STORE-LISTING.md` (scrise după politicile Store, în engleză și română);
+  - capturi de ecran din `.cachestore-shots` (le face `node toolsstore-shots.cjs`, în engleză și română, 1600×900). Pe capturi **nu** trebuie să apară nimic de la alte produse: nume sau logo-uri de alte aplicații ori mărci (YouTube, Instagram, ChatGPT etc.) și nici imagini făcute de alții. Altfel Store-ul respinge aplicația (politica 10.1.1.3). Scriptul folosește doar imagini făcute de noi.
 - **Privacy policy URL:** `https://github.com/bucuriftimi-debug/EasyStudio/blob/main/PRIVACY.md`. Aplicațiile folosesc internetul (modelele AI, asistentul opțional), deci e obligatorie.
 - **Age ratings:** chestionarul IARC. Aplicația nu are conținut special, deci iese „3+”.
 - **Pricing and availability:** aplicația e **Free**. Banii vin din add-on-ul Pro (mai jos).

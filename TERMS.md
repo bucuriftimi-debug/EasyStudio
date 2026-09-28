@@ -1,6 +1,6 @@
 # Terms of use — EasyStudio Photo and EasyStudio Video
 
-*Last updated: 27 September 2026*
+*Last updated: 29 September 2026*
 
 These terms apply when you install or use EasyStudio Photo or EasyStudio Video (the "apps"), made by EasyStudio Apps (the "author"). By using the apps you agree to them. If you do not agree, do not use the apps.
 
@@ -26,6 +26,7 @@ Your photos, videos, projects and everything you make with the apps **belong to 
 - The local AI tools run on your computer. Their results can be imperfect; check them before you use them.
 - The optional AI assistant can use third-party services (Anthropic, OpenAI, Google) with **your own API key**. Using those services is between you and the provider: their terms, prices and privacy policies apply, and you pay them directly.
 - Do not use the AI features to create unlawful content, content that infringes other people's rights, or misleading content about real people.
+- To report an inappropriate or harmful AI result, use **Report a problem** in the app (EasyStudio Photo: *AI* and *Help* menus; EasyStudio Video: *Help*).
 
 ## 5. Acceptable use
 

@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Download, Eraser, Smile, SmilePlus, ImagePlus, Info, Lightbulb, Maximize2, MessageSquareText, MousePointerClick, Redo2, Scissors, Settings2, Sparkles, Undo2, UserRound, WandSparkles } from 'lucide-react'
+import { Download, Eraser, Flag, Smile, SmilePlus, ImagePlus, Info, Lightbulb, Maximize2, MessageSquareText, MousePointerClick, Redo2, Scissors, Settings2, Sparkles, Undo2, UserRound, WandSparkles } from 'lucide-react'
 import { Button, Menu, Segmented, type MenuItem } from '@easystudio/ui'
 import { canRedo, canUndo } from '@easystudio/core'
-import { AccountButton, ProButton } from '@easystudio/license'
+import { AccountButton, PRIVACY_URL, ProButton, REPORT_URL, TERMS_URL } from '@easystudio/license'
 import * as A from '../state/actions'
 import * as paint from '../state/paint'
 import * as AI from '../state/ai'
@@ -107,7 +107,8 @@ function AiMenu() {
     { label: t('ai.upscale4'), icon: <Maximize2 />, disabled: !raster || !AI.canUpscale(4), onClick: () => void AI.upscale(4) },
     { separator: true },
     { label: t('assist.settingsMenu'), icon: <Settings2 />, onClick: () => set({ dialog: 'aisettings' }) },
-    { label: t('ai.about'), icon: <Info />, onClick: () => set({ dialog: 'about' }) }
+    { label: t('ai.about'), icon: <Info />, onClick: () => set({ dialog: 'about' }) },
+    { label: t('license.reportAi'), icon: <Flag />, onClick: () => window.open(REPORT_URL, '_blank') }
   ]
   return (
     <>
@@ -248,6 +249,10 @@ function MenuBar({ hasDoc }: { hasDoc: boolean }) {
         { label: t('menu.shortcuts'), onClick: () => set({ dialog: 'about' }) },
         { separator: true },
         ...LANGUAGES.map((l) => ({ label: l.label, kbd: i18n.language === l.value ? '✓' : undefined, onClick: () => void i18n.changeLanguage(l.value) })),
+        { separator: true },
+        { label: t('license.privacy'), onClick: () => window.open(PRIVACY_URL, '_blank') },
+        { label: t('license.terms'), onClick: () => window.open(TERMS_URL, '_blank') },
+        { label: t('license.report'), onClick: () => window.open(REPORT_URL, '_blank') },
         { separator: true },
         { label: t('menu.about'), onClick: () => set({ dialog: 'about' }) }
       ]

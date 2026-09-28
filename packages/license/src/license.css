@@ -102,12 +102,14 @@ button.es-pro-active:hover {
 }
 .es-legal {
   display: flex;
-  gap: 8px;
+  flex-wrap: wrap;
+  gap: 4px 8px;
   font-size: 12px;
   color: var(--text-3);
 }
 .es-legal a {
   color: var(--text-2);
+  white-space: nowrap;
 }
 .es-legal a:hover {
   color: var(--text-1);

@@ -34,6 +34,8 @@ export const useLicense = create<LicenseState>(() => ({
 
 export const PRIVACY_URL = 'https://github.com/bucuriftimi-debug/EasyStudio/blob/main/PRIVACY.md'
 export const TERMS_URL = 'https://github.com/bucuriftimi-debug/EasyStudio/blob/main/TERMS.md'
+/** Problems, questions and reports of inappropriate AI results (Store policy 11.16). */
+export const REPORT_URL = 'https://github.com/bucuriftimi-debug/EasyStudio/issues/new'
 // Microsoft account: orders, receipts and refund requests.
 const ORDERS_URL = 'https://account.microsoft.com/billing/orders'
 
@@ -74,6 +76,8 @@ const STRINGS = {
       orders: 'Orders and refunds',
       privacy: 'Privacy policy',
       terms: 'Terms of use',
+      report: 'Report a problem',
+      reportAi: 'Report a problem with AI results…',
       trialTry_one: 'Try free for {{count}} day',
       trialTry_other: 'Try free for {{count}} days',
       trialStarted_one: 'Pro is on for {{count}} day. Enjoy!',
@@ -128,6 +132,8 @@ const STRINGS = {
       orders: 'Comenzi și rambursări',
       privacy: 'Politica de confidențialitate',
       terms: 'Termeni de utilizare',
+      report: 'Raportează o problemă',
+      reportAi: 'Raportează o problemă cu rezultatele AI…',
       trialTry_one: 'Încearcă gratuit {{count}} zi',
       trialTry_few: 'Încearcă gratuit {{count}} zile',
       trialTry_other: 'Încearcă gratuit {{count}} de zile',
@@ -399,7 +405,8 @@ export function ProDialog({ app, benefits }: ProDialogProps) {
 
 const openUrl = (url: string) => window.open(url, '_blank')
 
-function LegalLinks() {
+/** Privacy policy · Terms · Report a problem (opened in the web browser). */
+export function LegalLinks() {
   const { t } = useTranslation()
   return (
     <p className="es-legal">
@@ -409,6 +416,10 @@ function LegalLinks() {
       <span>·</span>
       <a href={TERMS_URL} target="_blank" rel="noreferrer">
         {t('license.terms')}
+      </a>
+      <span>·</span>
+      <a href={REPORT_URL} target="_blank" rel="noreferrer">
+        {t('license.report')}
       </a>
     </p>
   )

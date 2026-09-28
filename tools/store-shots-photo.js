@@ -1,5 +1,6 @@
 // Store screenshots of EasyStudio Photo, made by tools/store-shots.cjs (which fills in
 // __SHOT__ and __LANG__ and runs the app with --selftest-size 1600x900 --selftest-shot).
+// Nothing made by others may appear on them (Store policy 10.1.1.3): no other apps or brands.
 const wait = (ms) => new Promise((r) => setTimeout(r, ms))
 for (let i = 0; i < 100 && !window.__es; i++) await wait(100)
 const { actions: A, store: S, templates: T } = window.__es
@@ -7,6 +8,8 @@ const SHOT = __SHOT__
 const LANG = __LANG__
 ;[...document.querySelectorAll('.lang-switch button')].find((b) => b.textContent === (LANG === 'ro' ? 'Română' : 'English'))?.click()
 await wait(400)
+// The recent files of this PC (test files) are not part of the picture.
+S.useEditor.setState({ recent: [] })
 const tpl = (id) => T.TEMPLATES.find((t) => t.id === id)
 // A template flattened into one picture, opened like a photo (AI tools and filters work on pictures).
 async function openAsPhoto(id, name) {
@@ -23,7 +26,17 @@ const selectBig = () => {
   const h = S.useEditor.getState().hist
   S.useEditor.setState({ hist: { ...h, present: { ...h.present, state: { ...doc, activeLayerId: title.id } } } })
 }
-if (SHOT === 'editor') {
+if (SHOT === 'templates') {
+  // The start screen, scrolled to the templates (by category).
+  await wait(1500)
+  const h = [...document.querySelectorAll('.welcome-h3')].find((e) => e.parentElement?.querySelector('.template-grid') || e.nextElementSibling?.classList.contains('template-cats'))
+  const box = document.querySelector('.welcome')
+  if (h && box) box.scrollTop += h.getBoundingClientRect().top - box.getBoundingClientRect().top - 24
+  await wait(800)
+} else if (SHOT === 'collage') {
+  S.useEditor.setState({ dialog: 'collage' })
+  await wait(800)
+} else if (SHOT === 'editor') {
   await A.openTemplate(tpl('youtube'))
   await wait(600)
   selectBig()

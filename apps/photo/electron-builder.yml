@@ -43,6 +43,9 @@ appx:
   publisherDisplayName: EasyStudio Apps
   displayName: EasyStudio Photo
   applicationId: EasyStudioPhoto
+  # Tile, taskbar and Start images: build/appx (tools/make-appx-assets.ps1). Our icon has its own
+  # rounded background, so the tiles have none.
+  backgroundColor: transparent
   languages:
     - en-US
     - ro-RO

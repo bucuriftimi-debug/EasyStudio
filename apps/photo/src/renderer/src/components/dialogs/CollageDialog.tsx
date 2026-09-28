@@ -19,7 +19,7 @@ const locked = (l: CollageLayout) => !isPro() && l.cells.length > FREE_COLLAGE_C
 
 /** Small drawing of a layout (the real gaps, scaled down). */
 function LayoutIcon({ layout, w, h }: { layout: CollageLayout; w: number; h: number }) {
-  const k = 44 / Math.max(w, h)
+  const k = 36 / Math.max(w, h)
   const rects = cellRects({ layout, width: w * k, height: h * k, gap: 3, radius: 0, background: '' })
   return (
     <svg width={w * k} height={h * k} className="collage-icon">

@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { History } from 'lucide-react'
 import { create } from 'zustand'
 import { Button, Modal } from '@easystudio/ui'
+import { LegalLinks } from '@easystudio/license'
 import * as Sn from '../state/session'
 
 /* ------------------------------ crash recovery ------------------------------ */
@@ -86,6 +87,7 @@ export function HelpDialog() {
           ))}
         </tbody>
       </table>
+      <LegalLinks />
     </Modal>
   )
 }
