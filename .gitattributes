@@ -1,3 +1,7 @@
-# Fisierele .bat / .cmd trebuie sa aiba capete de linie Windows (CRLF), altfel cmd.exe le citeste gresit.
+* text=auto eol=lf
+# .bat / .cmd: stored with Windows line endings (CRLF) as they are, so they stay CRLF in every copy,
+# also in the ZIP downloaded from GitHub; with LF only, cmd.exe misreads them.
 *.bat -text
 *.cmd -text
+*.ps1 text eol=crlf
+*.png binary
